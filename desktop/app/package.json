@@ -1,0 +1,34 @@
+{
+  "name": "app",
+  "private": true,
+  "version": "0.0.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "rebuild": "npm rebuild --runtime=electron --target=17.1.2 --disturl=https://atom.io/download/atom-shell --abi=101",
+    "electron:start": "cross-env ELECTRON=true electron .",
+    "electron:windows": "npx electron-packager ./ TomatoDeck --overwrite --platform=win32 --arch=x64",
+    "electron:bs": "vite build && cross-env ELECTRON=true electron ."
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.13.0",
+    "quasar": "^2.5.5",
+    "robotjs": "^0.6.0",
+    "socket.io": "^4.4.1",
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.0.6",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^17.1.2",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-vue": "^8.5.0",
+    "sass": "^1.32.0",
+    "vite": "^2.8.0"
+  }
+}
