@@ -1,31 +1,77 @@
 <template>
   <ion-app>
-    <ion-split-pane content-id="main-content">
-      <ion-menu content-id="main-content" type="overlay">
-        <ion-content>
-          <ion-list id="inbox-list">
-            <ion-list-header>TomatoDeck</ion-list-header>
-            <ion-note>https://twitch.tv/codingtomato</ion-note>
+    <ion-menu side="start" content-id="main-content">
+      <ion-content>
+        <ion-list id="inbox-list">
+          <ion-list-header>TomatoDeck</ion-list-header>
+          <ion-note>
+            <a
+              target="_blank"
+              style="text-decoration: none;"
+              href="https://twitch.tv/codingtomato"
+            >Built with 🍅 by CodingTomato</a>
+          </ion-note>
 
-            <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">
-              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
-                <ion-icon slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          </ion-list>
-        </ion-content>
-      </ion-menu>
-      <ion-router-outlet id="main-content"></ion-router-outlet>
-    </ion-split-pane>
+          <ion-menu-toggle auto-hide="true" v-for="(p, i) in appPages" :key="i">
+            <ion-item
+              @click="selectedIndex = i"
+              router-direction="root"
+              :router-link="p.url"
+              lines="none"
+              detail="false"
+              class="hydrated"
+              :class="{ selected: selectedIndex === i }"
+            >
+              <ion-icon slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <ion-list class="bottom-info">
+          <ion-item>Test</ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Inbox</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-router-outlet></ion-router-outlet>
+      </ion-content>
+    </div>
   </ion-app>
 </template>
 
 <script lang="ts" setup>
-import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
+import {
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonList,
+  IonMenu,
+  IonRouterOutlet,
+  IonTitle,
+  IonToolbar,
+  menuController,
+  IonButtons, 
+  IonMenuButton,
+  IonNote,
+  IonApp,
+  IonMenuToggle,
+  IonLabel,
+  IonIcon,
+  IonListHeader
+} from '@ionic/vue';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { home, homeSharp } from 'ionicons/icons';
+import { home, homeSharp, ticket, ticketSharp } from 'ionicons/icons';
 
 const selectedIndex = ref(0);
 const appPages = [
@@ -35,7 +81,25 @@ const appPages = [
     iosIcon: home,
     mdIcon: homeSharp
   },
+  {
+    title: 'Test',
+    url: '/',
+    iosIcon: ticket,
+    mdIcon: ticketSharp
+  },
 ];
+
+const openFirst = () => {
+  menuController.enable(true, 'first');
+  menuController.open('first');
+}
+const openEnd = () => {
+  menuController.open('end');
+}
+const openCustom = () => {
+  menuController.enable(true, 'custom');
+  menuController.open('custom');
+}
 
 const route = useRoute();
 const isSelected = (url: string) => url === route.path ? 'selected' : '';

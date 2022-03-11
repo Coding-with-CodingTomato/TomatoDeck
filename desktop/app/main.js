@@ -9,12 +9,20 @@ const robot = require('robotjs');
  */
 const io = new Server(6942, {
   cors: {
-    origin: '*',
+    origin: 'capacitor://localhost',
   },
+});
+
+io.on("connect_error", (err) => {
+  console.log(`connect_error due to ${err.message}`, err);
 });
 
 io.on('connection', (socket) => {
   socket.emit('hello', 'world');
+
+  socket.on("connect_error", (err) => {
+    console.log(`connect_error due to ${err.message}`, err);
+  });
 
   socket.on('mediaMute', () => {
     robot.keyTap('audio_mute');
