@@ -13,14 +13,14 @@ const io = new Server(6942, {
   },
 });
 
-io.on("connect_error", (err) => {
+io.on('connect_error', (err) => {
   console.log(`connect_error due to ${err.message}`, err);
 });
 
 io.on('connection', (socket) => {
   socket.emit('hello', 'world');
 
-  socket.on("connect_error", (err) => {
+  socket.on('connect_error', (err) => {
     console.log(`connect_error due to ${err.message}`, err);
   });
 

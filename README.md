@@ -16,5 +16,7 @@
   - [ ] Obs (https://github.com/obs-websocket-community-projects/obs-websocket-js)
   - [ ] WLED
   - [ ] Discord
+  - [ ] Pictures in Buttons
+  - [ ] Prev Track 1x oder 2x
 
 Name bereitgestellt von CodingRuo <3
