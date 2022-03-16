@@ -9,7 +9,7 @@ const robot = require('robotjs');
  */
 const io = new Server(6942, {
   cors: {
-    origin: '*',
+    origin: 'capacitor://localhost',
   },
 });
 
