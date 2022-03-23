@@ -7,7 +7,7 @@
   - [ ] set socket port
   - [ ] store and send grid setup
 - [ ] mobile app
-  - [ ] Set PC IP + PORT
+  - [x] Set PC IP + PORT
   - [ ] Get Grid Setup
 - [ ] Functions
   - [ ] Open Website

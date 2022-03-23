@@ -7,9 +7,10 @@
           <ion-note>
             <a
               target="_blank"
-              style="text-decoration: none;"
+              style="text-decoration: none"
               href="https://twitch.tv/codingtomato"
-            >Built with 🍅 by CodingTomato</a>
+              >Built with 🍅 by CodingTomato</a
+            >
           </ion-note>
 
           <ion-menu-toggle auto-hide="true" v-for="(p, i) in appPages" :key="i">
@@ -39,11 +40,21 @@
           <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
           </ion-buttons>
-          <ion-title>Inbox</ion-title>
+          <ion-buttons slot="end">
+            <ion-button @click="store.toggleConnection">
+              <ion-icon
+                v-if="store.connected"
+                slot="icon-only"
+                :icon="cloudDone"
+              ></ion-icon>
+              <ion-icon v-else slot="icon-only" :icon="cloudOffline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>TomatoDeck</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-router-outlet></ion-router-outlet>
+        <router-view></router-view>
       </ion-content>
     </div>
   </ion-app>
@@ -56,53 +67,74 @@ import {
   IonItem,
   IonList,
   IonMenu,
-  IonRouterOutlet,
   IonTitle,
   IonToolbar,
   menuController,
-  IonButtons, 
+  IonButtons,
   IonMenuButton,
   IonNote,
   IonApp,
   IonMenuToggle,
   IonLabel,
   IonIcon,
-  IonListHeader
-} from '@ionic/vue';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { home, homeSharp, ticket, ticketSharp } from 'ionicons/icons';
+  IonListHeader,
+  IonButton,
+} from "@ionic/vue";
+import { ref, onMounted } from "vue";
+import { useRoute, RouterView } from "vue-router";
+import store from "./store";
+import {
+  home,
+  homeSharp,
+  ticket,
+  ticketSharp,
+  cloudOffline,
+  cloudDone,
+  cog,
+  cogSharp,
+} from "ionicons/icons";
+
+onMounted(async () => {
+  await store.init();
+  store.connect();
+});
 
 const selectedIndex = ref(0);
 const appPages = [
   {
-    title: 'Home',
-    url: '/',
+    title: "Home",
+    url: "/",
     iosIcon: home,
-    mdIcon: homeSharp
+    mdIcon: homeSharp,
   },
   {
-    title: 'Test',
-    url: '/',
+    title: "Test",
+    url: "/",
     iosIcon: ticket,
-    mdIcon: ticketSharp
+    mdIcon: ticketSharp,
+  },
+  {
+    title: "Einstellungen",
+    url: "/settings",
+    iosIcon: cog,
+    mdIcon: cogSharp,
   },
 ];
 
 const openFirst = () => {
-  menuController.enable(true, 'first');
-  menuController.open('first');
-}
+  menuController.enable(true, "first");
+  menuController.open("first");
+};
 const openEnd = () => {
-  menuController.open('end');
-}
+  menuController.open("end");
+};
 const openCustom = () => {
-  menuController.enable(true, 'custom');
-  menuController.open('custom');
-}
+  menuController.enable(true, "custom");
+  menuController.open("custom");
+};
 
 const route = useRoute();
-const isSelected = (url: string) => url === route.path ? 'selected' : '';
+const isSelected = (url: string) => (url === route.path ? "selected" : "");
 </script>
 
 <style scoped>

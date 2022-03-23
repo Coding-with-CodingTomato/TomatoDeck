@@ -1,11 +1,16 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
+import HomeView from '../views/HomeView.vue';
+import SettingsView from '../views/SettingsView.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '',
+    path: '/',
     component: HomeView,
+  },
+  {
+    path: '/settings',
+    component: SettingsView,
   },
 ]
 
