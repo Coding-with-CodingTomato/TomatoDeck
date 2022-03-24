@@ -4,6 +4,132 @@ const path = require('path');
 const { Server } = require('socket.io');
 const robot = require('robotjs');
 
+let layout = {
+  deviceName: 'testDevice',
+  layouts: [
+    {
+      name: 'layout1',
+      rows: [
+        {
+          elements: [
+            {
+              id: '1',
+              row_index: 0,
+              type: 'button',
+              text: '🔈',
+              color: '#2dd36f',
+              image: '',
+              icon: '',
+              eventName: 'keys',
+              data: 'audio_mute',
+            },
+            {
+              id: '2',
+              row_index: 0,
+              type: 'button',
+              text: 'Next',
+              color: '#2dd36f',
+              image: '',
+              icon: '',
+              eventName: 'keys',
+              data: 'audio_next',
+            },
+            {
+              id: '3',
+              row_index: 0,
+              type: 'button',
+              text: 'Prev',
+              color: '#2dd36f',
+              image: '',
+              icon: '',
+              eventName: 'keys',
+              data: 'audio_prev',
+            },
+            {
+              id: '4',
+              row_index: 0,
+              type: 'button',
+              text: '▶️',
+              color: '#2dd36f',
+              image: '',
+              icon: '',
+              eventName: 'keys',
+              data: 'audio_play',
+            },
+            {
+              id: '5',
+              row_index: 0,
+              type: 'button',
+              text: '🔊',
+              color: '#2dd36f',
+              image: '',
+              icon: '',
+              eventName: 'keys',
+              data: 'audio_vol_up',
+            },
+            {
+              id: '6',
+              row_index: 0,
+              type: 'button',
+              text: '🔉',
+              color: '#2dd36f',
+              image: '',
+              eventName: 'keys',
+              data: 'audio_vol_down',
+            },
+            {
+              id: '7',
+              row_index: 0,
+              type: 'button',
+              text: 'HotKey Alt+F4',
+              color: '#E91E63',
+              image: '',
+              icon: '',
+              eventName: 'hotkey',
+              data: 'alt f4',
+            },
+            {
+              id: '8',
+              row_index: 0,
+              type: 'button',
+              text: 'HotKey Enter Space',
+              color: '#008B02',
+              image: '',
+              icon: '',
+              eventName: 'keys',
+              data: 'enter space',
+            },
+            {
+              id: '9',
+              row_index: 0,
+              type: 'button',
+              text: 'HotKey hallo chat',
+              color: '#F44336',
+              image: '',
+              icon: '',
+              eventName: 'keys',
+              data: 'h a l l o space c h a t',
+            },
+            {
+              id: '10',
+              row_index: 0,
+              type: 'button',
+              text: 'Discord Mic mute',
+              color: '#F44336',
+              image: '',
+              icon: '',
+              eventName: 'hotkey',
+              data: 'control shift m',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+const sockets = new Map();
+
 /**
  * Socket Stuff
  */
@@ -12,6 +138,15 @@ const io = new Server(6942, {
     origin: '*',
   },
 });
+
+const emitDeckLayout = () => {
+  Array.from(sockets.values()).forEach((s) => {
+    s.emit(
+      'deckLayout',
+      JSON.stringify(layout),
+    );
+  });
+};
 
 io.on('connect_error', (err) => {
   console.log(`connect_error due to ${err.message}`, err);
@@ -27,111 +162,20 @@ io.on('connection', (socket) => {
    *        (- Slider (text))
    *        (- Sonstiges)
    */
+  const id = Math.random();
+  sockets.set(id, socket);
 
-  socket.emit(
-    'deckLayout',
-    JSON.stringify({
-      deviceName: 'testDevice',
-      layouts: [
-        {
-          name: 'layout1',
-          rows: [{
-            elements: [{
-              type: 'button',
-              text: '🔈',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_mute',
-            }, {
-              type: 'button',
-              text: 'Next',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_next',
-            }, {
-              type: 'button',
-              text: 'Prev',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_prev',
-            }, {
-              type: 'button',
-              text: '▶️',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_play',
-            }, {
-              type: 'button',
-              text: '🔊',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_vol_up',
-            }, {
-              type: 'button',
-              text: '🔉',
-              color: '#2dd36f',
-              image: '',
-              eventName: 'keys',
-              data: 'audio_vol_down',
-            }, {
-              type: 'button',
-              text: 'HotKey Alt+F4',
-              color: '#E91E63',
-              image: '',
-              icon: '',
-              eventName: 'hotkey',
-              data: 'alt f4',
-            }, {
-              type: 'button',
-              text: 'HotKey Enter Space',
-              color: '#008B02',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'enter space',
-            }, {
-              type: 'button',
-              text: 'HotKey Vi',
-              color: '#F44336',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'v i o l a space i s t space t o l l',
-            }, {
-              type: 'button',
-              text: 'HotKey marco',
-              color: '#F44336',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'm a r c o space i s t space t o l l',
-            }, {
-              type: 'button',
-              text: 'Discord Mic mute',
-              color: '#F44336',
-              image: '',
-              icon: '',
-              eventName: 'hotkey',
-              data: 'control shift m',
-            }],
-          }],
-        },
-      ],
-    }),
-  );
+  emitDeckLayout();
 
   socket.on('connect_error', (err) => {
     console.log(`connect_error due to ${err.message}`, err);
+    sockets.delete(id);
+  });
+
+  socket.on('updateLayout', (data) => {
+    console.log('Updatelayout');
+    layout = JSON.parse(data);
+    emitDeckLayout();
   });
 
   // Press keys after one other
@@ -170,8 +214,8 @@ io.on('connection', (socket) => {
  */
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1400,
+    height: 1200,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },

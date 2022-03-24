@@ -47,6 +47,7 @@ export const store = reactive({
     store.currentSocket = newSocket;
 
     newSocket.on("deckLayout", (data) => {
+      console.log(data);
       store.deckLayout = JSON.parse(data);
     });
 
