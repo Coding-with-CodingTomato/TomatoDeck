@@ -9,6 +9,8 @@ const robot = require('robotjs');
 const storage = new Store();
 const socketPort = 6942;
 
+console.log(process.version);
+
 let layout = {
   deviceName: 'testDevice',
   layouts: [
