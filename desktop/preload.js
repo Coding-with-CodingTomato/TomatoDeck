@@ -1,3 +1,11 @@
+const { ipcRenderer, contextBridge } = require('electron');
+
+contextBridge.exposeInMainWorld('api', {
+  saveLayout: (layout) => ipcRenderer.send('saveLayout', layout),
+  getLayout: () => ipcRenderer.sendSync('getLayout'),
+  getHostData: () => ipcRenderer.sendSync('getHostData'),
+});
+
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector);

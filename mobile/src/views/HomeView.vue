@@ -9,11 +9,21 @@
             @click="sendEvent(element.eventName)"
             >{{ element.text }}</ion-button
           > -->
-          <div class="button ion-activatable ripple-parent" :style="`background-color: ${element.color}`"
-            @click="sendEvent(element.eventName, element.data)">
+          <div
+            v-if="element.type === 'Button'"
+            class="button ion-activatable ripple-parent"
+            :style="`background-color: ${element.color}`"
+            @click="sendEvent(element.eventName, element.data)"
+          >
             <div class="content" :class="{ bigIcon: emojiRegex.test(element.text), }">{{ element.text.toUpperCase() }}</div>
             <ion-ripple-effect></ion-ripple-effect>
           </div>
+
+          <TdTwitchChat
+            v-if="element.type === 'Twitch Chat'"
+            :channelName="element.text"
+          />
+
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -33,6 +43,8 @@
 <script lang="ts" setup>
 import { IonGrid, IonRow, IonCol, IonRippleEffect } from "@ionic/vue";
 import store from "../store";
+
+import TdTwitchChat from "@/components/TdTwitchChat.vue";
 
 const emojiRegex = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]){1,2}/
 
