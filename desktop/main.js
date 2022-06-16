@@ -4,13 +4,9 @@ const { networkInterfaces } = require('os');
 const { Server } = require('socket.io');
 const Store = require('electron-store');
 const path = require('path');
-const robot = require('robotjs');
+const {keyboard, Key} = require("@nut-tree/nut-js");
 
-const storage = new Store();
-const socketPort = 6942;
-
-console.log(process.version);
-
+let socketPort = 8100;
 let layout = {
   deviceName: 'testDevice',
   layouts: [
@@ -134,9 +130,10 @@ let layout = {
     },
   ],
 };
+const store = new Store();
 
 const getLayoutFromStorage = () => {
-  const newLayout = storage.get('layout');
+  const newLayout = store.get('layout');
   if (newLayout === undefined) {
     layout = {
       deviceName: 'testDevice',
@@ -154,7 +151,20 @@ const getLayoutFromStorage = () => {
   }
 };
 
+const getPortFromStorage = () => {
+  const newPort = store.get('socketPort');
+  console.log(newPort);
+
+  if (newPort === null) {
+    socketPort = 8100;
+    store.set('socketPort', 8100);
+  } else {
+    socketPort = newPort;
+  }
+};
+
 getLayoutFromStorage();
+getPortFromStorage();
 
 /**
  * Socket Stuff
@@ -164,10 +174,6 @@ const io = new Server(socketPort, {
     origin: '*',
   },
 });
-
-// io.on('connect_error', (err) => {
-//   console.log(`connect_error due to ${err.message}`, err);
-// });
 
 io.on('connection', (socket) => {
   /**
@@ -187,47 +193,25 @@ io.on('connection', (socket) => {
 
   emitLayout();
 
-  // Log if a connection error occurs
-  socket.on('connect_error', (err) => {
-    console.log(`connect_error due to ${err.message}`, err);
-  });
-
-  // Saves new layout from render process
-  ipcMain.on('saveLayout', (event, args) => {
-    const newLayout = JSON.parse(args);
-    layout = newLayout;
+  store.onDidChange('layout', () => {
     emitLayout();
-    storage.set('layout', args);
   });
 
   // Press keys after one other
-  socket.on('keys', (data) => {
+  socket.on('keys', async (data) => {
     const keys = data.split(' ');
-    if (keys.length) keys.forEach((k) => robot.keyTap(k));
+    if (keys.length) keys.forEach((k) => keyboard.type(k));
   });
 
   // Press keys combo
-  socket.on('hotkey', (data) => {
-    const keys = data.split(' ');
-    if (keys.length) {
-      const { length } = keys;
+  socket.on('hotkey', async (data) => {
+    const modifiers = data.split(' ');
+    const key = modifiers.pop();
 
-      // Press hot key combo
-      keys.forEach((key, index) => {
-        if (index === length - 1) {
-          robot.keyTap(key);
-        } else {
-          robot.keyToggle(key, 'down');
-        }
-      });
+    const keyArray = modifiers.map((mod) => Key[mod]);
+    keyArray.push(Key[key]);
 
-      // Release hold down keys
-      keys.forEach((key, index) => {
-        if (!(index === length - 1)) {
-          robot.keyToggle(key, 'up');
-        }
-      });
-    }
+    await keyboard.type(...keyArray);
   });
 });
 
@@ -251,27 +235,41 @@ ipcMain.on('getLayout', (event) => {
   event.returnValue = layout;
 });
 
+// Send current host data
 ipcMain.on('getHostData', (event) => {
   // Lookup IP Adress
   const allNetworkInterfaces = networkInterfaces();
-  const networkInterface = allNetworkInterfaces.Ethernet.find((e) => {
-    if (e.family === 'IPv4') {
-      return true;
-    }
 
-    return false;
-  });
+  if (allNetworkInterfaces.Ethernet) {
+    const networkInterface = allNetworkInterfaces.Ethernet.find((e) => {
+      if (e.family === 'IPv4') {
+        return true;
+      }
+
+      return false;
+    });
+
+    const hostData = {
+      ip: networkInterface.address,
+      socketPort,
+    };
+
+    event.returnValue = hostData;
+  } else {
+    console.error('Ethernet not found!', allNetworkInterfaces);
+  }
 
   // Lookup CPU Load
   // Lookup RAM Load
-
-  const hostData = {
-    ip: networkInterface.address,
-    socketPort,
-  };
-
-  event.returnValue = hostData;
 });
+
+// Saves new layout from render process
+ipcMain.on('saveLayout', (event, args) => {
+  const newLayout = JSON.parse(args);
+  layout = newLayout;
+  store.set('layout', args);
+});
+
 app.whenReady().then(() => {
   createWindow();
 
@@ -280,6 +278,8 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+
+  console.log(app.getPath('userData'));
 });
 
 app.on('window-all-closed', () => {
