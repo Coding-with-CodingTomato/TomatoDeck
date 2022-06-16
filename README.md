@@ -27,11 +27,14 @@ A software version of the well known Elgato Streamdeck.
 - [ ] Multiple Pages + Switcher
 - [ ] More icons for buttons
 - [ ] Custom images for buttons
+- [ ] Open Emoji Picker
+- [ ] Send emojis
 - [ ] Siri support?
 - [ ] Discord integration?
 - [ ] Zoom integration?
 - [ ] Teams integration?
 - [ ] Obs integration? (obs-websocket-js)
+- [ ] Spotify integration?
 
 ## Desktop Todos
 - [x] display pc ip
@@ -45,12 +48,15 @@ A software version of the well known Elgato Streamdeck.
   - [ ] Available buttons that can be pressed
   - [ ] Available windows / mac / linux hotkeys
   - [ ] General How-Tos
+- [ ] Auto Updater
+- [ ] Change text color to be visible on any background color
 
 ## Mobile Todos
 - [x] Set PC IP + PORT
 - [x] Get Grid Setup
 - [ ] Connect via QR-Code
 - [ ] Report back if button press was sucessfull or not
+- [ ] Change text color to be visible on any background color
 
 
 Name bereitgestellt von CodingRuo <3
