@@ -4,6 +4,8 @@ contextBridge.exposeInMainWorld('api', {
   saveLayout: (layout) => ipcRenderer.send('saveLayout', layout),
   getLayout: () => ipcRenderer.sendSync('getLayout'),
   getHostData: () => ipcRenderer.sendSync('getHostData'),
+  saveTwitchOAuth: () => ipcRenderer.send('saveTwitchOAuth'),
+  getTwitchOAuth: () => ipcRenderer.sendSync('getTwitchOAuth'),
 });
 
 window.addEventListener('DOMContentLoaded', () => {

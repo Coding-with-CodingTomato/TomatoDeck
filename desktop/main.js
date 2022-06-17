@@ -1,11 +1,17 @@
 /* eslint-disable no-undef */
-const { app, BrowserWindow, ipcMain } = require('electron');
+const {
+  app, BrowserWindow, ipcMain, shell,
+} = require('electron');
 const { networkInterfaces } = require('os');
 const { Server } = require('socket.io');
 const Store = require('electron-store');
 const path = require('path');
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require('@nut-tree/nut-js');
+const {
+  exec, spawn, execSync, execFile,
+} = require('child_process');
 
+const { NODE_ENV } = process.env;
 let socketPort = 8100;
 let layout = {
   deviceName: 'testDevice',
@@ -153,9 +159,8 @@ const getLayoutFromStorage = () => {
 
 const getPortFromStorage = () => {
   const newPort = store.get('socketPort');
-  console.log(newPort);
 
-  if (newPort === null) {
+  if (!newPort) {
     socketPort = 8100;
     store.set('socketPort', 8100);
   } else {
@@ -213,6 +218,40 @@ io.on('connection', (socket) => {
 
     await keyboard.type(...keyArray);
   });
+
+  // Open website
+  socket.on('open_website', async (data) => {
+    shell.openExternal(data);
+  });
+
+  // Run exe
+  socket.on('run_exe', async (data) => {
+    execFile(data, (err) => {
+      console.log(err);
+    });
+  });
+
+  // Run exe
+  socket.on('open_folder', async (data) => {
+    let command = '';
+    switch (process.platform) {
+      case 'darwin':
+        command = 'open';
+        break;
+      case 'win32':
+        command = 'explorer';
+        break;
+      default:
+        command = 'xdg-open';
+        break;
+    }
+
+    try {
+      execSync(`${command} "${data}"`);
+    } catch (err) {
+      console.error(err);
+    }
+  });
 });
 
 /**
@@ -227,7 +266,13 @@ function createWindow() {
     },
   });
 
-  win.loadFile('dist/index.html');
+  // win.loadFile('dist/index.html');
+
+  win.loadURL(
+    NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : `file://${path.join(__dirname, 'dist/index.html')}`,
+  );
 }
 
 // Send current layout back to render process
@@ -238,27 +283,25 @@ ipcMain.on('getLayout', (event) => {
 // Send current host data
 ipcMain.on('getHostData', (event) => {
   // Lookup IP Adress
-  const allNetworkInterfaces = networkInterfaces();
+  const nets = networkInterfaces();
+  const ips = new Set();
 
-  if (allNetworkInterfaces.Ethernet) {
-    const networkInterface = allNetworkInterfaces.Ethernet.find((e) => {
-      if (e.family === 'IPv4') {
-        return true;
+  Object.keys(nets).forEach((name) => {
+    nets[name].forEach((net) => {
+      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4;
+      if (net.family === familyV4Value && !net.internal) {
+        ips.add(net.address);
       }
-
-      return false;
     });
+  });
+  const [firstIPResult] = ips;
 
-    const hostData = {
-      ip: networkInterface.address,
-      socketPort,
-    };
+  const hostData = {
+    ip: firstIPResult || '0.0.0.0',
+    socketPort,
+  };
 
-    event.returnValue = hostData;
-  } else {
-    console.error('Ethernet not found!', allNetworkInterfaces);
-  }
-
+  event.returnValue = hostData;
   // Lookup CPU Load
   // Lookup RAM Load
 });
@@ -268,6 +311,17 @@ ipcMain.on('saveLayout', (event, args) => {
   const newLayout = JSON.parse(args);
   layout = newLayout;
   store.set('layout', args);
+});
+
+// Save OAuth Key to config
+ipcMain.on('saveTwitchOAuth', (event, args) => {
+  store.set('twitchOAuth', args);
+});
+
+// Get OAuth Key to config
+ipcMain.on('getTwitchOAuth', (event, args) => {
+  const res = store.get('twitchOAuth');
+  event.returnValue = res;
 });
 
 app.whenReady().then(() => {

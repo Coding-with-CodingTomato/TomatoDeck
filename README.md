@@ -1,14 +1,15 @@
 # TomatoDeck
-A software version of the well known Elgato Streamdeck.
+A free software version of the well known Elgato Streamdeck.
 
 ## Known Bugs
-- [ ] DESKTOP: IP and PORT not showing on some devices
-- [ ] DESKTOP: config.json doesn't get created if it doesn't exist (PORT)
+- [x] DESKTOP: IP and PORT not showing on some devices
+- [x] DESKTOP: config.json doesn't get created if it doesn't exist (PORT)
 
 ## General Feature Todos
-- [ ] Open website with standard browser
-- [ ] Run exe file -> via hotkey trick possible
-- [ ] Open Folder
+- [x] Just text cards
+- [x] Open website with standard browser
+- [x] Run exe file -> via hotkey trick possible
+- [x] Open Folder
 - [ ] Sound effects / Soundboard
 - [ ] Twitch
   - [ ] Write in chat
@@ -19,7 +20,6 @@ A software version of the well known Elgato Streamdeck.
   - [ ] RAM
   - [ ] Drive space
   - [ ] Download/Upload
-- [ ] Just text cards
 - [ ] Create desktop screenshot
 - [ ] Click on specific point with mouse
 - [ ] WLED control
@@ -29,6 +29,7 @@ A software version of the well known Elgato Streamdeck.
 - [ ] Custom images for buttons
 - [ ] Open Emoji Picker
 - [ ] Send emojis
+- [ ] Multiple Profiles / Decks
 - [ ] Siri support?
 - [ ] Discord integration?
 - [ ] Zoom integration?
@@ -57,6 +58,7 @@ A software version of the well known Elgato Streamdeck.
 - [ ] Connect via QR-Code
 - [ ] Report back if button press was sucessfull or not
 - [ ] Change text color to be visible on any background color
+- [ ] Implement Text Type
 
 
 Name bereitgestellt von CodingRuo <3
