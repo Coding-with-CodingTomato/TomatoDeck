@@ -13,136 +13,15 @@ const {
   exec, spawn, execSync, execFile,
 } = require('child_process');
 const sound = require('sound-play');
+const log = require('electron-log');
 
 const { NODE_ENV } = process.env;
+const store = new Store();
+
 let socketPort = 8100;
 let connectedDevices = 0;
 let mainWindow;
 let layout = {};
-// let layout = {
-//   deviceName: 'testDevice',
-//   layouts: [
-//     {
-//       name: 'layout1',
-//       rows: [
-//         {
-//           elements: [
-//             {
-//               id: '1',
-//               row_index: 0,
-//               type: 'button',
-//               text: '🔈 TEST',
-//               color: '#2dd36f',
-//               image: '',
-//               icon: '',
-//               eventName: 'keys',
-//               data: 'audio_mute',
-//             },
-//             {
-//               id: '2',
-//               row_index: 0,
-//               type: 'button',
-//               text: 'Next',
-//               color: '#2dd36f',
-//               image: '',
-//               icon: '',
-//               eventName: 'keys',
-//               data: 'audio_next',
-//             },
-//             {
-//               id: '3',
-//               row_index: 0,
-//               type: 'button',
-//               text: 'Prev',
-//               color: '#2dd36f',
-//               image: '',
-//               icon: '',
-//               eventName: 'keys',
-//               data: 'audio_prev',
-//             },
-//             {
-//               id: '4',
-//               row_index: 0,
-//               type: 'button',
-//               text: '▶️',
-//               color: '#2dd36f',
-//               image: '',
-//               icon: '',
-//               eventName: 'keys',
-//               data: 'audio_play',
-//             },
-//             {
-//               id: '5',
-//               row_index: 0,
-//               type: 'button',
-//               text: '🔊',
-//               color: '#2dd36f',
-//               image: '',
-//               icon: '',
-//               eventName: 'keys',
-//               data: 'audio_vol_up',
-//             },
-//             {
-//               id: '6',
-//               row_index: 0,
-//               type: 'button',
-//               text: '🔉',
-//               color: '#2dd36f',
-//               image: '',
-//               eventName: 'keys',
-//               data: 'audio_vol_down',
-//             },
-//             {
-//               id: '7',
-//               row_index: 0,
-//               type: 'button',
-//               text: 'HotKey Alt+F4',
-//               color: '#E91E63',
-//               image: '',
-//               icon: '',
-//               eventName: 'hotkey',
-//               data: 'alt f4',
-//             },
-//             {
-//               id: '8',
-//               row_index: 0,
-//               type: 'button',
-//               text: 'HotKey Enter Space',
-//               color: '#008B02',
-//               image: '',
-//               icon: '',
-//               eventName: 'keys',
-//               data: 'enter space',
-//             },
-//             {
-//               id: '9',
-//               row_index: 0,
-//               type: 'button',
-//               text: 'HotKey hallo chat',
-//               color: '#F44336',
-//               image: '',
-//               icon: '',
-//               eventName: 'keys',
-//               data: 'h a l l o space c h a t',
-//             },
-//             {
-//               id: '10',
-//               row_index: 0,
-//               type: 'button',
-//               text: 'Discord Mic mute',
-//               color: '#F44336',
-//               image: '',
-//               icon: '',
-//               eventName: 'hotkey',
-//               data: 'control shift m',
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//   ],
-// };
-const store = new Store();
 
 const getLayoutFromStorage = () => {
   const newLayout = store.get('layout');
@@ -192,6 +71,9 @@ const io = new Server(socketPort, {
 io.on('connection', (socket) => {
   // Count new device
   changeDeviceCount(1);
+
+  // Log new connection
+  log.info('New Socket Connection');
 
   // Emits the layout to the current socket
   const emitLayout = () => {
@@ -243,6 +125,9 @@ io.on('connection', (socket) => {
       execFile(data);
     } catch (error) {
       console.error(error);
+      log.error(`Error while trying to execute file with data: ${data}`);
+      log.error(JSON.stringify(error));
+
       eventError = true;
       emitError();
     } finally {
@@ -270,9 +155,12 @@ io.on('connection', (socket) => {
 
     try {
       execSync(`${command} "${data}"`);
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
+      log.error(`Error while trying to open folder with data: ${data}`);
+      log.error(JSON.stringify(error));
+
       eventError = true;
-      console.error(err);
       emitError();
     } finally {
       if (!eventError) {
@@ -297,7 +185,10 @@ io.on('connection', (socket) => {
     try {
       await sound.play(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      log.error(`Error while trying to play audio with data: ${data}`);
+      log.error(JSON.stringify(error));
+
       errorEvent = true;
       emitError();
     } finally {
@@ -309,6 +200,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     changeDeviceCount(-1);
+    log.info('A Socket Disconnected');
   });
 });
 

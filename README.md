@@ -43,7 +43,7 @@ A free software version of the well known Elgato Streamdeck.
 - [x] set socket port (config)
 - [x] store and send grid setup
 - [x] Show connected devices count
-- [ ] Error Logging
+- [x] Error Logging
 - [ ] Backup / Restore Config.json
 - [ ] Log into accounts like Twitch and Twitter
 - [ ] Sortable buttons (https://sortablejs.github.io/vue.draggable.next/)

@@ -131,7 +131,7 @@ onMounted(() => {
             </div>
             <div class="item">
               <q-icon name="change_circle" style="font-size: medium;" />
-              <b>Version:</b> 0.1.5
+              <b>Version:</b> 0.1.6
             </div>
             <div class="item">
               <q-icon name="tablet_mac" style="font-size: medium;" />
