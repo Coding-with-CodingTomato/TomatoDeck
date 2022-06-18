@@ -38,7 +38,12 @@
             label="Aktion" />
         </div>
         <div class="row" v-if="editElementType === 'Button'">
-          <q-input filled class="fullWidth" v-model="editData" label="Data (Keys / URL / Pfad)" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="editData"
+            label="Data (Keys / URL / Pfad / Koordinaten x,y)"
+          />
         </div>
         <div class="row" v-if="editElementType === 'Twitch Chat'">
           <q-input filled class="fullWidth" v-model="editText" label="Channelname" />
@@ -63,7 +68,7 @@ const elementOptions = ref([
   'Button', 'Twitch Chat', 'Text',
 ]);
 const actionOptions = ref([
-  'keys', 'hotkey', 'open_website', 'run_exe', 'open_folder',
+  'keys', 'hotkey', 'open_website', 'run_exe', 'open_folder', 'click_mouse', 'play_sound',
 ]);
 
 const editId = ref(0);

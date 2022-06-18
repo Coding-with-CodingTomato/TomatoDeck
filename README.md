@@ -10,7 +10,9 @@ A free software version of the well known Elgato Streamdeck.
 - [x] Open website with standard browser
 - [x] Run exe file -> via hotkey trick possible
 - [x] Open Folder
-- [ ] Sound effects / Soundboard
+- [x] Click on specific point with mouse
+- [x] Sound effects / Soundboard
+- [x] Create desktop screenshot -> Hotkey
 - [ ] Twitch
   - [ ] Write in chat
   - [ ] Set chat settings (e.g. slow mode)
@@ -20,8 +22,7 @@ A free software version of the well known Elgato Streamdeck.
   - [ ] RAM
   - [ ] Drive space
   - [ ] Download/Upload
-- [ ] Create desktop screenshot
-- [ ] Click on specific point with mouse
+- [ ] Route Soundboard through own microphone
 - [ ] WLED control
 - [ ] Send Tweet
 - [ ] Multiple Pages + Switcher
@@ -56,10 +57,10 @@ A free software version of the well known Elgato Streamdeck.
 ## Mobile Todos
 - [x] Set PC IP + PORT
 - [x] Get Grid Setup
+- [x] Implement Text Type
+- [x] Report back if button press was sucessfull or not
 - [ ] Connect via QR-Code
-- [ ] Report back if button press was sucessfull or not
 - [ ] Change text color to be visible on any background color
-- [ ] Implement Text Type
 
 
 Name bereitgestellt von CodingRuo <3

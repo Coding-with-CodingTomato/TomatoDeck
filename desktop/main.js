@@ -6,10 +6,13 @@ const { networkInterfaces } = require('os');
 const { Server } = require('socket.io');
 const Store = require('electron-store');
 const path = require('path');
-const { keyboard, Key } = require('@nut-tree/nut-js');
+const {
+  keyboard, Key, mouse, Point,
+} = require('@nut-tree/nut-js');
 const {
   exec, spawn, execSync, execFile,
 } = require('child_process');
+const sound = require('sound-play');
 
 const { NODE_ENV } = process.env;
 let socketPort = 8100;
@@ -195,6 +198,12 @@ io.on('connection', (socket) => {
   const emitLayout = () => {
     socket.emit('deckLayout', JSON.stringify(layout));
   };
+  const emitSucess = () => {
+    socket.emit('sucessEvent');
+  };
+  const emitError = () => {
+    socket.emit('errorEvent');
+  };
 
   emitLayout();
 
@@ -206,6 +215,7 @@ io.on('connection', (socket) => {
   socket.on('keys', async (data) => {
     const keys = data.split(' ');
     if (keys.length) keys.forEach((k) => keyboard.type(k));
+    emitSucess();
   });
 
   // Press keys combo
@@ -217,22 +227,35 @@ io.on('connection', (socket) => {
     keyArray.push(Key[key]);
 
     await keyboard.type(...keyArray);
+    emitSucess();
   });
 
   // Open website
   socket.on('open_website', async (data) => {
-    shell.openExternal(data);
+    await shell.openExternal(data);
+    emitSucess();
   });
 
   // Run exe
   socket.on('run_exe', async (data) => {
-    execFile(data, (err) => {
-      console.log(err);
-    });
+    let eventError = false;
+
+    try {
+      execFile(data);
+    } catch (error) {
+      console.error(error);
+      eventError = true;
+      emitError();
+    } finally {
+      if (!eventError) {
+        emitSucess();
+      }
+    }
   });
 
   // Run exe
   socket.on('open_folder', async (data) => {
+    let eventError = false;
     let command = '';
     switch (process.platform) {
       case 'darwin':
@@ -249,7 +272,39 @@ io.on('connection', (socket) => {
     try {
       execSync(`${command} "${data}"`);
     } catch (err) {
+      eventError = true;
       console.error(err);
+      emitError();
+    } finally {
+      if (!eventError) {
+        emitSucess();
+      }
+    }
+  });
+
+  // Click mouse at coord
+  socket.on('click_mouse', async (data) => {
+    const [x, y] = data.split(',');
+    const point = new Point(Number(x), Number(y));
+    await mouse.setPosition(point);
+    await mouse.leftClick();
+    emitSucess();
+  });
+
+  // Click mouse at coord
+  socket.on('play_sound', async (data) => {
+    let errorEvent = false;
+
+    try {
+      await sound.play(data);
+    } catch (error) {
+      console.error(error);
+      errorEvent = true;
+      emitError();
+    } finally {
+      if (!errorEvent) {
+        emitSucess();
+      }
     }
   });
 });

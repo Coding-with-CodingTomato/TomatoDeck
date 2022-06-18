@@ -86,8 +86,8 @@ import store from "./store";
 import {
   home,
   homeSharp,
-  ticket,
-  ticketSharp,
+  mic,
+  micSharp,
   cloudOffline,
   cloudDone,
   cog,
@@ -108,10 +108,10 @@ const appPages = [
     mdIcon: homeSharp,
   },
   {
-    title: "Test",
+    title: "Audio",
     url: "/",
-    iosIcon: ticket,
-    mdIcon: ticketSharp,
+    iosIcon: mic,
+    mdIcon: micSharp,
   },
   {
     title: "Einstellungen",

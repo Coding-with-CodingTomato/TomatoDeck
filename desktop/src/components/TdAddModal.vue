@@ -46,7 +46,12 @@
 
         <!-- Button Data -->
         <div class="row" v-if="newElementType === 'Button'">
-          <q-input filled class="fullWidth" v-model="newData" label="Data (Keys / URL / Pfad)" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newData"
+            label="Data (Keys / URL / Pfad / Koordinaten x,y)"
+          />
         </div>
 
         <!-- Channelname für Twitch Chat -->
@@ -72,10 +77,10 @@ const elementOptions = ref([
   'Button', 'Twitch Chat', 'Text',
 ]);
 const actionOptions = ref([
-  'keys', 'hotkey', 'open_website', 'run_exe', 'open_folder',
+  'keys', 'hotkey', 'open_website', 'run_exe', 'open_folder', 'click_mouse', 'play_sound',
 ]);
 const newText = ref('');
-const newColor = ref('');
+const newColor = ref('#000000');
 const newElementType = ref();
 const newActionType = ref();
 const newData = ref('');

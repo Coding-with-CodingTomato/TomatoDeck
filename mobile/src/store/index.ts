@@ -1,6 +1,8 @@
 import { reactive } from "vue";
 import { Storage } from "@capacitor/storage";
 import { io } from "socket.io-client";
+import { toastController } from "@ionic/vue";
+import { alertCircle, checkmarkCircle } from 'ionicons/icons';
 
 export const store = reactive({
   serverIp: "",
@@ -67,6 +69,30 @@ export const store = reactive({
       console.log(error);
       store.connected = false;
       store.errorMessage = JSON.stringify(error);
+    });
+
+    newSocket.on("errorEvent", async () => {
+      const toast = await toastController
+        .create({
+          message: 'Event fehlerhaft ausgeführt.',
+          icon: alertCircle,
+          position: 'top',
+          color: 'danger',
+          duration: 2000
+        })
+      toast.present();
+    });
+
+    newSocket.on("sucessEvent", async () => {
+      const toast = await toastController
+        .create({
+          message: 'Event erfolgreich ausgeführt.',
+          icon: checkmarkCircle,
+          position: 'top',
+          color: 'success',
+          duration: 2000
+        })
+      toast.present();
     });
   },
   toggleConnection: () => {
