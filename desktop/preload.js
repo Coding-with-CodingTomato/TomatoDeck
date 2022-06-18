@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('api', {
   getHostData: () => ipcRenderer.sendSync('getHostData'),
   saveTwitchOAuth: () => ipcRenderer.send('saveTwitchOAuth'),
   getTwitchOAuth: () => ipcRenderer.sendSync('getTwitchOAuth'),
+  onDeviceCountChange: (callback) => ipcRenderer.on('deviceCountChange', callback),
 });
 
 window.addEventListener('DOMContentLoaded', () => {

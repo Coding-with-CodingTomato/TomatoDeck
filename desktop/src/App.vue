@@ -25,6 +25,7 @@ const editModal = ref(null);
 onMounted(() => {
   store.getLayout();
   store.getHostData();
+  store.getConnectedDevicesCount();
 });
 </script>
 
@@ -122,7 +123,7 @@ onMounted(() => {
          <div class="footerWrapper">
             <div class="item">
               <q-icon name="public" style="font-size: medium;" />
-              <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }}
+              <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }} (Wahrscheinlich falsch)
             </div>
             <div class="item">
               <q-icon name="tag" style="font-size: medium;" />
@@ -131,6 +132,10 @@ onMounted(() => {
             <div class="item">
               <q-icon name="change_circle" style="font-size: medium;" />
               <b>Version:</b> 0.1.5
+            </div>
+            <div class="item">
+              <q-icon name="tablet_mac" style="font-size: medium;" />
+              {{ store.connectedDevices }} verbunden
             </div>
           </div>
       </q-toolbar>

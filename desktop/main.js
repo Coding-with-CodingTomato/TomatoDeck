@@ -16,129 +16,132 @@ const sound = require('sound-play');
 
 const { NODE_ENV } = process.env;
 let socketPort = 8100;
-let layout = {
-  deviceName: 'testDevice',
-  layouts: [
-    {
-      name: 'layout1',
-      rows: [
-        {
-          elements: [
-            {
-              id: '1',
-              row_index: 0,
-              type: 'button',
-              text: '🔈 TEST',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_mute',
-            },
-            {
-              id: '2',
-              row_index: 0,
-              type: 'button',
-              text: 'Next',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_next',
-            },
-            {
-              id: '3',
-              row_index: 0,
-              type: 'button',
-              text: 'Prev',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_prev',
-            },
-            {
-              id: '4',
-              row_index: 0,
-              type: 'button',
-              text: '▶️',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_play',
-            },
-            {
-              id: '5',
-              row_index: 0,
-              type: 'button',
-              text: '🔊',
-              color: '#2dd36f',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'audio_vol_up',
-            },
-            {
-              id: '6',
-              row_index: 0,
-              type: 'button',
-              text: '🔉',
-              color: '#2dd36f',
-              image: '',
-              eventName: 'keys',
-              data: 'audio_vol_down',
-            },
-            {
-              id: '7',
-              row_index: 0,
-              type: 'button',
-              text: 'HotKey Alt+F4',
-              color: '#E91E63',
-              image: '',
-              icon: '',
-              eventName: 'hotkey',
-              data: 'alt f4',
-            },
-            {
-              id: '8',
-              row_index: 0,
-              type: 'button',
-              text: 'HotKey Enter Space',
-              color: '#008B02',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'enter space',
-            },
-            {
-              id: '9',
-              row_index: 0,
-              type: 'button',
-              text: 'HotKey hallo chat',
-              color: '#F44336',
-              image: '',
-              icon: '',
-              eventName: 'keys',
-              data: 'h a l l o space c h a t',
-            },
-            {
-              id: '10',
-              row_index: 0,
-              type: 'button',
-              text: 'Discord Mic mute',
-              color: '#F44336',
-              image: '',
-              icon: '',
-              eventName: 'hotkey',
-              data: 'control shift m',
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+let connectedDevices = 0;
+let mainWindow;
+let layout = {};
+// let layout = {
+//   deviceName: 'testDevice',
+//   layouts: [
+//     {
+//       name: 'layout1',
+//       rows: [
+//         {
+//           elements: [
+//             {
+//               id: '1',
+//               row_index: 0,
+//               type: 'button',
+//               text: '🔈 TEST',
+//               color: '#2dd36f',
+//               image: '',
+//               icon: '',
+//               eventName: 'keys',
+//               data: 'audio_mute',
+//             },
+//             {
+//               id: '2',
+//               row_index: 0,
+//               type: 'button',
+//               text: 'Next',
+//               color: '#2dd36f',
+//               image: '',
+//               icon: '',
+//               eventName: 'keys',
+//               data: 'audio_next',
+//             },
+//             {
+//               id: '3',
+//               row_index: 0,
+//               type: 'button',
+//               text: 'Prev',
+//               color: '#2dd36f',
+//               image: '',
+//               icon: '',
+//               eventName: 'keys',
+//               data: 'audio_prev',
+//             },
+//             {
+//               id: '4',
+//               row_index: 0,
+//               type: 'button',
+//               text: '▶️',
+//               color: '#2dd36f',
+//               image: '',
+//               icon: '',
+//               eventName: 'keys',
+//               data: 'audio_play',
+//             },
+//             {
+//               id: '5',
+//               row_index: 0,
+//               type: 'button',
+//               text: '🔊',
+//               color: '#2dd36f',
+//               image: '',
+//               icon: '',
+//               eventName: 'keys',
+//               data: 'audio_vol_up',
+//             },
+//             {
+//               id: '6',
+//               row_index: 0,
+//               type: 'button',
+//               text: '🔉',
+//               color: '#2dd36f',
+//               image: '',
+//               eventName: 'keys',
+//               data: 'audio_vol_down',
+//             },
+//             {
+//               id: '7',
+//               row_index: 0,
+//               type: 'button',
+//               text: 'HotKey Alt+F4',
+//               color: '#E91E63',
+//               image: '',
+//               icon: '',
+//               eventName: 'hotkey',
+//               data: 'alt f4',
+//             },
+//             {
+//               id: '8',
+//               row_index: 0,
+//               type: 'button',
+//               text: 'HotKey Enter Space',
+//               color: '#008B02',
+//               image: '',
+//               icon: '',
+//               eventName: 'keys',
+//               data: 'enter space',
+//             },
+//             {
+//               id: '9',
+//               row_index: 0,
+//               type: 'button',
+//               text: 'HotKey hallo chat',
+//               color: '#F44336',
+//               image: '',
+//               icon: '',
+//               eventName: 'keys',
+//               data: 'h a l l o space c h a t',
+//             },
+//             {
+//               id: '10',
+//               row_index: 0,
+//               type: 'button',
+//               text: 'Discord Mic mute',
+//               color: '#F44336',
+//               image: '',
+//               icon: '',
+//               eventName: 'hotkey',
+//               data: 'control shift m',
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+// };
 const store = new Store();
 
 const getLayoutFromStorage = () => {
@@ -159,7 +162,10 @@ const getLayoutFromStorage = () => {
     layout = JSON.parse(newLayout);
   }
 };
-
+const changeDeviceCount = (change) => {
+  connectedDevices += change;
+  mainWindow.webContents.send('deviceCountChange', connectedDevices);
+};
 const getPortFromStorage = () => {
   const newPort = store.get('socketPort');
 
@@ -184,15 +190,8 @@ const io = new Server(socketPort, {
 });
 
 io.on('connection', (socket) => {
-  /**
-   * Layout
-   *  - Rows
-   *    - Col
-   *      - Element
-   *        - Button (text, farbe, image, eventName)
-   *        (- Slider (text))
-   *        (- Sonstiges)
-   */
+  // Count new device
+  changeDeviceCount(1);
 
   // Emits the layout to the current socket
   const emitLayout = () => {
@@ -307,13 +306,17 @@ io.on('connection', (socket) => {
       }
     }
   });
+
+  socket.on('disconnect', () => {
+    changeDeviceCount(-1);
+  });
 });
 
 /**
  * Electron Stuff
  */
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1400,
     height: 1200,
     webPreferences: {
@@ -323,7 +326,7 @@ function createWindow() {
 
   // win.loadFile('dist/index.html');
 
-  win.loadURL(
+  mainWindow.loadURL(
     NODE_ENV === 'development'
       ? 'http://localhost:3000'
       : `file://${path.join(__dirname, 'dist/index.html')}`,
@@ -374,7 +377,7 @@ ipcMain.on('saveTwitchOAuth', (event, args) => {
 });
 
 // Get OAuth Key to config
-ipcMain.on('getTwitchOAuth', (event, args) => {
+ipcMain.on('getTwitchOAuth', (event) => {
   const res = store.get('twitchOAuth');
   event.returnValue = res;
 });
