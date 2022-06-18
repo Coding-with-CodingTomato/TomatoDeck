@@ -18,8 +18,22 @@ const props = defineProps({
 
 <style scoped>
 .button {
-  border-radius: 5px;
-  padding: 1rem;
   cursor: pointer;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 15pt;
+  font-weight: bold;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.button::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
 </style>

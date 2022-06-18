@@ -1,52 +1,42 @@
 <template>
   <div class="home">
-    <ion-grid>
-      <ion-row style="justify-content: center;" v-for="row of store.deckLayout.layouts[0].rows" :key="row">
-        <ion-col size="auto" v-for="element of row.elements" :key="element">
-          <!-- <ion-button
-            v-if="element.type === 'button'"
-            :style="`--background: ${element.color}; width:12vw; height: 12vw;`"
-            @click="sendEvent(element.eventName)"
-            >{{ element.text }}</ion-button
-          > -->
-          <div
-            v-if="element.type === 'Button'"
-            class="button ion-activatable ripple-parent"
-            :style="`background-color: ${element.color}`"
-            @click="sendEvent(element.eventName, element.data)"
-          >
-            <div class="content" :class="{ bigIcon: emojiRegex.test(element.text), }">{{ element.text.toUpperCase() }}</div>
-            <ion-ripple-effect></ion-ripple-effect>
-          </div>
-
-          <TdTwitchChat
-            v-if="element.type === 'Twitch Chat'"
-            :channelName="element.text"
-          />
-
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <div class="tdGrid">
+      <template v-for="element of firstRow" :key="element">
+        <TdButton
+          v-if="element.type === 'Button'"
+          :text="element.text"
+          :color="element.color"
+          :eventName="element.eventName"
+          :data="element.data"
+          @click="sendEvent(element.eventName, element.data)"
+        />
+        <TdButton
+          v-if="element.type === 'Text'"
+          :text="element.text"
+          :color="element.color"
+          :eventName="element.eventName"
+          :data="element.data"
+        />
+        <TdTwitchChat
+          v-if="element.type === 'Twitch Chat'"
+          :channelName="element.text"
+        />
+      </template>
+    </div>
 
     <p v-if="store.errorMessage">{{ store.errorMessage }}</p>
-
-    <!-- <ion-button @click="sendEvent('mediaMute')">Un-/mute</ion-button> -->
-    <!--<ion-button @click="sendEvent('mediaVolUp')">Volume up</ion-button>
-    <ion-button @click="sendEvent('mediaVolDown')">Volume down</ion-button>
-    <ion-button @click="sendEvent('mediaPlay')">Play/Pause</ion-button>
-    <ion-button @click="sendEvent('mediaStop')">Stop</ion-button>
-    <ion-button @click="sendEvent('mediaNextTrack')">Next</ion-button>
-    <ion-button @click="sendEvent('mediaPrevTrack')">Previous</ion-button> -->
   </div>
 </template>
 
 <script lang="ts" setup>
-import { IonGrid, IonRow, IonCol, IonRippleEffect } from "@ionic/vue";
+import { ref, watch } from "vue";
 import store from "../store";
 
 import TdTwitchChat from "@/components/TdTwitchChat.vue";
+import TdButton from "@/components/TdButton.vue";
 
-const emojiRegex = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]){1,2}/
+const firstRow = ref(store.deckLayout.layouts[0].rows[0].elements);
+console.log(firstRow);
 
 const sendEvent = (eventName: string, data: string) => {
   try {
@@ -55,26 +45,49 @@ const sendEvent = (eventName: string, data: string) => {
     console.log(e);
   }
 };
+
+watch(() => store.deckLayout.layouts[0].rows[0].elements, () => {
+  firstRow.value = store.deckLayout.layouts[0].rows[0].elements
+});
 </script>
 
 <style scoped>
-.button {
-  cursor: pointer;
-  width: 12vw;
-  height: 12vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
+.tdGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: 1rem;
+  justify-content: space-evenly;
+  align-content: center;
 }
 
-.button .content {
-  max-width: 95%;
-  word-wrap: break-word;
-  font-weight: bold;
+@media screen and (max-width: 950px) {
+  .tdGrid {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
-.bigIcon {
-  font-size: 5rem;
+@media screen and (max-width: 850px) {
+  .tdGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .tdGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .tdGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .tdGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>

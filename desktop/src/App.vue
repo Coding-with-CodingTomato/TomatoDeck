@@ -36,23 +36,22 @@ onMounted(() => {
     <q-page-container>
 
       <div class="q-pa-md" v-if="store.layout !== {} && store.layout.layouts !== undefined">
-        <div class="row" v-for="row of store.layout.layouts[0].rows" :key="row">
-          <div
-            v-for="element of row.elements"
-            :key="element"
-          >
+        <div class="grid" v-for="row of store.layout.layouts[0].rows" :key="row">
+          <template v-for="element of row.elements">
             <TdButton
               v-if="element.type === 'Button' || element.type === 'Text'"
               :text="element.text"
               :color="element.color"
+              :key="element.id"
               @click="editModal.openModal(element)"
             />
             <TdTwitchChat
               v-if="element.type === 'Twitch Chat'"
               :channelName="element.text"
+              :key="element.id"
               @click="editModal.openModal(element)"
             />
-          </div>
+          </template>
         </div>
       </div>
 
@@ -140,9 +139,15 @@ onMounted(() => {
 </template>
 
 <style>
-.row {
-  gap: 1rem;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: 1rem;
+  justify-content: space-evenly;
+  align-content: center;
 }
+
 .fullWidth {
   width: 100%;
   margin-bottom: .5rem;

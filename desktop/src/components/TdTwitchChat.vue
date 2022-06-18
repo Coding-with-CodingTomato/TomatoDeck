@@ -22,6 +22,9 @@ const props = defineProps({
   padding: 5rem 2.5rem 5rem 2.5rem;
   border: 1px solid snow;
   cursor: pointer;
+
+  grid-column: span 2;
+  grid-row: span 3;
 }
 
 h1 {
