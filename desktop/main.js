@@ -6,11 +6,12 @@ const { networkInterfaces } = require('os');
 const { Server } = require('socket.io');
 const Store = require('electron-store');
 const path = require('path');
+const fs = require('fs');
 const {
   keyboard, Key, mouse, Point,
 } = require('@nut-tree/nut-js');
 const {
-  exec, spawn, execSync, execFile,
+  execSync, execFile,
 } = require('child_process');
 const sound = require('sound-play');
 const log = require('electron-log');
@@ -90,6 +91,14 @@ io.on('connection', (socket) => {
 
   store.onDidChange('layout', () => {
     emitLayout();
+  });
+
+  // Send back image if requested
+  socket.on('requestImage', async (data) => {
+    const imagePath = data;
+    fs.readFile(imagePath, (err, imageData) => {
+      socket.emit('imageData', { imagePath, imageData });
+    });
   });
 
   // Press keys after one other
@@ -272,6 +281,15 @@ ipcMain.on('saveTwitchOAuth', (event, args) => {
 ipcMain.on('getTwitchOAuth', (event) => {
   const res = store.get('twitchOAuth');
   event.returnValue = res;
+});
+
+// Get image from path
+ipcMain.on('getImageFromPath', (event, args) => {
+  const imagePath = args;
+
+  fs.readFile(imagePath, (err, data) => {
+    event.returnValue = data;
+  });
 });
 
 app.whenReady().then(() => {

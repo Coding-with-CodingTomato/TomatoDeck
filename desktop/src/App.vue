@@ -43,6 +43,7 @@ onMounted(() => {
               v-if="element.type === 'Button' || element.type === 'Text'"
               :text="element.text"
               :color="element.color"
+              :image-url="element.image"
               :key="element.id"
               @click="editModal.openModal(element)"
             />

@@ -10,6 +10,7 @@ export const store = reactive({
   currentSocket: io({ autoConnect: false }),
   connected: false,
   errorMessage: "",
+  imageMap: new Map(),
   deckLayout: {
     name: "",
     layouts: [
@@ -65,6 +66,10 @@ export const store = reactive({
       store.errorMessage = reason;
     });
 
+    newSocket.on("imageData", (data) => {
+      store.imageMap.set(data.imagePath, data.imageData);
+    });
+
     newSocket.io.on("error", (error) => {
       console.log(error);
       store.connected = false;
@@ -110,6 +115,9 @@ export const store = reactive({
       key: "tomatoDeckServerPort",
       value: `${port}`,
     });
+  },
+  requestImageData: (imagePath: string) => {
+    store.currentSocket.emit('requestImage', imagePath);
   },
 });
 

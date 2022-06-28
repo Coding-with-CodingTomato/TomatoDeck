@@ -21,6 +21,17 @@
           <q-input filled class="fullWidth" v-model="editText" label="Text/Emoji" />
         </div>
 
+        <!-- Button Image -->
+        <div class="row" v-if="editElementType === 'Button'">
+          <q-file
+            filled
+            class="fullWidth"
+            v-model="editImage"
+            label="Bild/Animation"
+            accept=".jpg, .gif, .png, image/*"
+          />
+        </div>
+
         <!-- Button Farbe -->
         <div class="row" v-if="editElementType === 'Button' || editElementType === 'Text'">
           <q-field filled class="fullWidth" label="Farbe" stack-label>
@@ -78,6 +89,7 @@ const editColor = ref('');
 const editElementType = ref();
 const editActionType = ref();
 const editData = ref('');
+const editImage = ref('');
 
 const editElement = () => {
   const tempLayout = JSON.parse(JSON.stringify(store.layout));
@@ -88,7 +100,7 @@ const editElement = () => {
     type: editElementType.value,
     text: editText.value,
     color: editColor.value,
-    image: '',
+    image: editImage.value,
     icon: '',
     eventName: editActionType.value,
     data: editData.value.trim(),
@@ -119,6 +131,7 @@ const openModal = (element) => {
   editElementType.value = element.type;
   editActionType.value = element.eventName;
   editData.value = element.data;
+  // editImage.value = element.image;
 
   isEditElementModalOpen.value = true;
 };

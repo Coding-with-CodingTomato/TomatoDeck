@@ -13,6 +13,8 @@ A free software version of the well known Elgato Streamdeck.
 - [x] Click on specific point with mouse
 - [x] Sound effects / Soundboard
 - [x] Create desktop screenshot -> Hotkey
+- [x] Custom images for buttons
+- [ ] Ability to add a password
 - [ ] Twitch
   - [ ] Write in chat
   - [ ] Set chat settings (e.g. slow mode)
@@ -27,10 +29,10 @@ A free software version of the well known Elgato Streamdeck.
 - [ ] Send Tweet
 - [ ] Multiple Pages + Switcher
 - [ ] More icons for buttons
-- [ ] Custom images for buttons
 - [ ] Open Emoji Picker
 - [ ] Send emojis
 - [ ] Multiple Profiles / Decks
+- [ ] Synthesizer mit https://tonejs.github.io/
 - [ ] Siri support?
 - [ ] Discord integration?
 - [ ] Zoom integration?

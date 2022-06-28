@@ -8,6 +8,7 @@
           :color="element.color"
           :eventName="element.eventName"
           :data="element.data"
+          :image-url="element.image"
           @click="sendEvent(element.eventName, element.data)"
         />
         <TdButton
@@ -61,13 +62,13 @@ watch(() => store.deckLayout.layouts[0].rows[0].elements, () => {
   align-content: center;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1000px) {
   .tdGrid {
     grid-template-columns: repeat(6, 1fr);
   }
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 900px) {
   .tdGrid {
     grid-template-columns: repeat(5, 1fr);
   }

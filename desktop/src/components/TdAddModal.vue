@@ -25,6 +25,17 @@
           <q-input filled class="fullWidth" v-model="newText" label="Text/Emoji" />
         </div>
 
+        <!-- Button Image -->
+        <div class="row" v-if="newElementType === 'Button'">
+          <q-file
+            filled
+            class="fullWidth"
+            v-model="newElementImage"
+            label="Bild/Animation"
+            accept=".jpg, .gif, .png, image/*"
+          />
+        </div>
+
         <!-- Button Farbe -->
         <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text'">
           <q-field filled class="fullWidth" label="Farbe" stack-label>
@@ -84,6 +95,7 @@ const newColor = ref('#000000');
 const newElementType = ref();
 const newActionType = ref();
 const newData = ref('');
+const newElementImage = ref('');
 
 const openModal = () => {
   isAddElementModalOpen.value = true;
@@ -100,7 +112,7 @@ const addNewElement = () => {
     type: newElementType.value,
     text: newText.value,
     color: newColor.value,
-    image: '',
+    image: newElementImage.value.path || '',
     icon: '',
     eventName: newActionType.value,
     data: newData.value.trim(),
