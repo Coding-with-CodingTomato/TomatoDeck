@@ -21,6 +21,9 @@ export const store = reactive({
     api.saveLayout(newLayout);
     store.getLayout();
   },
+  sendLayout: () => {
+    api.saveLayout(JSON.stringify(store.layout));
+  },
 });
 
 export default store;

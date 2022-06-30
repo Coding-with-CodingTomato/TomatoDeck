@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, ref, watch } from "vue";
+import { defineProps, onMounted, onUnmounted, ref, watch } from "vue";
 import store from "../store";
 
 const image = ref();
@@ -37,6 +37,12 @@ onMounted(() => {
     }
   }
 });
+
+onUnmounted(() => {
+  if(props.imageUrl !== '') {
+    store.imageMap.delete(props.imageUrl);
+  }
+})
 
 watch(store.imageMap, () => {
   if(store.imageMap.has(props.imageUrl)) {

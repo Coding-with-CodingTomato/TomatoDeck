@@ -14,6 +14,7 @@ A free software version of the well known Elgato Streamdeck.
 - [x] Sound effects / Soundboard
 - [x] Create desktop screenshot -> Hotkey
 - [x] Custom images for buttons
+- [ ] Voice hotkey
 - [ ] Ability to add a password
 - [ ] Twitch
   - [ ] Write in chat
@@ -46,9 +47,9 @@ A free software version of the well known Elgato Streamdeck.
 - [x] store and send grid setup
 - [x] Show connected devices count
 - [x] Error Logging
+- [x] Sortable buttons (https://sortablejs.github.io/vue.draggable.next/)
 - [ ] Backup / Restore Config.json
 - [ ] Log into accounts like Twitch and Twitter
-- [ ] Sortable buttons (https://sortablejs.github.io/vue.draggable.next/)
 - [ ] Connect via QR-Code
 - [ ] Knowledgebase
   - [ ] Available buttons that can be pressed

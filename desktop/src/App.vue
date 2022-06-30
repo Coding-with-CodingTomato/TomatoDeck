@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
+import draggable from 'vuedraggable';
 
 import { accountStore } from './store/account';
 import { store } from './store';
@@ -21,11 +22,19 @@ const isAccountsModalOpen = ref(false);
 
 const addModal = ref(null);
 const editModal = ref(null);
+const drag = ref(false);
 
 onMounted(() => {
   store.getLayout();
   store.getHostData();
   store.getConnectedDevicesCount();
+});
+
+watch(drag, (to) => {
+  console.log(to);
+  if (to === false) {
+    store.sendLayout();
+  }
 });
 </script>
 
@@ -37,24 +46,31 @@ onMounted(() => {
     <q-page-container>
 
       <div class="q-pa-md" v-if="store.layout !== {} && store.layout.layouts !== undefined">
-        <div class="grid" v-for="row of store.layout.layouts[0].rows" :key="row">
-          <template v-for="element of row.elements">
-            <TdButton
-              v-if="element.type === 'Button' || element.type === 'Text'"
-              :text="element.text"
-              :color="element.color"
-              :image-url="element.image"
-              :key="element.id"
-              @click="editModal.openModal(element)"
-            />
-            <TdTwitchChat
-              v-if="element.type === 'Twitch Chat'"
-              :channelName="element.text"
-              :key="element.id"
-              @click="editModal.openModal(element)"
-            />
+        <draggable
+          v-for="(row, i) of store.layout.layouts[0].rows"
+          :key="i"
+          v-model="store.layout.layouts[0].rows[0].elements"
+          class="grid"
+          group="people"
+          @start="drag=true"
+          @end="drag=false"
+          item-key="id">
+          <template #item="{element}">
+              <TdButton
+                v-if="element.type === 'Button' || element.type === 'Text'"
+                :text="element.text"
+                :color="element.color"
+                :image-url="element.image"
+                :key="element.id"
+                @click="editModal.openModal(element)"
+              />
+              <TdTwitchChat
+                v-else-if="element.type === 'Twitch Chat'"
+                :channelName="element.text"
+                @click="editModal.openModal(element)"
+              />
           </template>
-        </div>
+        </draggable>
       </div>
 
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
