@@ -9,6 +9,7 @@ export const store = reactive({
   serverIp: "",
   serverPort: 0,
   serverPassword: "",
+  clickFeedback: false,
   currentSocket: io({ autoConnect: false }),
   connected: false,
   errorMessage: "",
@@ -40,12 +41,12 @@ export const store = reactive({
     const { value: ip } = await Storage.get({ key: "tomatoDeckServerIp" });
     const { value: port } = await Storage.get({ key: "tomatoDeckServerPort" });
     const { value: password } = await Storage.get({ key: "tomatoDeckServerPassword" });
-
-    if (ip === "" || port === "0" || password === "") return;
+    const { value: storeClickFeedback } = await Storage.get({ key: "tomatoDeckClickFeedback" });
 
     store.serverIp = ip || "";
     store.serverPort = parseInt(port || "0");
     store.serverPassword = password || "";
+    store.clickFeedback = (storeClickFeedback === "true") ? true : false;
   },
   connect: () => {
     store.currentSocket.disconnect();
@@ -131,6 +132,13 @@ export const store = reactive({
       key: "tomatoDeckServerPassword",
       value: hash,
     });
+  },
+  setSonstiges: async (newClickFeedback: string) => {
+    await Storage.set({
+      key: "tomatoDeckClickFeedback",
+      value: newClickFeedback.toString(),
+    });
+    store.clickFeedback = (newClickFeedback === "on") ? true: false;
   },
   requestImageData: (imagePath: string) => {
     store.currentSocket.emit('requestImage', imagePath);

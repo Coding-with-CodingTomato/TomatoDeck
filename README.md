@@ -57,6 +57,8 @@ A free software version of the well known Elgato Streamdeck.
   - [ ] General How-Tos
 - [ ] Auto Updater
 - [ ] Change text color to be visible on any background color
+- [ ] Duplicate button
+- [ ] Mulitple button selection -> Delete, Duplicate
 
 ## Mobile Todos
 - [x] Set PC IP + PORT

@@ -1,7 +1,14 @@
 <template>
   <div
-  class="button"
-  :style="{backgroundColor: props.color}"
+    class="button"
+    :class="{bigger: bigger}"
+    :style="{backgroundColor: props.color}"
+    @touchstart="bigger = true"
+    @touchcancel="bigger = false"
+    @touchend="bigger = false"
+    @mousedown="bigger = true"
+    @mouseup="bigger = false"
+    @mouseleave="bigger = false"
   >
     <span
       v-if="props.imageUrl === ''"
@@ -16,6 +23,7 @@ import { defineProps, onMounted, onUnmounted, ref, watch } from "vue";
 import store from "../store";
 
 const image = ref();
+const bigger = ref(false);
 
 const props = defineProps({
   color: {type: String, required: true, default: '#000000'},
@@ -66,6 +74,10 @@ watch(store.imageMap, () => {
   font-weight: bold;
   padding: 0.75rem;
   text-align: center;
+}
+
+.bigger {
+  transform: scale(110%);
 }
 
 .button::after {

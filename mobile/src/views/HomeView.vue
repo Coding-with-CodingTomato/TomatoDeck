@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from "vue";
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import store from "../store";
 
 import TdTwitchChat from "@/components/TdTwitchChat.vue";
@@ -40,6 +41,10 @@ const firstRow = ref(store.deckLayout.layouts[0].rows[0].elements);
 console.log(firstRow);
 
 const sendEvent = (eventName: string, data: string) => {
+  if(store.clickFeedback) {
+    Haptics.impact({ style: ImpactStyle.Medium });
+  }
+
   try {
     store.currentSocket.emit(eventName, data);
   } catch (e) {

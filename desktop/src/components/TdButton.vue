@@ -3,8 +3,8 @@
     class="button"
     :style="{backgroundColor: props.color}"
     >
-    <span v-if="props.imageUrl === ''">{{ props.text }}</span>
     <img v-if="props.imageUrl !== ''" :src="image" />
+    <span v-if="props.imageUrl === ''">{{ props.text }}</span>
   </div>
 </template>
 
