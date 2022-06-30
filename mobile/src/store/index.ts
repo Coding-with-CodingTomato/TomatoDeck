@@ -3,10 +3,12 @@ import { Storage } from "@capacitor/storage";
 import { io } from "socket.io-client";
 import { toastController } from "@ionic/vue";
 import { alertCircle, checkmarkCircle } from 'ionicons/icons';
+import crypto from 'crypto-js';
 
 export const store = reactive({
   serverIp: "",
   serverPort: 0,
+  serverPassword: "",
   currentSocket: io({ autoConnect: false }),
   connected: false,
   errorMessage: "",
@@ -37,16 +39,22 @@ export const store = reactive({
   init: async () => {
     const { value: ip } = await Storage.get({ key: "tomatoDeckServerIp" });
     const { value: port } = await Storage.get({ key: "tomatoDeckServerPort" });
+    const { value: password } = await Storage.get({ key: "tomatoDeckServerPassword" });
 
-    if (ip === "" || port === "0") return;
+    if (ip === "" || port === "0" || password === "") return;
 
     store.serverIp = ip || "";
     store.serverPort = parseInt(port || "0");
+    store.serverPassword = password || "";
   },
   connect: () => {
     store.currentSocket.disconnect();
     console.log("Init new socket connection");
-    const newSocket = io(`ws://${store.serverIp}:${store.serverPort}`);
+    const newSocket = io(`ws://${store.serverIp}:${store.serverPort}`,{
+      auth:{
+        password: store.serverPassword,
+      }
+    });
     store.currentSocket = newSocket;
 
     newSocket.on("deckLayout", (data) => {
@@ -114,6 +122,14 @@ export const store = reactive({
     await Storage.set({
       key: "tomatoDeckServerPort",
       value: `${port}`,
+    });
+  },
+  setNewPasssword: async (password: string) => {
+    const hash = crypto.SHA256(password).toString(crypto.enc.Hex);
+    store.serverPassword = hash;
+    await Storage.set({
+      key: "tomatoDeckServerPassword",
+      value: hash,
     });
   },
   requestImageData: (imagePath: string) => {

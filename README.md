@@ -14,8 +14,8 @@ A free software version of the well known Elgato Streamdeck.
 - [x] Sound effects / Soundboard
 - [x] Create desktop screenshot -> Hotkey
 - [x] Custom images for buttons
+- [x] Ability to add a password
 - [ ] Voice hotkey
-- [ ] Ability to add a password
 - [ ] Twitch
   - [ ] Write in chat
   - [ ] Set chat settings (e.g. slow mode)
@@ -65,6 +65,7 @@ A free software version of the well known Elgato Streamdeck.
 - [x] Report back if button press was sucessfull or not
 - [ ] Connect via QR-Code
 - [ ] Change text color to be visible on any background color
+- [ ] Redo Settings view
 
 
 Name bereitgestellt von CodingRuo <3

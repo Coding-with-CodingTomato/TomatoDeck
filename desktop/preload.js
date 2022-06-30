@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('api', {
   getTwitchOAuth: () => ipcRenderer.sendSync('getTwitchOAuth'),
   onDeviceCountChange: (callback) => ipcRenderer.on('deviceCountChange', callback),
   getImageFromPath: (imgPath) => ipcRenderer.sendSync('getImageFromPath', imgPath),
+  setPassword: (newPassword) => ipcRenderer.send('setPassword', newPassword),
 });
 
 window.addEventListener('DOMContentLoaded', () => {

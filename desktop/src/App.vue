@@ -19,6 +19,12 @@ const q = useQuasar();
 q.dark.set(true);
 
 const isAccountsModalOpen = ref(false);
+const isPasswordModalOpen = ref(false);
+
+const newPasswordField = ref('');
+const setNewPassword = () => {
+  store.setNewPassword(newPasswordField.value);
+};
 
 const addModal = ref(null);
 const editModal = ref(null);
@@ -31,7 +37,6 @@ onMounted(() => {
 });
 
 watch(drag, (to) => {
-  console.log(to);
   if (to === false) {
     store.sendLayout();
   }
@@ -133,10 +138,29 @@ watch(drag, (to) => {
         </q-card>
       </q-dialog>
 
+      <!-- Password Modal -->
+      <q-dialog
+        v-model="isPasswordModalOpen"
+      >
+        <q-card>
+          <q-card-section>
+            <!-- <div class="text-h6">Passwort neu setzen</div> -->
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input type="password" filled v-model="newPasswordField" label="Neues Passwort" />
+          </q-card-section>
+          <q-card-actions align="right" class="text-teal">
+            <q-btn flat label="Abbrechen" v-close-popup />
+            <q-btn flat label="Setzen" @click="setNewPassword" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
     </q-page-container>
 
     <q-footer elevated class="bg-grey-10 text-white">
-      <q-toolbar>
+      <q-toolbar class="myToolbar">
          <div class="footerWrapper">
             <div class="item">
               <q-icon name="public" style="font-size: medium;" />
@@ -154,6 +178,9 @@ watch(drag, (to) => {
               <q-icon name="tablet_mac" style="font-size: medium;" />
               {{ store.connectedDevices }} verbunden
             </div>
+          </div>
+          <div class="footerWrapper">
+            <q-btn flat round dense icon="lock" @click="isPasswordModalOpen = true"></q-btn>
           </div>
       </q-toolbar>
     </q-footer>
@@ -173,6 +200,12 @@ watch(drag, (to) => {
 .fullWidth {
   width: 100%;
   margin-bottom: .5rem;
+}
+
+.myToolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .footerWrapper {

@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 const Store = require('electron-store');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const {
   keyboard, Key, mouse, Point,
 } = require('@nut-tree/nut-js');
@@ -20,6 +21,7 @@ const { NODE_ENV } = process.env;
 const store = new Store();
 
 let socketPort = 8100;
+let password = '';
 let connectedDevices = 0;
 let mainWindow;
 let layout = {};
@@ -56,9 +58,17 @@ const getPortFromStorage = () => {
     socketPort = newPort;
   }
 };
+const getPasswordFromStorage = () => {
+  const storagePassword = store.get('password');
+
+  if (storagePassword) {
+    password = storagePassword;
+  }
+};
 
 getLayoutFromStorage();
 getPortFromStorage();
+getPasswordFromStorage();
 
 /**
  * Socket Stuff
@@ -67,6 +77,18 @@ const io = new Server(socketPort, {
   cors: {
     origin: '*',
   },
+});
+
+// Check Password
+io.use((socket, next) => {
+  const err = new Error('Wrong Password');
+  const { password: sentPassword } = socket.handshake.auth;
+
+  if (sentPassword === password) {
+    next();
+  } else {
+    next(err);
+  }
 });
 
 io.on('connection', (socket) => {
@@ -292,6 +314,15 @@ ipcMain.on('getImageFromPath', (event, args) => {
   });
 });
 
+// Set new password
+ipcMain.on('setPassword', (event, args) => {
+  const newPassword = args;
+  const hash = crypto.createHash('sha256').update(newPassword).digest('hex');
+
+  password = hash;
+  store.set('password', hash);
+});
+
 app.whenReady().then(() => {
   createWindow();
 
@@ -300,8 +331,6 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
-
-  console.log(app.getPath('userData'));
 });
 
 app.on('window-all-closed', () => {

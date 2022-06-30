@@ -24,6 +24,9 @@ export const store = reactive({
   sendLayout: () => {
     api.saveLayout(JSON.stringify(store.layout));
   },
+  setNewPassword: (newPassword) => {
+    api.setPassword(newPassword);
+  },
 });
 
 export default store;

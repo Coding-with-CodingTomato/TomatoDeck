@@ -43,6 +43,40 @@
           </ion-card>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Server Passwort</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating"
+                        >Neues Passwort</ion-label
+                      >
+                      <ion-input
+                        v-model="password"
+                        type="password"
+                        min="0"
+                        required
+                      ></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-button @click="saveNewPassword">Aktualisieren</ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </div>
 </template>
@@ -67,9 +101,15 @@ import store from "../store";
 
 const ip = ref(store.serverIp);
 const port = ref(store.serverPort);
+const password = ref('');
 
 const saveConnData = async () => {
   await store.setNewConnData(ip.value, port.value);
+  presentAlert();
+};
+
+const saveNewPassword = async () => {
+  await store.setNewPasssword(password.value);
   presentAlert();
 };
 
