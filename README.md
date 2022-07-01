@@ -14,6 +14,9 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [x] DESKTOP: IP and PORT not showing on some devices
 - [x] DESKTOP: config.json doesn't get created if it doesn't exist (PORT)
 - [ ] DESKTOP: correct IP is not always shown
+- [ ] MOBILE: Twitch Chat has no overflow scroll
+- [ ] DESKTOP: Pictures dont get loaded on mac
+- [ ] MOBILE: Vibration doesnt trigger on button press
 
 ## 💪 Todos
 ([Here you can find a list of all finished todos](docs/finished_todos.md))
