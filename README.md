@@ -25,6 +25,9 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Multiple actions with one button press
 - [ ] Execute HTTP-Requests
 - [ ] Voice hotkey
+- [ ] Counter Button
+- [ ] Dice Buttons
+- [ ] 8Ball Button
 - [ ] Twitch
   - [ ] Write in chat
   - [ ] Set chat settings (e.g. slow mode)
@@ -34,6 +37,8 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
   - [ ] RAM
   - [ ] Drive space
   - [ ] Download/Upload
+  - [ ] Stock / Crypto with chart
+  - [ ] PiHole
 - [ ] Route Soundboard through own microphone
 - [ ] WLED control
 - [ ] Send Tweet
@@ -43,6 +48,7 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Send emojis
 - [ ] Multiple Profiles / Decks
 - [ ] Synthesizer mit https://tonejs.github.io/
+- [ ] Homeassistant support?
 - [ ] Siri support?
 - [ ] Discord integration?
 - [ ] Zoom integration?
