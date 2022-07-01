@@ -1,20 +1,26 @@
-# TomatoDeck
+# 🍅 TomatoDeck
 A free software version of the well known Elgato Streamdeck.
 
-## Known Bugs
+*Name bereitgestellt von CodingRuo💙*
+
+## 🥝 Navigation
+1. [Configuration](docs/configuration.md)
+2. [Finished todos](docs/finished_todos.md)
+
+## 🥥 Getting app access
+Due to the mobile app being a closed beta please contact me via email [me@codingtomato.de](mailto:me@codingtomato.de)
+
+## 🐞 Known Bugs
 - [x] DESKTOP: IP and PORT not showing on some devices
 - [x] DESKTOP: config.json doesn't get created if it doesn't exist (PORT)
+- [ ] DESKTOP: correct IP is not always shown
 
-## General Feature Todos
-- [x] Just text cards
-- [x] Open website with standard browser
-- [x] Run exe file -> via hotkey trick possible
-- [x] Open Folder
-- [x] Click on specific point with mouse
-- [x] Sound effects / Soundboard
-- [x] Create desktop screenshot -> Hotkey
-- [x] Custom images for buttons
-- [x] Ability to add a password
+## 💪 Todos
+([Here you can find a list of all finished todos](docs/finished_todos.md))
+### 📄 General
+- [ ] Add i18n
+- [ ] Multiple actions with one button press
+- [ ] Execute HTTP-Requests
 - [ ] Voice hotkey
 - [ ] Twitch
   - [ ] Write in chat
@@ -41,13 +47,7 @@ A free software version of the well known Elgato Streamdeck.
 - [ ] Obs integration? (obs-websocket-js)
 - [ ] Spotify integration?
 
-## Desktop Todos
-- [x] display pc ip
-- [x] set socket port (config)
-- [x] store and send grid setup
-- [x] Show connected devices count
-- [x] Error Logging
-- [x] Sortable buttons (https://sortablejs.github.io/vue.draggable.next/)
+### 🖥️ Desktop specific
 - [ ] Backup / Restore Config.json
 - [ ] Log into accounts like Twitch and Twitter
 - [ ] Connect via QR-Code
@@ -60,14 +60,10 @@ A free software version of the well known Elgato Streamdeck.
 - [ ] Duplicate button
 - [ ] Mulitple button selection -> Delete, Duplicate
 
-## Mobile Todos
-- [x] Set PC IP + PORT
-- [x] Get Grid Setup
-- [x] Implement Text Type
-- [x] Report back if button press was sucessfull or not
+### 📱 Mobile specific
 - [ ] Connect via QR-Code
 - [ ] Change text color to be visible on any background color
 - [ ] Redo Settings view
 
-
-Name bereitgestellt von CodingRuo <3
+## 🏆 Credits
+- Project name: CodingRuo
