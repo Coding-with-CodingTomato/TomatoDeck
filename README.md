@@ -1,13 +1,13 @@
 # 🍅 TomatoDeck
 A free software version of the well known Elgato Streamdeck.
 
-*Name bereitgestellt von CodingRuo💙*
+*Name provided by CodingRuo💙*
 
 ## 🥝 Navigation
 1. [Configuration](docs/configuration.md)
 2. [Finished todos](docs/finished_todos.md)
 
-## 🥥 Getting app access
+## 🥥 Getting mobile app access
 Due to the mobile app being a closed beta please contact me via email [me@codingtomato.de](mailto:me@codingtomato.de)
 
 ## 🐞 Known Bugs
