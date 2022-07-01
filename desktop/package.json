@@ -3,7 +3,7 @@
   "author": "CodingTomato",
   "description": "A free software version of the well known Elgato Streamdeck.",
   "private": true,
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "main.js",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,13 @@
     "rebuild": "npm rebuild --runtime=electron --target=17.1.2 --disturl=https://atom.io/download/atom-shell --abi=101",
     "electron": "wait-on tcp:3000 && cross-env NODE_ENV=development electron .",
     "electron:build": "vite build && electron-builder",
+    "electron:release": "vite build && electron-builder --publish onTagOrDraft",
     "electron:serve": "concurrently -k \"npm run dev\" \"npm run electron\"",
     "electron:bs": "vite build && cross-env ELECTRON=true electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Coding-with-CodingTomato/TomatoDeck.git"
   },
   "build": {
     "appId": "de.codingtomato.tomatodeck",
@@ -27,14 +32,19 @@
     },
     "directories": {
       "output": "dist_electron"
+    },
+    "win": {
+      "publish": [
+        "github"
+      ]
     }
   },
   "dependencies": {
     "@nut-tree/nut-js": "^2.1.1",
     "@quasar/extras": "^1.13.0",
-    "electron": "^18.2.4",
     "electron-log": "^4.4.7",
     "electron-store": "^8.0.1",
+    "electron-updater": "^5.0.5",
     "node-abi": "^3.22.0",
     "quasar": "^2.5.5",
     "socket.io": "^4.4.1",
@@ -46,6 +56,7 @@
   "devDependencies": {
     "@quasar/vite-plugin": "^1.0.6",
     "@vitejs/plugin-vue": "^2.2.0",
+    "electron": "^18.2.4",
     "concurrently": "^7.2.2",
     "cross-env": "^7.0.3",
     "electron-builder": "^23.0.3",

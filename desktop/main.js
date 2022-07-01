@@ -2,9 +2,11 @@
 const {
   app, BrowserWindow, ipcMain, shell,
 } = require('electron');
+const Store = require('electron-store');
+const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
 const { networkInterfaces } = require('os');
 const { Server } = require('socket.io');
-const Store = require('electron-store');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -15,7 +17,6 @@ const {
   execSync, execFile,
 } = require('child_process');
 const sound = require('sound-play');
-const log = require('electron-log');
 
 const { NODE_ENV } = process.env;
 const store = new Store();
@@ -69,6 +70,7 @@ const getPasswordFromStorage = () => {
 getLayoutFromStorage();
 getPortFromStorage();
 getPasswordFromStorage();
+autoUpdater.checkForUpdatesAndNotify();
 
 /**
  * Socket Stuff
