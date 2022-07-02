@@ -5,7 +5,7 @@
   >
     <q-card style="width: 700px; max-width: 80vw;">
       <q-card-section>
-        <div class="text-h6">Neues Element hinzufügen</div>
+        <div class="text-h6">{{ t('add_new_element') }}</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -17,12 +17,12 @@
             v-model="newElementType"
             class="fullWidth"
             :options="elementOptions"
-            label="Element Art" />
+            :label="t('element_type')" />
         </div>
 
         <!-- Button Text -->
         <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text' ">
-          <q-input filled class="fullWidth" v-model="newText" label="Text/Emoji" />
+          <q-input filled class="fullWidth" v-model="newText" :label="t('text_emoji')" />
         </div>
 
         <!-- Button Image -->
@@ -31,14 +31,14 @@
             filled
             class="fullWidth"
             v-model="newElementImage"
-            label="Bild/Animation"
+            :label="t('image_animation')"
             accept=".jpg, .gif, .png, image/*"
           />
         </div>
 
         <!-- Button Farbe -->
         <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text'">
-          <q-field filled class="fullWidth" label="Farbe" stack-label>
+          <q-field filled class="fullWidth" :label="t('color')" stack-label>
             <template v-slot:control>
               <input v-model="newColor" type="color" />
             </template>
@@ -52,7 +52,7 @@
             class="fullWidth"
             v-model="newActionType"
             :options="actionOptions"
-            label="Aktion" />
+            :label="t('action')" />
         </div>
 
         <!-- Button Data -->
@@ -61,19 +61,19 @@
             filled
             class="fullWidth"
             v-model="newData"
-            label="Data (Keys / URL / Pfad / Koordinaten x,y)"
+            :label="t('data')"
           />
         </div>
 
         <!-- Channelname für Twitch Chat -->
         <div class="row" v-if="newElementType === 'Twitch Chat'">
-          <q-input filled class="fullWidth" v-model="newText" label="Channelname" />
+          <q-input filled class="fullWidth" v-model="newText" :label="t('channelname')" />
         </div>
       </q-card-section>
 
       <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="Abbrechen" v-close-popup />
-        <q-btn flat label="Hinzufügen" @click="addNewElement" v-close-popup />
+        <q-btn flat :label="t('cancel')" v-close-popup />
+        <q-btn flat :label="t('add')" @click="addNewElement" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -81,7 +81,10 @@
 
 <script setup>
 import { ref, defineExpose } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { store } from '../store';
+
+const { t } = useI18n();
 
 const isAddElementModalOpen = ref(false);
 const elementOptions = ref([

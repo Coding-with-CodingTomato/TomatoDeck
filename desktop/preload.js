@@ -9,6 +9,9 @@ contextBridge.exposeInMainWorld('api', {
   onDeviceCountChange: (callback) => ipcRenderer.on('deviceCountChange', callback),
   getImageFromPath: (imgPath) => ipcRenderer.sendSync('getImageFromPath', imgPath),
   setPassword: (newPassword) => ipcRenderer.send('setPassword', newPassword),
+  setLanguage: (language) => ipcRenderer.send('setLanguage', language),
+  getSettings: () => ipcRenderer.sendSync('getSettings'),
+  setSetting: (setting, value) => ipcRenderer.send('setSetting', { setting, value }),
 });
 
 window.addEventListener('DOMContentLoaded', () => {

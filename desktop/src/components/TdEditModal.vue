@@ -4,7 +4,7 @@
   >
     <q-card style="width: 700px; max-width: 80vw;">
       <q-card-section>
-        <div class="text-h6">Element bearbeiten</div>
+        <div class="text-h6">{{ t('edit_element') }}</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -14,11 +14,11 @@
             v-model="editElementType"
             class="fullWidth"
             :options="elementOptions"
-            label="Element Art" />
+            :label="t('element_type')" />
         </div>
         <!-- Button Text -->
         <div class="row" v-if="editElementType === 'Button' || editElementType === 'Text' ">
-          <q-input filled class="fullWidth" v-model="editText" label="Text/Emoji" />
+          <q-input filled class="fullWidth" v-model="editText" :label="t('text_emoji')" />
         </div>
 
         <!-- Button Image -->
@@ -27,14 +27,14 @@
             filled
             class="fullWidth"
             v-model="editImage"
-            label="Bild/Animation"
+            :label="t('image_animation')"
             accept=".jpg, .gif, .png, image/*"
           />
         </div>
 
         <!-- Button Farbe -->
         <div class="row" v-if="editElementType === 'Button' || editElementType === 'Text'">
-          <q-field filled class="fullWidth" label="Farbe" stack-label>
+          <q-field filled class="fullWidth" :label="t('color')" stack-label>
             <template v-slot:control>
               <input v-model="editColor" type="color" />
             </template>
@@ -46,25 +46,25 @@
             class="fullWidth"
             v-model="editActionType"
             :options="actionOptions"
-            label="Aktion" />
+            :label="t('action')" />
         </div>
         <div class="row" v-if="editElementType === 'Button'">
           <q-input
             filled
             class="fullWidth"
             v-model="editData"
-            label="Data (Keys / URL / Pfad / Koordinaten x,y)"
+            :label="t('data')"
           />
         </div>
         <div class="row" v-if="editElementType === 'Twitch Chat'">
-          <q-input filled class="fullWidth" v-model="editText" label="Channelname" />
+          <q-input filled class="fullWidth" v-model="editText" :label="t('channelname')" />
         </div>
       </q-card-section>
 
       <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="Abbrechen" v-close-popup />
-        <q-btn flat label="Löschen" @click="deleteElement" v-close-popup />
-        <q-btn flat label="Speichern" @click="editElement" v-close-popup />
+        <q-btn flat :label="t('cancel')" v-close-popup />
+        <q-btn flat :label="t('delete')" @click="deleteElement" v-close-popup />
+        <q-btn flat :label="t('save')" @click="editElement" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -72,7 +72,10 @@
 
 <script setup>
 import { ref, defineExpose } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { store } from '../store';
+
+const { t } = useI18n();
 
 const isEditElementModalOpen = ref(false);
 const elementOptions = ref([

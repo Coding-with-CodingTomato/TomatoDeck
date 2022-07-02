@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
+import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
 
 import { accountStore } from './store/account';
@@ -14,9 +15,11 @@ import TdButton from './components/TdButton.vue';
 import TdTwitchChat from './components/TdTwitchChat.vue';
 import TdAddModal from './components/TdAddModal.vue';
 import TdEditModal from './components/TdEditModal.vue';
+import TdSettingsModal from './components/TdSettingsModal.vue';
 
 const q = useQuasar();
 q.dark.set(true);
+const { t } = useI18n();
 
 const isAccountsModalOpen = ref(false);
 const isPasswordModalOpen = ref(false);
@@ -28,6 +31,7 @@ const setNewPassword = () => {
 
 const addModal = ref(null);
 const editModal = ref(null);
+const settingsModal = ref(null);
 const drag = ref(false);
 
 onMounted(() => {
@@ -148,14 +152,17 @@ watch(drag, (to) => {
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            <q-input type="password" filled v-model="newPasswordField" label="Neues Passwort" />
+            <q-input type="password" filled v-model="newPasswordField" :label="t('new_password')" />
           </q-card-section>
           <q-card-actions align="right" class="text-teal">
-            <q-btn flat label="Abbrechen" v-close-popup />
-            <q-btn flat label="Setzen" @click="setNewPassword" v-close-popup />
+            <q-btn flat :label="t('cancel')" v-close-popup />
+            <q-btn flat :label="t('set')" @click="setNewPassword" v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
+
+      <!-- Settings Modal -->
+      <TdSettingsModal ref="settingsModal" />
 
     </q-page-container>
 
@@ -164,7 +171,7 @@ watch(drag, (to) => {
          <div class="footerWrapper">
             <div class="item">
               <q-icon name="public" style="font-size: medium;" />
-              <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }} (Wahrscheinlich falsch)
+              <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }} ({{ t('probably_wrong') }})
             </div>
             <div class="item">
               <q-icon name="tag" style="font-size: medium;" />
@@ -172,15 +179,16 @@ watch(drag, (to) => {
             </div>
             <div class="item">
               <q-icon name="change_circle" style="font-size: medium;" />
-              <b>Version:</b> 0.1.7
+              <b>Version:</b> 0.1.8
             </div>
             <div class="item">
               <q-icon name="tablet_mac" style="font-size: medium;" />
-              {{ store.connectedDevices }} verbunden
+              {{ store.connectedDevices }} {{ t('connected') }}
             </div>
           </div>
           <div class="footerWrapper">
             <q-btn flat round dense icon="lock" @click="isPasswordModalOpen = true"></q-btn>
+            <q-btn flat round dense icon="settings" @click="settingsModal.openModal()"></q-btn>
           </div>
       </q-toolbar>
     </q-footer>

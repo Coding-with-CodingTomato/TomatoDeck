@@ -23,6 +23,7 @@ const store = new Store();
 
 let socketPort = 8100;
 let password = '';
+let appLanguage = 'en';
 let connectedDevices = 0;
 let mainWindow;
 let layout = {};
@@ -66,10 +67,18 @@ const getPasswordFromStorage = () => {
     password = storagePassword;
   }
 };
+const getAppLanguageFromStorage = () => {
+  const storageAppLanguage = store.get('appLanguage');
+
+  if (storageAppLanguage) {
+    appLanguage = storageAppLanguage;
+  }
+};
 
 getLayoutFromStorage();
 getPortFromStorage();
 getPasswordFromStorage();
+getAppLanguageFromStorage();
 autoUpdater.checkForUpdatesAndNotify();
 
 /**
@@ -316,6 +325,16 @@ ipcMain.on('getImageFromPath', (event, args) => {
   });
 });
 
+// Get all settings
+ipcMain.on('getSettings', (event) => {
+  const settings = {
+    appLanguage,
+    socketPort,
+  };
+
+  event.returnValue = settings;
+});
+
 // Set new password
 ipcMain.on('setPassword', (event, args) => {
   const newPassword = args;
@@ -323,6 +342,20 @@ ipcMain.on('setPassword', (event, args) => {
 
   password = hash;
   store.set('password', hash);
+});
+
+// Set app language
+ipcMain.on('setLanguage', (event, args) => {
+  const newLanguage = args;
+  store.set('appLanguage', newLanguage);
+});
+
+// Set setting
+ipcMain.on('setSetting', (event, args) => {
+  const { setting, value } = args;
+  if (setting && value) {
+    store.set(setting, value);
+  }
 });
 
 app.whenReady().then(() => {

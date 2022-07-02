@@ -1,0 +1,33 @@
+export const de = {
+  probably_wrong: 'Wahrscheinlich falsch',
+  connected: 'verbunden',
+  cancel: 'Abbrechen',
+  set: 'Setzen',
+  add: 'Hinzufügen',
+  delete: 'Löschen',
+  save: 'Speichern',
+  button: 'Knopf',
+  new_password: 'Neues Passwort',
+  add_new_element: 'Neues Element hinzufügen',
+  settings: {
+    settings: 'Einstellungen',
+    general: 'Allgemein',
+    server: 'Server',
+    app_language: 'Appsprache',
+    app_language_desc: 'Ändere die Sprache der Applikation',
+    available_languages: 'Verfügbare Sprachen',
+    port: 'Port',
+    port_desc: 'Setze den Port zu dem sich dein mobiles Gerät verbindet (Änderung nach Neustart aktiv)',
+    mask: 'Maske',
+  },
+  edit_element: 'Element bearbeiten',
+  element_type: 'Element Typ',
+  text_emoji: 'Text/Emoji',
+  image_animation: 'Bild/Animation',
+  color: 'Farbe',
+  action: 'Aktion',
+  data: 'Daten (Tasten / URL / Pfad / Koordinaten x,y)',
+  channelname: 'Kanalname',
+};
+
+export default de;
