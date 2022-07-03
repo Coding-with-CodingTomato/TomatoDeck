@@ -57,6 +57,7 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Spotify integration?
 
 ### 🖥️ Desktop specific
+- [ ] Audiosettings
 - [ ] Backup / Restore Config.json
 - [ ] Log into accounts like Twitch and Twitter
 - [ ] Connect via QR-Code
