@@ -22,12 +22,6 @@ q.dark.set(true);
 const { t } = useI18n();
 
 const isAccountsModalOpen = ref(false);
-const isPasswordModalOpen = ref(false);
-
-const newPasswordField = ref('');
-const setNewPassword = () => {
-  store.setNewPassword(newPasswordField.value);
-};
 
 const addModal = ref(null);
 const editModal = ref(null);
@@ -142,25 +136,6 @@ watch(drag, (to) => {
         </q-card>
       </q-dialog>
 
-      <!-- Password Modal -->
-      <q-dialog
-        v-model="isPasswordModalOpen"
-      >
-        <q-card>
-          <q-card-section>
-            <!-- <div class="text-h6">Passwort neu setzen</div> -->
-          </q-card-section>
-
-          <q-card-section class="q-pt-none">
-            <q-input type="password" filled v-model="newPasswordField" :label="t('new_password')" />
-          </q-card-section>
-          <q-card-actions align="right" class="text-teal">
-            <q-btn flat :label="t('cancel')" v-close-popup />
-            <q-btn flat :label="t('set')" @click="setNewPassword" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
-
       <!-- Settings Modal -->
       <TdSettingsModal ref="settingsModal" />
 
@@ -187,7 +162,6 @@ watch(drag, (to) => {
             </div>
           </div>
           <div class="footerWrapper">
-            <q-btn flat round dense icon="lock" @click="isPasswordModalOpen = true"></q-btn>
             <q-btn flat round dense icon="settings" @click="settingsModal.openModal()"></q-btn>
           </div>
       </q-toolbar>

@@ -13,6 +13,7 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 ## 🐞 Known Bugs
 - [x] DESKTOP: IP and PORT not showing on some devices
 - [x] DESKTOP: config.json doesn't get created if it doesn't exist (PORT)
+- [x] DESKTOP: A password has to be specified
 - [ ] DESKTOP: correct IP is not always shown
 - [ ] MOBILE: Twitch Chat has no overflow scroll
 - [ ] DESKTOP: Pictures dont get loaded on mac
@@ -21,7 +22,6 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 ## 💪 Todos
 ([Here you can find a list of all finished todos](docs/finished_todos.md))
 ### 📄 General
-- [ ] Add i18n
 - [ ] Multiple actions with one button press
 - [ ] Execute HTTP-Requests
 - [ ] Voice hotkey

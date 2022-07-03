@@ -13,6 +13,8 @@ export const en = {
     settings: 'Settings',
     general: 'General',
     server: 'Server',
+    password: 'Password',
+    password_desc: 'The password your mobile device has to send to get access to your TomatoDeck (Changes take effect on the next reconnect)',
     app_language: 'App language',
     app_language_desc: 'Change the language displayed in the desktop application',
     available_languages: 'Available languages',

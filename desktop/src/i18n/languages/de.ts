@@ -13,6 +13,8 @@ export const de = {
     settings: 'Einstellungen',
     general: 'Allgemein',
     server: 'Server',
+    password: 'Passwort',
+    password_desc: 'Das Passwort, welches dein mobiles Gerät mitsenden muss, um sich verbinden zu können. (Änderungen treten bei einer neuen Verbindung in Kraft)',
     app_language: 'Appsprache',
     app_language_desc: 'Ändere die Sprache der Applikation',
     available_languages: 'Verfügbare Sprachen',

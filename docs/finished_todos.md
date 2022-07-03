@@ -10,6 +10,7 @@
 - [x] Create desktop screenshot -> Hotkey
 - [x] Custom images for buttons
 - [x] Ability to add a password
+- [x] Add i18n
 
 ## 🖥️ Desktop specific
 - [x] display pc ip

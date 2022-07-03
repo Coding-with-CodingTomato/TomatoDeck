@@ -95,10 +95,14 @@ io.use((socket, next) => {
   const err = new Error('Wrong Password');
   const { password: sentPassword } = socket.handshake.auth;
 
-  if (sentPassword === password) {
-    next();
+  if (password !== '') {
+    if (sentPassword === password) {
+      next();
+    } else {
+      next(err);
+    }
   } else {
-    next(err);
+    next();
   }
 });
 
@@ -338,10 +342,13 @@ ipcMain.on('getSettings', (event) => {
 // Set new password
 ipcMain.on('setPassword', (event, args) => {
   const newPassword = args;
-  const hash = crypto.createHash('sha256').update(newPassword).digest('hex');
-
-  password = hash;
-  store.set('password', hash);
+  if (newPassword === '') {
+    store.set('password', '');
+  } else {
+    const hash = crypto.createHash('sha256').update(newPassword).digest('hex');
+    password = hash;
+    store.set('password', hash);
+  }
 });
 
 // Set app language

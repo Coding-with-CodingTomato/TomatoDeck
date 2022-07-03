@@ -54,6 +54,25 @@
               />
             </q-item-section>
           </q-item>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{ t('settings.password') }}</q-item-label>
+              <q-item-label caption>
+                {{ t('settings.password_desc') }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-input
+                filled
+                v-model="password"
+                type="password"
+                :label="t('settings.password')"
+                style="width: 15vw;"
+              />
+            </q-item-section>
+          </q-item>
         </q-list>
       </q-card-section>
     </q-card>
@@ -70,7 +89,9 @@ const { t, locale } = useI18n();
 const settings = api.getSettings();
 
 const isSettingsModalOpen = ref(false);
+
 const socketPort = ref(settings.socketPort);
+const password = ref('');
 
 const openModal = () => {
   isSettingsModalOpen.value = true;
@@ -86,5 +107,9 @@ watch(locale, (to) => {
 
 watch(socketPort, (to) => {
   api.setSetting('socketPort', Number(to));
+});
+
+watch(password, (to) => {
+  api.setPassword(to);
 });
 </script>
