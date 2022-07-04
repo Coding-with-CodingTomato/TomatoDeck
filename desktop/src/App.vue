@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
 
 import { accountStore } from './store/account';
-import { store } from './store';
+import { useStore } from './store';
 
 import TwitchLogo from './assets/twitch.svg';
 // import TwitterLogo from './assets/twitter.svg';
@@ -20,6 +20,7 @@ import TdSettingsModal from './components/TdSettingsModal.vue';
 const q = useQuasar();
 q.dark.set(true);
 const { t } = useI18n();
+const store = useStore();
 
 const isAccountsModalOpen = ref(false);
 
@@ -50,9 +51,9 @@ watch(drag, (to) => {
 
       <div class="q-pa-md" v-if="store.layout !== {} && store.layout.layouts !== undefined">
         <draggable
-          v-for="(row, i) of store.layout.layouts[0].rows"
+          v-for="(row, i) of store.layout.layouts[store.currentlyVisibleLayout.index || 0].rows"
           :key="i"
-          v-model="store.layout.layouts[0].rows[0].elements"
+          v-model="store.layout.layouts[store.currentlyVisibleLayout.index || 0].rows[0].elements"
           class="grid"
           group="people"
           @start="drag=true"

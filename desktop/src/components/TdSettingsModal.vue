@@ -82,7 +82,6 @@
 <script setup>
 import { ref, defineExpose, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-// import { store } from '../store';
 
 const { api } = window;
 const { t, locale } = useI18n();

@@ -46,6 +46,7 @@
     "electron-store": "^8.0.1",
     "electron-updater": "^5.0.5",
     "node-abi": "^3.22.0",
+    "pinia": "^2.0.14",
     "quasar": "^2.5.5",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1",

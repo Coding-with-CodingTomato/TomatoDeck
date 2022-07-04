@@ -73,9 +73,10 @@
 <script setup>
 import { ref, defineExpose } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { store } from '../store';
+import { useStore } from '../store';
 
 const { t } = useI18n();
+const store = useStore();
 
 const isEditElementModalOpen = ref(false);
 const elementOptions = ref([
@@ -103,15 +104,15 @@ const editElement = () => {
     type: editElementType.value,
     text: editText.value,
     color: editColor.value,
-    image: editImage.value.path,
+    image: editImage.value?.path || '',
     icon: '',
     eventName: editActionType.value,
     data: editData.value.trim(),
   };
 
   // eslint-disable-next-line max-len
-  const index = tempLayout.layouts[0].rows[editRowIndex.value].elements.findIndex((e) => e.id === editId.value);
-  tempLayout.layouts[0].rows[editRowIndex.value].elements[index] = newElement;
+  const index = tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements.findIndex((e) => e.id === editId.value);
+  tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements[index] = newElement;
 
   store.updateLayout(JSON.stringify(tempLayout));
 };
@@ -119,8 +120,8 @@ const editElement = () => {
 const deleteElement = () => {
   const tempLayout = JSON.parse(JSON.stringify(store.layout));
   // eslint-disable-next-line max-len
-  const toKeepElements = tempLayout.layouts[0].rows[editRowIndex.value].elements.filter((e) => !(e.id === editId.value));
-  tempLayout.layouts[0].rows[editRowIndex.value].elements = toKeepElements;
+  const toKeepElements = tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements.filter((e) => !(e.id === editId.value));
+  tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements = toKeepElements;
 
   store.layout = tempLayout;
   store.updateLayout(JSON.stringify(tempLayout));

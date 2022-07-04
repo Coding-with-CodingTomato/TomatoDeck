@@ -1,33 +1,20 @@
 <template>
 <div class="drawer">
   <q-header class="bg-primary text-white">
-    <q-toolbar>
+    <q-toolbar class="toolbar">
       <q-toolbar-title>
         <h1><span>🍅</span> TomatoDeck</h1>
       </q-toolbar-title>
 
       <!-- Multiple Profiles / Decks -->
-      <!-- <q-btn-dropdown :flat="true" label="Profil Auswahl">
-        <q-list>
-          <q-item clickable v-close-popup>
-            <q-item-section>
-              <q-item-label>Profil 1</q-item-label>
-            </q-item-section>
-          </q-item>
+      <q-select
+        borderless
+        v-model="currentLayout"
+        :options="store.availableLayouts"
+        :dense="true"
+        label="Layout"
+      />
 
-          <q-item clickable v-close-popup>
-            <q-item-section>
-              <q-item-label>Profil 2</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable v-close-popup>
-            <q-item-section>
-              <q-item-label>Profil 3</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-btn-dropdown> -->
       <!-- <q-btn dense flat round icon="qr_code" @click="emit('clickQR')" />
       <q-btn dense flat round icon="recent_actors" @click="emit('clickAccounts')" /> -->
     </q-toolbar>
@@ -36,12 +23,32 @@
 </template>
 
 <script setup>
-import { defineEmits } from 'vue';
+import { defineEmits, ref, watch } from 'vue';
+import { useStore } from '../store';
 
 const emit = defineEmits(['clickQR', 'clickAccounts']);
+const store = useStore();
+const currentLayout = ref('');
+
+watch(() => store.layout, (to) => {
+  if (to) {
+    currentLayout.value = store.availableLayouts[store.currentlyVisibleLayout.index];
+  }
+});
+
+watch(currentLayout, (to) => {
+  if (to) {
+    store.currentlyVisibleLayout = to;
+  }
+});
 </script>
 
 <style scoped>
+
+.toolbar {
+  display: flex;
+}
+
 h1 {
   font-size: 1.5rem;
   line-height: 1.5rem;

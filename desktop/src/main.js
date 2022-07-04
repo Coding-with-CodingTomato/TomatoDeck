@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
 import { Quasar } from 'quasar';
 import quasarLang from 'quasar/lang/de';
@@ -19,9 +20,11 @@ const i18n = createI18n({
   fallbackLocale: 'de',
   messages,
 });
+const pinia = createPinia();
 
 const myApp = createApp(App);
 myApp.use(i18n);
+myApp.use(pinia);
 
 myApp.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here

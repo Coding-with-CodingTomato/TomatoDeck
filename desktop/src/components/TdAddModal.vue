@@ -20,6 +20,11 @@
             :label="t('element_type')" />
         </div>
 
+        <!-- Layout Name -->
+        <div class="row" v-if="newElementType === 'Layout'">
+          <q-input filled class="fullWidth" v-model="newText" label="Layout Name" />
+        </div>
+
         <!-- Button Text -->
         <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text' ">
           <q-input filled class="fullWidth" v-model="newText" :label="t('text_emoji')" />
@@ -82,13 +87,14 @@
 <script setup>
 import { ref, defineExpose } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { store } from '../store';
+import { useStore } from '../store';
 
 const { t } = useI18n();
+const store = useStore();
 
 const isAddElementModalOpen = ref(false);
 const elementOptions = ref([
-  'Button', 'Twitch Chat', 'Text',
+  'Button', 'Twitch Chat', 'Text', 'Layout',
 ]);
 const actionOptions = ref([
   'keys', 'hotkey', 'open_website', 'run_exe', 'open_folder', 'click_mouse', 'play_sound',
@@ -107,21 +113,33 @@ const openModal = () => {
 const addNewElement = () => {
   const id = Math.floor(Math.random() * 99999);
   const tempLayout = JSON.parse(JSON.stringify(store.layout));
-  const rowSize = tempLayout.layouts[0].rows.length;
 
-  const newElement = {
-    id,
-    row_index: rowSize - 1,
-    type: newElementType.value,
-    text: newText.value,
-    color: newColor.value,
-    image: newElementImage.value.path || '',
-    icon: '',
-    eventName: newActionType.value,
-    data: newData.value.trim(),
-  };
+  if (newElementType.value === 'Layout') {
+    const newLayout = {
+      name: newText.value,
+      rows: [
+        { elements: [] },
+      ],
+    };
 
-  tempLayout.layouts[0].rows[rowSize - 1].elements.push(newElement);
+    tempLayout.layouts.push(newLayout);
+  } else {
+    const rowSize = tempLayout.layouts[0].rows.length;
+
+    const newElement = {
+      id,
+      row_index: rowSize - 1,
+      type: newElementType.value,
+      text: newText.value,
+      color: newColor.value,
+      image: newElementImage.value.path || '',
+      icon: '',
+      eventName: newActionType.value,
+      data: newData.value.trim(),
+    };
+
+    tempLayout.layouts[store.currentlyVisibleLayout.index].rows[rowSize - 1].elements.push(newElement);
+  }
 
   store.layout = tempLayout;
   store.updateLayout(JSON.stringify(tempLayout));

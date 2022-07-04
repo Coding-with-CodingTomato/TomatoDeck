@@ -22,6 +22,11 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 ## 💪 Todos
 ([Here you can find a list of all finished todos](docs/finished_todos.md))
 ### 📄 General
+- [ ] Multiple Layouts
+  - [x] Ability to create new layouts
+  - [ ] Ability to delete layouts
+  - [ ] Show Layouts on mobile
+  - [ ] Create Button actions for switching layouts
 - [ ] Multiple actions with one button press
 - [ ] Execute HTTP-Requests
 - [ ] Voice hotkey
@@ -42,11 +47,6 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Route Soundboard through own microphone
 - [ ] WLED control
 - [ ] Send Tweet
-- [ ] Multiple Pages + Switcher
-- [ ] More icons for buttons
-- [ ] Open Emoji Picker
-- [ ] Send emojis
-- [ ] Multiple Profiles / Decks
 - [ ] Synthesizer mit https://tonejs.github.io/
 - [ ] Homeassistant support?
 - [ ] Siri support?
