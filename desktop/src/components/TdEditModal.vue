@@ -103,7 +103,7 @@ const editElement = () => {
     type: editElementType.value,
     text: editText.value,
     color: editColor.value,
-    image: editImage.value,
+    image: editImage.value.path,
     icon: '',
     eventName: editActionType.value,
     data: editData.value.trim(),
@@ -134,7 +134,7 @@ const openModal = (element) => {
   editElementType.value = element.type;
   editActionType.value = element.eventName;
   editData.value = element.data;
-  // editImage.value = element.image;
+  editImage.value = element.image;
 
   isEditElementModalOpen.value = true;
 };

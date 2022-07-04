@@ -9,7 +9,9 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted, ref } from 'vue';
+import {
+  defineProps, onMounted, ref, watch,
+} from 'vue';
 
 const { api } = window;
 const image = ref(null);
@@ -23,7 +25,13 @@ const props = defineProps({
 onMounted(async () => {
   if (props.imageUrl) {
     const response = await api.getImageFromPath(props.imageUrl);
-    console.log(response);
+    image.value = URL.createObjectURL(new Blob([response.buffer], { type: 'image/png' } /* (1) */));
+  }
+});
+
+watch(() => props.imageUrl, async (to) => {
+  if (to) {
+    const response = await api.getImageFromPath(to);
     image.value = URL.createObjectURL(new Blob([response.buffer], { type: 'image/png' } /* (1) */));
   }
 });

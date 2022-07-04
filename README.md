@@ -14,9 +14,9 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [x] DESKTOP: IP and PORT not showing on some devices
 - [x] DESKTOP: config.json doesn't get created if it doesn't exist (PORT)
 - [x] DESKTOP: A password has to be specified
+- [x] DESKTOP: Pictures dont get loaded on mac (sometimes windows too)
 - [ ] DESKTOP: correct IP is not always shown
 - [ ] MOBILE: Twitch Chat has no overflow scroll
-- [ ] DESKTOP: Pictures dont get loaded on mac (sometimes windows too)
 - [ ] MOBILE: Vibration doesnt trigger on button press
 
 ## 💪 Todos
@@ -70,6 +70,7 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Change text color to be visible on any background color
 - [ ] Duplicate button
 - [ ] Mulitple button selection -> Delete, Duplicate
+- [ ] Right click button -> Delete
 
 ### 📱 Mobile specific
 - [ ] Connect via QR-Code
