@@ -16,7 +16,7 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [x] DESKTOP: A password has to be specified
 - [ ] DESKTOP: correct IP is not always shown
 - [ ] MOBILE: Twitch Chat has no overflow scroll
-- [ ] DESKTOP: Pictures dont get loaded on mac
+- [ ] DESKTOP: Pictures dont get loaded on mac (sometimes windows too)
 - [ ] MOBILE: Vibration doesnt trigger on button press
 
 ## 💪 Todos
@@ -57,6 +57,7 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Spotify integration?
 
 ### 🖥️ Desktop specific
+- [ ] Option to automaticly start on system startup
 - [ ] Audiosettings
 - [ ] Backup / Restore Config.json
 - [ ] Log into accounts like Twitch and Twitter
