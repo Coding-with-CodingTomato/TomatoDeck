@@ -30,7 +30,22 @@
         </ion-list>
 
         <ion-list class="bottom-info">
-          <ion-item>Test</ion-item>
+          <ion-item v-if="store.currentlyVisibleLayout">
+            <ion-select
+              placeholder="Layout"
+              :value="store.currentlyVisibleLayoutId"
+              @ionChange="setNewLayout"
+            >
+              <template
+                v-for="layout in store.availableLayouts"
+                :key="layout.index"
+              >
+                <ion-select-option :value="layout.index">{{
+                  layout.label
+                }}</ion-select-option>
+              </template>
+            </ion-select>
+          </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
@@ -69,7 +84,6 @@ import {
   IonMenu,
   IonTitle,
   IonToolbar,
-  menuController,
   IonButtons,
   IonMenuButton,
   IonNote,
@@ -79,10 +93,12 @@ import {
   IonIcon,
   IonListHeader,
   IonButton,
-} from "@ionic/vue";
-import { ref, onMounted } from "vue";
-import { useRoute, RouterView } from "vue-router";
-import store from "./store";
+  IonSelect,
+  IonSelectOption,
+} from '@ionic/vue';
+import { ref, onMounted } from 'vue';
+import { RouterView } from 'vue-router';
+import { useStore } from './store';
 import {
   home,
   homeSharp,
@@ -92,7 +108,13 @@ import {
   cloudDone,
   cog,
   cogSharp,
-} from "ionicons/icons";
+} from 'ionicons/icons';
+
+const store = useStore();
+
+const setNewLayout = (event: any) => {
+  store.currentlyVisibleLayoutId = event.detail.value;
+};
 
 onMounted(async () => {
   await store.init();
@@ -102,39 +124,24 @@ onMounted(async () => {
 const selectedIndex = ref(0);
 const appPages = [
   {
-    title: "Home",
-    url: "/",
+    title: 'Home',
+    url: '/',
     iosIcon: home,
     mdIcon: homeSharp,
   },
   {
-    title: "Audio",
-    url: "/",
+    title: 'Audio',
+    url: '/',
     iosIcon: mic,
     mdIcon: micSharp,
   },
   {
-    title: "Einstellungen",
-    url: "/settings",
+    title: 'Einstellungen',
+    url: '/settings',
     iosIcon: cog,
     mdIcon: cogSharp,
   },
 ];
-
-const openFirst = () => {
-  menuController.enable(true, "first");
-  menuController.open("first");
-};
-const openEnd = () => {
-  menuController.open("end");
-};
-const openCustom = () => {
-  menuController.enable(true, "custom");
-  menuController.open("custom");
-};
-
-const route = useRoute();
-const isSelected = (url: string) => (url === route.path ? "selected" : "");
 </script>
 
 <style scoped>

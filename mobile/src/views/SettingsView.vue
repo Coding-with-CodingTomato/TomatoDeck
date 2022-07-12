@@ -55,9 +55,7 @@
                 <ion-row>
                   <ion-col>
                     <ion-item>
-                      <ion-label position="floating"
-                        >Neues Passwort</ion-label
-                      >
+                      <ion-label position="floating">Neues Passwort</ion-label>
                       <ion-input
                         v-model="password"
                         type="password"
@@ -69,7 +67,9 @@
                 </ion-row>
                 <ion-row>
                   <ion-col>
-                    <ion-button @click="saveNewPassword">Aktualisieren</ion-button>
+                    <ion-button @click="saveNewPassword"
+                      >Aktualisieren</ion-button
+                    >
                   </ion-col>
                 </ion-row>
               </ion-grid>
@@ -92,7 +92,8 @@
                       <ion-label>Vibrationfeedback bei Klick</ion-label>
                       <ion-toggle
                         @ionChange="updateClickFeedback"
-                        :checked="store.clickFeedback">
+                        :checked="store.clickFeedback"
+                      >
                       </ion-toggle>
                     </ion-item>
                   </ion-col>
@@ -126,20 +127,20 @@ import {
   IonItem,
   IonToggle,
   alertController,
-} from "@ionic/vue";
-import { ref, watch } from "vue";
-import store from "../store";
+} from '@ionic/vue';
+import { ref, watch } from 'vue';
+import { useStore } from '../store';
 
+const store = useStore();
 const ip = ref(store.serverIp);
 const port = ref(store.serverPort);
 const password = ref('');
-console.log(store.clickFeedback)
 const clickFeedback = ref(store.clickFeedback);
 
 const updateClickFeedback = (event: any) => {
   console.log(event);
   clickFeedback.value = event.detail.checked;
-}
+};
 
 const saveConnData = async () => {
   await store.setNewConnData(ip.value, port.value);
@@ -158,14 +159,17 @@ const saveSonstiges = async () => {
 
 const presentAlert = async () => {
   const alert = await alertController.create({
-    header: "Daten gespeichert.",
-    buttons: ["OK"],
+    header: 'Daten gespeichert.',
+    buttons: ['OK'],
   });
   await alert.present();
 };
 
-watch(() => store.serverIp, () => {
-  ip.value = store.serverIp;
-  port.value = store.serverPort;
-});
+watch(
+  () => store.serverIp,
+  () => {
+    ip.value = store.serverIp;
+    port.value = store.serverPort;
+  }
+);
 </script>

@@ -1,15 +1,12 @@
 <template>
   <!-- Add Modal -->
-  <q-dialog
-    v-model="isAddElementModalOpen"
-  >
-    <q-card style="width: 700px; max-width: 80vw;">
+  <q-dialog v-model="isAddElementModalOpen">
+    <q-card style="width: 700px; max-width: 80vw">
       <q-card-section>
         <div class="text-h6">{{ t('add_new_element') }}</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-
         <!-- Typen Auswahl -->
         <div class="row">
           <q-select
@@ -17,17 +14,31 @@
             v-model="newElementType"
             class="fullWidth"
             :options="elementOptions"
-            :label="t('element_type')" />
+            :label="t('element_type')"
+          />
         </div>
 
         <!-- Layout Name -->
         <div class="row" v-if="newElementType === 'Layout'">
-          <q-input filled class="fullWidth" v-model="newText" label="Layout Name" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newText"
+            label="Layout Name"
+          />
         </div>
 
         <!-- Button Text -->
-        <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text' ">
-          <q-input filled class="fullWidth" v-model="newText" :label="t('text_emoji')" />
+        <div
+          class="row"
+          v-if="newElementType === 'Button' || newElementType === 'Text'"
+        >
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newText"
+            :label="t('text_emoji')"
+          />
         </div>
 
         <!-- Button Image -->
@@ -42,7 +53,10 @@
         </div>
 
         <!-- Button Farbe -->
-        <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text'">
+        <div
+          class="row"
+          v-if="newElementType === 'Button' || newElementType === 'Text'"
+        >
           <q-field filled class="fullWidth" :label="t('color')" stack-label>
             <template v-slot:control>
               <input v-model="newColor" type="color" />
@@ -57,11 +71,17 @@
             class="fullWidth"
             v-model="newActionType"
             :options="actionOptions"
-            :label="t('action')" />
+            :label="t('action')"
+          />
         </div>
 
         <!-- Button Data -->
-        <div class="row" v-if="newElementType === 'Button'">
+        <div
+          class="row"
+          v-if="
+            newElementType === 'Button' && newActionType !== 'switch_layout'
+          "
+        >
           <q-input
             filled
             class="fullWidth"
@@ -70,9 +90,30 @@
           />
         </div>
 
+        <!-- Switch layout selector -->
+        <div
+          class="row"
+          v-if="
+            newElementType === 'Button' && newActionType === 'switch_layout'
+          "
+        >
+          <q-select
+            filled
+            class="fullWidth"
+            v-model="newData"
+            :options="['next', 'last', ...store.availableLayoutsNames]"
+            :label="t('layout')"
+          />
+        </div>
+
         <!-- Channelname für Twitch Chat -->
         <div class="row" v-if="newElementType === 'Twitch Chat'">
-          <q-input filled class="fullWidth" v-model="newText" :label="t('channelname')" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newText"
+            :label="t('channelname')"
+          />
         </div>
       </q-card-section>
 
@@ -93,11 +134,17 @@ const { t } = useI18n();
 const store = useStore();
 
 const isAddElementModalOpen = ref(false);
-const elementOptions = ref([
-  'Button', 'Twitch Chat', 'Text', 'Layout',
-]);
+const elementOptions = ref(['Button', 'Twitch Chat', 'Text', 'Layout']);
 const actionOptions = ref([
-  'keys', 'hotkey', 'open_website', 'run_exe', 'open_folder', 'click_mouse', 'play_sound',
+  'keys',
+  'hotkey',
+  'open_website',
+  'run_exe',
+  'open_folder',
+  'click_mouse',
+  'play_sound',
+  'counter',
+  'switch_layout',
 ]);
 const newText = ref('');
 const newColor = ref('#000000');
@@ -117,9 +164,7 @@ const addNewElement = () => {
   if (newElementType.value === 'Layout') {
     const newLayout = {
       name: newText.value,
-      rows: [
-        { elements: [] },
-      ],
+      rows: [{ elements: [] }],
     };
 
     tempLayout.layouts.push(newLayout);
@@ -138,7 +183,9 @@ const addNewElement = () => {
       data: newData.value.trim(),
     };
 
-    tempLayout.layouts[store.currentlyVisibleLayout.index].rows[rowSize - 1].elements.push(newElement);
+    tempLayout.layouts[store.currentlyVisibleLayout.index].rows[
+      rowSize - 1
+    ].elements.push(newElement);
   }
 
   store.layout = tempLayout;

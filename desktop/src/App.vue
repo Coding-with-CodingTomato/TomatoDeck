@@ -44,35 +44,44 @@ watch(drag, (to) => {
 
 <template>
   <q-layout view="hHh lpR fFf">
-
     <TdHeader @click-accounts="isAccountsModalOpen = true" />
 
     <q-page-container>
-
-      <div class="q-pa-md" v-if="store.layout !== {} && store.layout.layouts !== undefined">
+      <div
+        class="q-pa-md"
+        v-if="store.layout !== {} && store.layout.layouts !== undefined"
+      >
         <draggable
-          v-for="(row, i) of store.layout.layouts[store.currentlyVisibleLayout.index || 0].rows"
+          v-for="(row, i) of store.layout.layouts[
+            store.currentlyVisibleLayout.index || 0
+          ].rows"
           :key="i"
-          v-model="store.layout.layouts[store.currentlyVisibleLayout.index || 0].rows[0].elements"
+          v-model="
+            store.layout.layouts[store.currentlyVisibleLayout.index || 0]
+              .rows[0].elements
+          "
           class="grid"
           group="people"
-          @start="drag=true"
-          @end="drag=false"
-          item-key="id">
-          <template #item="{element}">
-              <TdButton
-                v-if="element.type === 'Button' || element.type === 'Text'"
-                :text="element.text"
-                :color="element.color"
-                :image-url="element.image"
-                :key="element.id"
-                @click="editModal.openModal(element)"
-              />
-              <TdTwitchChat
-                v-else-if="element.type === 'Twitch Chat'"
-                :channelName="element.text"
-                @click="editModal.openModal(element)"
-              />
+          @start="drag = true"
+          @end="drag = false"
+          item-key="id"
+        >
+          <template #item="{ element }">
+            <TdButton
+              v-if="element.type === 'Button' || element.type === 'Text'"
+              :text="element.text"
+              :color="element.color"
+              :image-url="element.image"
+              :action-type="element.eventName"
+              :value="element.data"
+              :key="element.id"
+              @click="editModal.openModal(element)"
+            />
+            <TdTwitchChat
+              v-else-if="element.type === 'Twitch Chat'"
+              :channelName="element.text"
+              @click="editModal.openModal(element)"
+            />
           </template>
         </draggable>
       </div>
@@ -88,10 +97,8 @@ watch(drag, (to) => {
       <TdEditModal ref="editModal" />
 
       <!-- Accounts Modal -->
-      <q-dialog
-        v-model="isAccountsModalOpen"
-      >
-        <q-card style="width: 700px; max-width: 80vw;">
+      <q-dialog v-model="isAccountsModalOpen">
+        <q-card style="width: 700px; max-width: 80vw">
           <q-card-section>
             <div class="text-h6">Verbundene Accounts</div>
           </q-card-section>
@@ -101,7 +108,7 @@ watch(drag, (to) => {
               <q-item @click="accountStore.loginTwitch">
                 <q-item-section avatar>
                   <q-avatar>
-                    <img :src="TwitchLogo">
+                    <img :src="TwitchLogo" />
                   </q-avatar>
                 </q-item-section>
 
@@ -119,8 +126,16 @@ watch(drag, (to) => {
                       </template>
                     </q-input>
                   </div>
-                  <a href="https://twitchapps.com/tokengen/" style="color: aqua" target="_blank">Get token here</a>
-                  <span>Scope: <b>chat:edit</b> and Client-ID: <b>m5syllcgh47ytm8jbhbhwcjmaqcya6</b></span>
+                  <a
+                    href="https://twitchapps.com/tokengen/"
+                    style="color: aqua"
+                    target="_blank"
+                    >Get token here</a
+                  >
+                  <span
+                    >Scope: <b>chat:edit</b> and Client-ID:
+                    <b>m5syllcgh47ytm8jbhbhwcjmaqcya6</b></span
+                  >
                 </q-item-section>
               </q-item>
               <!-- <q-item clickable v-ripple>
@@ -139,32 +154,39 @@ watch(drag, (to) => {
 
       <!-- Settings Modal -->
       <TdSettingsModal ref="settingsModal" />
-
     </q-page-container>
 
     <q-footer elevated class="bg-grey-10 text-white">
       <q-toolbar class="myToolbar">
-         <div class="footerWrapper">
-            <div class="item">
-              <q-icon name="public" style="font-size: medium;" />
-              <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }} ({{ t('probably_wrong') }})
-            </div>
-            <div class="item">
-              <q-icon name="tag" style="font-size: medium;" />
-              <b>Port:</b> {{ store.hostData.socketPort || '8100'}}
-            </div>
-            <div class="item">
-              <q-icon name="change_circle" style="font-size: medium;" />
-              <b>Version:</b> 0.1.8
-            </div>
-            <div class="item">
-              <q-icon name="tablet_mac" style="font-size: medium;" />
-              {{ store.connectedDevices }} {{ t('connected') }}
-            </div>
+        <div class="footerWrapper">
+          <div class="item">
+            <q-icon name="public" style="font-size: medium" />
+            <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }} ({{
+              t('probably_wrong')
+            }})
           </div>
-          <div class="footerWrapper">
-            <q-btn flat round dense icon="settings" @click="settingsModal.openModal()"></q-btn>
+          <div class="item">
+            <q-icon name="tag" style="font-size: medium" />
+            <b>Port:</b> {{ store.hostData.socketPort || '8100' }}
           </div>
+          <div class="item">
+            <q-icon name="change_circle" style="font-size: medium" />
+            <b>Version:</b> 0.1.8
+          </div>
+          <div class="item">
+            <q-icon name="tablet_mac" style="font-size: medium" />
+            {{ store.connectedDevices }} {{ t('connected') }}
+          </div>
+        </div>
+        <div class="footerWrapper">
+          <q-btn
+            flat
+            round
+            dense
+            icon="settings"
+            @click="settingsModal.openModal()"
+          ></q-btn>
+        </div>
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -182,7 +204,7 @@ watch(drag, (to) => {
 
 .fullWidth {
   width: 100%;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .myToolbar {
@@ -207,5 +229,35 @@ watch(drag, (to) => {
 .twitchInput {
   display: flex;
   flex-direction: row;
+}
+
+@media screen and (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>

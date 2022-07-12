@@ -95,6 +95,8 @@ io.use((socket, next) => {
   const err = new Error('Wrong Password');
   const { password: sentPassword } = socket.handshake.auth;
 
+  console.log('Verbindungsversuch', password, sentPassword);
+
   if (password !== '') {
     if (sentPassword === password) {
       next();
@@ -241,6 +243,21 @@ io.on('connection', (socket) => {
       if (!errorEvent) {
         emitSucess();
       }
+    }
+  });
+
+  // Counter Action
+  socket.on('counter', async (data) => {
+    if (data.id) {
+      layout.layouts.forEach((l, i) => {
+        l.rows[0].elements.forEach((e, j) => {
+          if (e.id === data.id) {
+            const oldNumber = Number(layout.layouts[i].rows[0].elements[j].data);
+            layout.layouts[i].rows[0].elements[j].data = oldNumber + 1;
+            emitLayout();
+          }
+        });
+      });
     }
   });
 

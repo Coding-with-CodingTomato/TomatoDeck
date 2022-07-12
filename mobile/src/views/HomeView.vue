@@ -1,15 +1,18 @@
 <template>
-  <div class="home">
+  <div class="home" v-if="store.currentlyVisibleLayout !== null">
     <div class="tdGrid">
-      <template v-for="element of firstRow" :key="element">
+      <template
+        v-for="element of store.currentlyVisibleLayout.rows[0].elements"
+        :key="element"
+      >
         <TdButton
           v-if="element.type === 'Button'"
           :text="element.text"
           :color="element.color"
           :eventName="element.eventName"
-          :data="element.data"
+          :data="String(element.data)"
           :image-url="element.image"
-          @click="sendEvent(element.eventName, element.data)"
+          @click="sendEvent(element)"
         />
         <TdButton
           v-if="element.type === 'Text'"
@@ -30,34 +33,38 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
-import store from "../store";
+import { useStore } from '../store';
 
-import TdTwitchChat from "@/components/TdTwitchChat.vue";
-import TdButton from "@/components/TdButton.vue";
+import TdTwitchChat from '@/components/TdTwitchChat.vue';
+import TdButton from '@/components/TdButton.vue';
 
-const firstRow = ref(store.deckLayout.layouts[0].rows[0].elements);
-console.log(firstRow);
+const store = useStore();
 
-const sendEvent = (eventName: string, data: string) => {
-  if(store.clickFeedback) {
+const sendEvent = (element: any) => {
+  if (store.clickFeedback) {
     Haptics.impact({ style: ImpactStyle.Medium });
   }
 
   try {
-    store.currentSocket.emit(eventName, data);
+    if (element.eventName === 'counter') {
+      store.currentSocket.emit(element.eventName, element);
+    } else if (element.eventName === 'switch_layout') {
+      store.switchLayout(element.data);
+    } else {
+      store.currentSocket.emit(element.eventName, element.data);
+    }
   } catch (e) {
     console.log(e);
   }
 };
-
-watch(() => store.deckLayout.layouts[0].rows[0].elements, () => {
-  firstRow.value = store.deckLayout.layouts[0].rows[0].elements
-});
 </script>
 
 <style scoped>
+.home {
+  display: flex;
+  justify-content: center;
+}
 .tdGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -67,7 +74,7 @@ watch(() => store.deckLayout.layouts[0].rows[0].elements, () => {
   align-content: center;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1200px) {
   .tdGrid {
     grid-template-columns: repeat(6, 1fr);
   }
@@ -79,13 +86,13 @@ watch(() => store.deckLayout.layouts[0].rows[0].elements, () => {
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
   .tdGrid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 600px) {
   .tdGrid {
     grid-template-columns: repeat(3, 1fr);
   }

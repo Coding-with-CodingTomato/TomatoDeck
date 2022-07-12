@@ -44,6 +44,13 @@ export const useStore = defineStore('main', {
 
       return [];
     },
+    availableLayoutsNames: (state) => {
+      if (state.layout.layouts) {
+        return state.layout.layouts.map((l) => (l.name));
+      }
+
+      return [];
+    },
   },
 });
 

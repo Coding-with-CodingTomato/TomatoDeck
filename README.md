@@ -25,8 +25,8 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Multiple Layouts
   - [x] Ability to create new layouts
   - [ ] Ability to delete layouts
-  - [ ] Show Layouts on mobile
-  - [ ] Create Button actions for switching layouts
+  - [x] Show Layouts on mobile
+  - [x] Create Button actions for switching layouts
 - [ ] Multiple actions with one button press
 - [ ] Execute HTTP-Requests
 - [ ] Voice hotkey

@@ -1,8 +1,6 @@
 <template>
-  <q-dialog
-    v-model="isEditElementModalOpen"
-  >
-    <q-card style="width: 700px; max-width: 80vw;">
+  <q-dialog v-model="isEditElementModalOpen">
+    <q-card style="width: 700px; max-width: 80vw">
       <q-card-section>
         <div class="text-h6">{{ t('edit_element') }}</div>
       </q-card-section>
@@ -14,11 +12,20 @@
             v-model="editElementType"
             class="fullWidth"
             :options="elementOptions"
-            :label="t('element_type')" />
+            :label="t('element_type')"
+          />
         </div>
         <!-- Button Text -->
-        <div class="row" v-if="editElementType === 'Button' || editElementType === 'Text' ">
-          <q-input filled class="fullWidth" v-model="editText" :label="t('text_emoji')" />
+        <div
+          class="row"
+          v-if="editElementType === 'Button' || editElementType === 'Text'"
+        >
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="editText"
+            :label="t('text_emoji')"
+          />
         </div>
 
         <!-- Button Image -->
@@ -33,7 +40,10 @@
         </div>
 
         <!-- Button Farbe -->
-        <div class="row" v-if="editElementType === 'Button' || editElementType === 'Text'">
+        <div
+          class="row"
+          v-if="editElementType === 'Button' || editElementType === 'Text'"
+        >
           <q-field filled class="fullWidth" :label="t('color')" stack-label>
             <template v-slot:control>
               <input v-model="editColor" type="color" />
@@ -46,7 +56,8 @@
             class="fullWidth"
             v-model="editActionType"
             :options="actionOptions"
-            :label="t('action')" />
+            :label="t('action')"
+          />
         </div>
         <div class="row" v-if="editElementType === 'Button'">
           <q-input
@@ -57,7 +68,12 @@
           />
         </div>
         <div class="row" v-if="editElementType === 'Twitch Chat'">
-          <q-input filled class="fullWidth" v-model="editText" :label="t('channelname')" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="editText"
+            :label="t('channelname')"
+          />
         </div>
       </q-card-section>
 
@@ -79,11 +95,17 @@ const { t } = useI18n();
 const store = useStore();
 
 const isEditElementModalOpen = ref(false);
-const elementOptions = ref([
-  'Button', 'Twitch Chat', 'Text',
-]);
+const elementOptions = ref(['Button', 'Twitch Chat', 'Text']);
 const actionOptions = ref([
-  'keys', 'hotkey', 'open_website', 'run_exe', 'open_folder', 'click_mouse', 'play_sound',
+  'keys',
+  'hotkey',
+  'open_website',
+  'run_exe',
+  'open_folder',
+  'click_mouse',
+  'play_sound',
+  'counter',
+  'switch_layout',
 ]);
 
 const editId = ref(0);
@@ -111,8 +133,12 @@ const editElement = () => {
   };
 
   // eslint-disable-next-line max-len
-  const index = tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements.findIndex((e) => e.id === editId.value);
-  tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements[index] = newElement;
+  const index = tempLayout.layouts[store.currentlyVisibleLayout.index].rows[
+    editRowIndex.value
+  ].elements.findIndex((e) => e.id === editId.value);
+  tempLayout.layouts[store.currentlyVisibleLayout.index].rows[
+    editRowIndex.value
+  ].elements[index] = newElement;
 
   store.updateLayout(JSON.stringify(tempLayout));
 };
@@ -120,8 +146,12 @@ const editElement = () => {
 const deleteElement = () => {
   const tempLayout = JSON.parse(JSON.stringify(store.layout));
   // eslint-disable-next-line max-len
-  const toKeepElements = tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements.filter((e) => !(e.id === editId.value));
-  tempLayout.layouts[store.currentlyVisibleLayout.index].rows[editRowIndex.value].elements = toKeepElements;
+  const toKeepElements = tempLayout.layouts[
+    store.currentlyVisibleLayout.index
+  ].rows[editRowIndex.value].elements.filter((e) => !(e.id === editId.value));
+  tempLayout.layouts[store.currentlyVisibleLayout.index].rows[
+    editRowIndex.value
+  ].elements = toKeepElements;
 
   store.layout = tempLayout;
   store.updateLayout(JSON.stringify(tempLayout));
