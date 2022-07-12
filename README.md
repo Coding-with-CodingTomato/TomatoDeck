@@ -22,15 +22,9 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 ## 💪 Todos
 ([Here you can find a list of all finished todos](docs/finished_todos.md))
 ### 📄 General
-- [ ] Multiple Layouts
-  - [x] Ability to create new layouts
-  - [ ] Ability to delete layouts
-  - [x] Show Layouts on mobile
-  - [x] Create Button actions for switching layouts
 - [ ] Multiple actions with one button press
 - [ ] Execute HTTP-Requests
 - [ ] Voice hotkey
-- [ ] Counter Button
 - [ ] Dice Buttons
 - [ ] 8Ball Button
 - [ ] Twitch

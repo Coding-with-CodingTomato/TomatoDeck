@@ -153,7 +153,7 @@ export const useStore = defineStore("main", {
     },
     switchLayout(data: string) {
       if (data === "next") {
-        if (this.currentlyVisibleLayoutId < this.availableLayouts.length) {
+        if (this.currentlyVisibleLayoutId < this.availableLayouts.length - 1) {
           this.currentlyVisibleLayoutId += 1;
         } else {
           this.currentlyVisibleLayoutId = 0;

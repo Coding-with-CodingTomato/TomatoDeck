@@ -65,7 +65,9 @@
               <ion-icon v-else slot="icon-only" :icon="cloudOffline"></ion-icon>
             </ion-button>
           </ion-buttons>
-          <ion-title>TomatoDeck</ion-title>
+          <ion-title
+            >TomatoDeck - {{ store.currentlyVisibleLayout?.name }}</ion-title
+          >
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">

@@ -31,6 +31,22 @@ export const useStore = defineStore('main', {
     setNewPassword(newPassword) {
       api.setPassword(newPassword);
     },
+    deleteCurrentLayout() {
+      if (this.layout.layouts.length > 1) {
+        const tempLayouts = this.layout.layouts.filter((l, i) => {
+          if (i === this.currentlyVisibleLayout.index) {
+            return false;
+          }
+          return true;
+        });
+
+        this.currentlyVisibleLayout = { index: 0 };
+
+        this.layout.layouts = tempLayouts;
+
+        this.updateLayout(JSON.stringify(this.layout));
+      }
+    },
   },
   getters: {
     availableLayouts: (state) => {

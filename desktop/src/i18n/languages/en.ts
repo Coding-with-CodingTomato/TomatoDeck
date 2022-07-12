@@ -9,6 +9,7 @@ export const en = {
   button: 'Button',
   new_password: 'New Password',
   add_new_element: 'Add new element',
+  really_delete_layout: 'Really delete layout?',
   settings: {
     settings: 'Settings',
     general: 'General',

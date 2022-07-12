@@ -11,6 +11,12 @@
 - [x] Custom images for buttons
 - [x] Ability to add a password
 - [x] Add i18n
+- [x] Multiple Layouts
+  - [x] Ability to create new layouts
+  - [x] Ability to delete layouts
+  - [x] Show Layouts on mobile
+  - [x] Create Button actions for switching layouts
+- [x] Counter Button
 
 ## 🖥️ Desktop specific
 - [x] display pc ip

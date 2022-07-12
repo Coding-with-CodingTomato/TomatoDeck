@@ -9,6 +9,7 @@ export const de = {
   button: 'Knopf',
   new_password: 'Neues Passwort',
   add_new_element: 'Neues Element hinzufügen',
+  really_delete_layout: 'Layout wirklich löschen?',
   settings: {
     settings: 'Einstellungen',
     general: 'Allgemein',
