@@ -1,20 +1,32 @@
 <template>
-    <ion-list class="chat">
-      <ion-list-header class="titleWrapper"><div class="title"><ion-icon class="icon" :icon="logoTwitch"></ion-icon> <h3>{{ props.channelName }} Chat</h3></div></ion-list-header>
-      <div class="messages">
-        <ion-item class="message" v-for="message in messages" :key="message.message + Math.random()">
-          <div class="messageContent">
-            <h2>{{ message.username }} - {{ (new Date(message.time)).toLocaleTimeString() }}</h2>
-            <p>{{ message.message }}</p>
-          </div>
-        </ion-item>
-        <ion-item class="message" v-if="messages.length === 0">
-          <div class="messageContent">
-            <p>Noch keine Nachrichten vorhanden... 💭</p>
-          </div>
-        </ion-item>
-      </div>
-    </ion-list>
+  <ion-list class="chat">
+    <ion-list-header class="titleWrapper"
+      ><div class="title">
+        <ion-icon class="icon" :icon="logoTwitch"></ion-icon>
+        <h3>{{ props.channelName }} Chat</h3>
+      </div></ion-list-header
+    >
+    <div class="messages">
+      <ion-item
+        class="message"
+        v-for="message in messages"
+        :key="message.message + Math.random()"
+      >
+        <div class="messageContent">
+          <h2>
+            {{ message.username }} -
+            {{ new Date(message.time).toLocaleTimeString() }}
+          </h2>
+          <p>{{ message.message }}</p>
+        </div>
+      </ion-item>
+      <ion-item class="message" v-if="messages.length === 0">
+        <div class="messageContent">
+          <p>Noch keine Nachrichten vorhanden... 💭</p>
+        </div>
+      </ion-item>
+    </div>
+  </ion-list>
 </template>
 
 <script setup lang="ts">
@@ -23,7 +35,7 @@ import { IonList, IonItem, IonListHeader, IonIcon } from '@ionic/vue';
 import { logoTwitch } from 'ionicons/icons';
 
 const props = defineProps({
-  channelName: { type: String, required: true, default: ''},
+  channelName: { type: String, required: true, default: '' },
 });
 
 interface chatMessage {
@@ -41,24 +53,26 @@ onMounted(() => {
   const client = new tmi.Client({
     connection: {
       reconnect: true,
-      secure: true
+      secure: true,
     },
-    channels: [ props.channelName ]
+    channels: [props.channelName],
   });
 
   client.connect().catch(console.error);
-  client.on('message', (channel: any, tags: { username: string;}, message: string, self: any) => {
+  client.on(
+    'message',
+    (channel: any, tags: { username: string }, message: string, self: any) => {
+      messages.value.push({
+        username: tags.username,
+        time: Date.now(),
+        message,
+      });
 
-    messages.value.push({
-      username: tags.username,
-      time: Date.now(),
-      message,
-    });
-
-    if(chatBox !== null) {
-      chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
+      if (chatBox !== null) {
+        chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
+      }
     }
-  });
+  );
 });
 </script>
 
@@ -73,7 +87,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  height: min-content;
+
   width: 100%;
 }
 .title h3 {
@@ -87,8 +101,6 @@ onMounted(() => {
   justify-content: flex-start;
   align-items: flex-start;
   height: 100%;
-  overflow-y: none;
-  overflow-x: none;
   width: 100%;
   border-radius: 5px;
 
@@ -98,7 +110,7 @@ onMounted(() => {
 }
 
 .messages {
-  height: 100%;
+  height: 50vh;
   width: 100%;
   overflow-y: scroll;
   overflow-x: none;

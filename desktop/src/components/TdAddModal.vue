@@ -117,7 +117,7 @@
         </div>
       </q-card-section>
 
-      <q-card-actions align="right" class="bg-white text-teal">
+      <q-card-actions align="right" class="text-teal">
         <q-btn flat :label="t('cancel')" v-close-popup />
         <q-btn flat :label="t('add')" @click="addNewElement" v-close-popup />
       </q-card-actions>

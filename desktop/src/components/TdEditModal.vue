@@ -77,7 +77,7 @@
         </div>
       </q-card-section>
 
-      <q-card-actions align="right" class="bg-white text-teal">
+      <q-card-actions align="right" class="text-teal">
         <q-btn flat :label="t('cancel')" v-close-popup />
         <q-btn flat :label="t('delete')" @click="deleteElement" v-close-popup />
         <q-btn flat :label="t('save')" @click="editElement" v-close-popup />
