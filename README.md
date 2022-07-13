@@ -22,11 +22,13 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 ## 💪 Todos
 ([Here you can find a list of all finished todos](docs/finished_todos.md))
 ### 📄 General
-- [ ] Multiple actions with one button press
-- [ ] Execute HTTP-Requests
-- [ ] Voice hotkey
 - [ ] Dice Buttons
 - [ ] 8Ball Button
+- [x] Execute HTTP-Requests
+  - [x] GET
+  - [ ] Other Requests with options
+- [ ] Multiple actions with one button press
+- [ ] Voice hotkey
 - [ ] Twitch
   - [ ] Write in chat
   - [ ] Set chat settings (e.g. slow mode)

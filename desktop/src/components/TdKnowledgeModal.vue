@@ -138,6 +138,14 @@
                 You can open the emoji picker by pressing:
                 <q-chip color="primary" text-color="white"> Windows </q-chip> +
                 <q-chip color="primary" text-color="white"> . </q-chip>
+                <br /><br />
+                <b>Available shortcuts</b><br />
+                You can find available shortcuts
+                <a
+                  href="https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec"
+                  target="_blank"
+                  >here</a
+                >.
               </p>
             </q-tab-panel>
             <q-tab-panel name="macOS">
@@ -148,6 +156,14 @@
                 <q-chip color="primary" text-color="white"> Control </q-chip> +
                 <q-chip color="primary" text-color="white"> Command </q-chip> +
                 <q-chip color="primary" text-color="white"> Space </q-chip>
+                <br /><br />
+                <b>Available shortcuts</b><br />
+                You can find available shortcuts
+                <a
+                  href="https://support.apple.com/en-us/HT201236"
+                  target="_blank"
+                  >here</a
+                >.
               </p>
             </q-tab-panel>
             <q-tab-panel name="Linux">
@@ -158,6 +174,14 @@
                 distro):
                 <q-chip color="primary" text-color="white"> Control </q-chip> +
                 <q-chip color="primary" text-color="white"> . </q-chip>
+                <br /><br />
+                <b>Available shortcuts</b><br />
+                You can find available shortcuts
+                <a
+                  href="https://linuxhint.com/100_keyboard_shortcuts_linux/"
+                  target="_blank"
+                  >here</a
+                >.
               </p>
             </q-tab-panel>
           </q-tab-panels>

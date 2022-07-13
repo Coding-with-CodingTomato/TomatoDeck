@@ -42,6 +42,7 @@
   "dependencies": {
     "@nut-tree/nut-js": "^2.1.1",
     "@quasar/extras": "^1.13.0",
+    "axios": "^0.27.2",
     "electron-log": "^4.4.7",
     "electron-store": "^8.0.1",
     "electron-updater": "^5.0.5",

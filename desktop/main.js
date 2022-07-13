@@ -17,6 +17,7 @@ const {
   execSync, execFile,
 } = require('child_process');
 const sound = require('sound-play');
+const axios = require('axios').default;
 
 const { NODE_ENV } = process.env;
 const store = new Store();
@@ -258,6 +259,24 @@ io.on('connection', (socket) => {
           }
         });
       });
+    }
+  });
+
+  // HTTP GET REQUEST
+  socket.on('http_get_request', async (data) => {
+    if (data) {
+      let errorEvent = false;
+
+      try {
+        await axios.get(data);
+      } catch (error) {
+        errorEvent = true;
+        emitError();
+      } finally {
+        if (!errorEvent) {
+          emitSucess();
+        }
+      }
     }
   });
 

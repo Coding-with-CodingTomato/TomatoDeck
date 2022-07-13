@@ -144,6 +144,7 @@ const actionOptions = ref([
   'click_mouse',
   'play_sound',
   'counter',
+  'http_get_request',
   'switch_layout',
 ]);
 const newText = ref('');
