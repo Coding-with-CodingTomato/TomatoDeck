@@ -89,6 +89,10 @@
                     </li>
                     <li><b>counter:</b> Converts a button to a counter</li>
                     <li>
+                      <b>http_get_request:</b> Performs a HTTP GET Request to
+                      the specified URL (Format: URL)
+                    </li>
+                    <li>
                       <b>switch_layout:</b> Allows you to switch between your
                       layouts
                     </li>

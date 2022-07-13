@@ -58,9 +58,10 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Backup / Restore Config.json
 - [ ] Log into accounts like Twitch and Twitter
 - [ ] Connect via QR-Code
-- [ ] Knowledgebase
-  - [ ] Available buttons that can be pressed
-  - [ ] Available windows / mac / linux hotkeys
+- [x] Knowledgebase
+  - [x] Available buttons that can be pressed
+  - [x] Available windows / mac / linux hotkeys
+  - [ ] Multiple languages
   - [ ] General How-Tos
 - [ ] Auto Updater
 - [ ] Change text color to be visible on any background color
