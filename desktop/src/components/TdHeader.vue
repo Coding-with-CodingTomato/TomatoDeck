@@ -20,7 +20,7 @@
           round
           icon="delete"
           @click="deleteDialogOpen = true"
-          v-if="store.layout.layouts.length > 1"
+          v-if="store.layout.layouts?.length > 1"
         />
 
         <!-- <q-btn dense flat round icon="qr_code" @click="emit('clickQR')" />
