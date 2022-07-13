@@ -3,7 +3,7 @@
     <ion-menu side="start" content-id="main-content">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>TomatoDeck</ion-list-header>
+          <ion-list-header>TomatoDeck (v0.1.8)</ion-list-header>
           <ion-note>
             <a
               target="_blank"
@@ -102,10 +102,7 @@ import { ref, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { useStore } from './store';
 import {
-  home,
-  homeSharp,
-  mic,
-  micSharp,
+  appsOutline,
   cloudOffline,
   cloudDone,
   cog,
@@ -126,17 +123,17 @@ onMounted(async () => {
 const selectedIndex = ref(0);
 const appPages = [
   {
-    title: 'Home',
+    title: 'Deck',
     url: '/',
-    iosIcon: home,
-    mdIcon: homeSharp,
+    iosIcon: appsOutline,
+    mdIcon: appsOutline,
   },
-  {
-    title: 'Audio',
-    url: '/',
-    iosIcon: mic,
-    mdIcon: micSharp,
-  },
+  // {
+  //   title: 'Audio',
+  //   url: '/',
+  //   iosIcon: mic,
+  //   mdIcon: micSharp,
+  // },
   {
     title: 'Einstellungen',
     url: '/settings',
