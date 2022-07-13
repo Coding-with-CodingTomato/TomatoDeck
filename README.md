@@ -64,14 +64,12 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
   - [ ] Multiple languages
   - [ ] General How-Tos
 - [ ] Auto Updater
-- [ ] Change text color to be visible on any background color
 - [ ] Duplicate button
 - [ ] Mulitple button selection -> Delete, Duplicate
 - [ ] Right click button -> Delete
 
 ### 📱 Mobile specific
 - [ ] Connect via QR-Code
-- [ ] Change text color to be visible on any background color
 - [ ] Redo Settings view
 
 ## 🏆 Credits

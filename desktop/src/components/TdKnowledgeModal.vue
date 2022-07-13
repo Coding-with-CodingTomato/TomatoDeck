@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-model-argument -->
 <template>
   <!-- Add Modal -->
   <q-dialog v-model="isKnowledgeModalOpen">
@@ -197,11 +198,6 @@
 
 <script setup>
 import { ref, defineExpose } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useStore } from '../store';
-
-const { t } = useI18n();
-const store = useStore();
 
 const splitterModel = ref(30);
 const selected = ref('Configuration');
@@ -259,7 +255,7 @@ const simple = [
   },
 ];
 
-const isKnowledgeModalOpen = ref(true);
+const isKnowledgeModalOpen = ref(false);
 
 const openModal = () => {
   isKnowledgeModalOpen.value = true;

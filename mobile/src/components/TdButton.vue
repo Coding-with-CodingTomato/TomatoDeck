@@ -13,10 +13,19 @@
     <span
       v-if="props.imageUrl === ''"
       :class="{ bigIcon: emojiRegex.test(props.text) }"
+      :style="{
+        color: pickTextColorBasedOnBgColor(props.color, '#ffffff', '#000000'),
+      }"
       >{{ props.text }}</span
     >
     <img v-if="props.imageUrl !== ''" :src="image" />
-    <span class="value" v-if="props.eventName === 'counter'">
+    <span
+      class="value"
+      v-if="props.eventName === 'counter'"
+      :style="{
+        color: pickTextColorBasedOnBgColor(props.color, '#ffffff', '#000000'),
+      }"
+    >
       {{ props.data || 0 }}
     </span>
   </div>
@@ -40,6 +49,18 @@ const props = defineProps({
 
 const emojiRegex =
   /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]){1,2}/;
+
+const pickTextColorBasedOnBgColor = (
+  bgColor: string,
+  lightColor: string,
+  darkColor: string
+) => {
+  const color = bgColor.charAt(0) === '#' ? bgColor.substring(1, 7) : bgColor;
+  const r = parseInt(color.substring(0, 2), 16); // hexToR
+  const g = parseInt(color.substring(2, 4), 16); // hexToG
+  const b = parseInt(color.substring(4, 6), 16); // hexToB
+  return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? darkColor : lightColor;
+};
 
 onMounted(() => {
   if (props.imageUrl !== '') {

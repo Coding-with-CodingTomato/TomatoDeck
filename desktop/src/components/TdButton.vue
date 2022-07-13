@@ -5,8 +5,21 @@
     :style="{ backgroundColor: props.color }"
   >
     <img v-if="props.imageUrl !== ''" :src="image" />
-    <span class="text" v-if="props.imageUrl === ''">{{ props.text }}</span>
-    <span class="value" v-if="props.actionType === 'counter'">
+    <span
+      class="text"
+      v-if="props.imageUrl === ''"
+      :style="{
+        color: pickTextColorBasedOnBgColor(props.color, '#ffffff', '#000000'),
+      }"
+      >{{ props.text }}</span
+    >
+    <span
+      class="value"
+      v-if="props.actionType === 'counter'"
+      :style="{
+        color: pickTextColorBasedOnBgColor(props.color, '#ffffff', '#000000'),
+      }"
+    >
       {{ props.value || 999999 }}
     </span>
   </div>
@@ -25,6 +38,14 @@ const props = defineProps({
   text: String,
   imageUrl: String,
 });
+
+const pickTextColorBasedOnBgColor = (bgColor, lightColor, darkColor) => {
+  const color = bgColor.charAt(0) === '#' ? bgColor.substring(1, 7) : bgColor;
+  const r = parseInt(color.substring(0, 2), 16); // hexToR
+  const g = parseInt(color.substring(2, 4), 16); // hexToG
+  const b = parseInt(color.substring(4, 6), 16); // hexToB
+  return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? darkColor : lightColor;
+};
 
 onMounted(async () => {
   if (props.imageUrl) {

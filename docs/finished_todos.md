@@ -25,9 +25,11 @@
 - [x] Show connected devices count
 - [x] Error Logging
 - [x] Sortable buttons (https://sortablejs.github.io/vue.draggable.next/)
+- [x] Change text color to be visible on any background color
 
 ## 📱 Mobile specific
 - [x] Set PC IP + PORT
 - [x] Get Grid Setup
 - [x] Implement Text Type
 - [x] Report back if button press was sucessfull or not
+- [x] Change text color to be visible on any background color
