@@ -28,6 +28,16 @@
                 If you installed TomatoDeck correctly you should be able to
                 create new on your current layout. All the available element
                 types are described below.
+
+                <br />
+                <br />
+
+                An extended version of the configuration can be found
+                <a
+                  href="https://github.com/Coding-with-CodingTomato/TomatoDeck/blob/main/docs/configuration.md"
+                  target="_blank"
+                  >here</a
+                >.
               </p>
             </q-tab-panel>
             <q-tab-panel name="Button">

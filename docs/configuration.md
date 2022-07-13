@@ -25,6 +25,8 @@ Available settings:
   - **open_folder**: Opens a folder specified in the *Data* setting (Format: Path)
   - **click_mouse**: Clicks the mouse on a specific point on your screen (Format for *Data* setting: `x,y`)
   - **play_sound**: Plays an audio file specified in the *Data* setting (Format: Path)
+  - **counter**: Converts your button into a counter (Format: Number you want the counter to start with)
+  - **switch_layout**: Lets you switch between all your layouts (Format: next, last, layout name)
 ## Add twitch chat
 If you choose to configure Twitch Chat you will get presented with the following dialog where you have to specify a channelname from Twitch:
 
