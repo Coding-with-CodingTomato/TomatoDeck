@@ -16,6 +16,7 @@ import TdTwitchChat from './components/TdTwitchChat.vue';
 import TdAddModal from './components/TdAddModal.vue';
 import TdEditModal from './components/TdEditModal.vue';
 import TdSettingsModal from './components/TdSettingsModal.vue';
+import TdKnowledgeModal from './components/TdKnowledgeModal.vue';
 
 const q = useQuasar();
 q.dark.set(true);
@@ -27,6 +28,7 @@ const isAccountsModalOpen = ref(false);
 const addModal = ref(null);
 const editModal = ref(null);
 const settingsModal = ref(null);
+const knowledgeModal = ref(null);
 const drag = ref(false);
 
 onMounted(() => {
@@ -154,6 +156,9 @@ watch(drag, (to) => {
 
       <!-- Settings Modal -->
       <TdSettingsModal ref="settingsModal" />
+
+      <!-- Knowledge Modal -->
+      <TdKnowledgeModal ref="knowledgeModal" />
     </q-page-container>
 
     <q-footer elevated class="bg-grey-10 text-white">
@@ -179,6 +184,13 @@ watch(drag, (to) => {
           </div>
         </div>
         <div class="footerWrapper">
+          <q-btn
+            flat
+            round
+            dense
+            icon="menu_book"
+            @click="knowledgeModal.openModal()"
+          ></q-btn>
           <q-btn
             flat
             round
