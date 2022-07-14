@@ -5,6 +5,7 @@ const {
 const Store = require('electron-store');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const electronRemote = require('@electron/remote/main');
 const { networkInterfaces } = require('os');
 const { Server } = require('socket.io');
 const path = require('path');
@@ -23,6 +24,8 @@ const RPC = require('discord-rpc');
 const { NODE_ENV } = process.env;
 const store = new Store();
 const config = require('./config');
+
+electronRemote.initialize();
 
 let socketPort = 8100;
 let password = '';
@@ -445,9 +448,12 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
+    frame: false,
   });
 
+  electronRemote.enable(mainWindow.webContents);
   // win.loadFile('dist/index.html');
+  // mainWindow.openDevTools();
 
   mainWindow.loadURL(
     NODE_ENV === 'development'

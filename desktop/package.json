@@ -40,6 +40,7 @@
     }
   },
   "dependencies": {
+    "@electron/remote": "^2.0.8",
     "@nut-tree/nut-js": "^2.1.1",
     "@quasar/extras": "^1.13.0",
     "axios": "^0.27.2",

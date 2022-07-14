@@ -1,7 +1,13 @@
 <template>
   <div class="drawer">
     <q-header class="bg-primary text-white">
-      <q-toolbar class="toolbar">
+      <!-- <q-bar class="bg-primary text-white q-electron-drag">
+        <q-space />
+        <q-btn dense flat icon="minimize" @click="minimize" />
+        <q-btn dense flat icon="crop_square" @click="toggleMaximize" />
+        <q-btn dense flat icon="close" @click="closeApp" />
+      </q-bar> -->
+      <q-toolbar class="toolbar q-electron-drag">
         <q-toolbar-title>
           <h1><span>🍅</span> TomatoDeck</h1>
         </q-toolbar-title>
@@ -13,6 +19,7 @@
           :options="store.availableLayouts"
           :dense="true"
           label="Layout"
+          class="q-electron-drag--exception"
         />
         <q-btn
           dense
@@ -22,9 +29,27 @@
           @click="deleteDialogOpen = true"
           v-if="store.layout.layouts?.length > 1"
         />
-
         <!-- <q-btn dense flat round icon="qr_code" @click="emit('clickQR')" />
-      <q-btn dense flat round icon="recent_actors" @click="emit('clickAccounts')" /> -->
+        <q-btn
+          dense
+          flat
+          round
+          icon="recent_actors"
+          @click="emit('clickAccounts')"
+        /> -->
+
+        <q-separator style="margin-left: 1rem" vertical inset />
+
+        <!-- <q-space /> -->
+        <q-btn
+          dense
+          flat
+          icon="minimize"
+          style="margin-left: 1rem"
+          @click="minimize"
+        />
+        <q-btn dense flat icon="crop_square" @click="toggleMaximize" />
+        <q-btn dense flat icon="close" @click="closeApp" />
       </q-toolbar>
     </q-header>
 
@@ -60,6 +85,20 @@ const { t } = useI18n();
 const store = useStore();
 const currentLayout = ref('');
 const deleteDialogOpen = ref(false);
+
+const { windowAPI } = window;
+
+const minimize = () => {
+  windowAPI.minimize();
+};
+
+const toggleMaximize = () => {
+  windowAPI.toggleMaximize();
+};
+
+const closeApp = () => {
+  windowAPI.close();
+};
 
 watch(
   () => store.layout,
