@@ -18,14 +18,18 @@ const {
 } = require('child_process');
 const sound = require('sound-play');
 const axios = require('axios').default;
+const RPC = require('discord-rpc');
 
 const { NODE_ENV } = process.env;
 const store = new Store();
+const config = require('./config');
 
 let socketPort = 8100;
 let password = '';
 let appLanguage = 'en';
 let connectedDevices = 0;
+let discordClient = null;
+let discordClientReady = false;
 let mainWindow;
 let layout = {};
 
@@ -83,6 +87,122 @@ getAppLanguageFromStorage();
 autoUpdater.checkForUpdatesAndNotify();
 
 /**
+ * Discord RPC
+ */
+const clientId = config.discord_app_client_id;
+const clientSecret = config.discord_app_client_secret;
+const scopes = ['identify', 'rpc'];
+const redirectUri = 'http://localhost';
+const prompt = 'none';
+let accessToken;
+
+const initDiscordClient = () => {
+  if (discordClient !== null) {
+    discordClient = null;
+  }
+
+  discordClient = new RPC.Client({ transport: 'ipc' });
+
+  discordClient.on('ready', async () => {
+    const isAccessTokenSet = !accessToken || (discordClient.accessToken != undefined && accessToken != discordClient.accessToken);
+    if (isAccessTokenSet) {
+      accessToken = discordClient.accessToken;
+    }
+    discordClientReady = true;
+  });
+
+  discordClient.on('disconnected', () => {
+    discordClient = null;
+    discordClientReady = false;
+  });
+
+  discordClient.on('error', (error) => {
+    discordClient = null;
+    accessToken = null;
+    discordClientReady = false;
+
+    log.error('Error while trying to login into discord rpc');
+    log.error(JSON.stringify(error));
+  });
+
+  discordClient.login({
+    clientId,
+    clientSecret,
+    accessToken,
+    scopes,
+    redirectUri,
+    prompt,
+  }).catch((error) => {
+    discordClient = null;
+    accessToken = null;
+    discordClientReady = false;
+
+    log.error('Error while trying to login into discord rpc');
+    log.error(JSON.stringify(error));
+  });
+};
+
+const discordActions = {
+  checkClient: () => {
+    if (discordClient === null || discordClientReady === false) {
+      initDiscordClient();
+    }
+  },
+  muteMicrophone: () => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      discordClient.setVoiceSettings({ mute: true });
+    }
+  },
+  unmuteMicrophone: () => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      discordClient.setVoiceSettings({ mute: false });
+    }
+  },
+  toggleMicrophone: async () => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      const voiceState = await discordClient.getVoiceSettings();
+      if (voiceState.mute) {
+        discordActions.unmuteMicrophone();
+      } else {
+        discordActions.muteMicrophone();
+      }
+    }
+  },
+  deafHeadphones: () => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      discordClient.setVoiceSettings({ deaf: true });
+    }
+  },
+  undeafHeadphones: () => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      discordClient.setVoiceSettings({ deaf: false });
+    }
+  },
+  toggleHeadphones: async () => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      const voiceState = await discordClient.getVoiceSettings();
+      if (voiceState.deaf) {
+        discordActions.undeafHeadphones();
+      } else {
+        discordActions.deafHeadphones();
+      }
+    }
+  },
+  leaveVoiceChannel: async () => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      discordClient.selectVoiceChannel(null);
+    }
+  },
+};
+
+/**
  * Socket Stuff
  */
 const io = new Server(socketPort, {
@@ -112,9 +232,6 @@ io.use((socket, next) => {
 io.on('connection', (socket) => {
   // Count new device
   changeDeviceCount(1);
-
-  // Log new connection
-  log.info('New Socket Connection');
 
   // Emits the layout to the current socket
   const emitLayout = () => {
@@ -280,9 +397,41 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Discord Interaction
+  socket.on('discord', async (data) => {
+    try {
+      switch (data) {
+        case 'mute_microphone':
+          discordActions.muteMicrophone();
+          break;
+        case 'unmute_microphone':
+          discordActions.unmuteMicrophone();
+          break;
+        case 'toggle_microphone':
+          discordActions.toggleMicrophone();
+          break;
+        case 'deaf_headphones':
+          discordActions.deafHeadphones();
+          break;
+        case 'undeaf_headphones':
+          discordActions.undeafHeadphones();
+          break;
+        case 'toggle_headphones':
+          discordActions.toggleHeadphones();
+          break;
+        case 'leave_voice_channel':
+          discordActions.leaveVoiceChannel();
+          break;
+        default: break;
+      }
+      emitSucess();
+    } catch (error) {
+      emitError();
+    }
+  });
+
   socket.on('disconnect', () => {
     changeDeviceCount(-1);
-    log.info('A Socket Disconnected');
   });
 });
 

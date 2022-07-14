@@ -28,6 +28,7 @@ Available settings:
   - **counter**: Converts your button into a counter (Format: Number you want the counter to start with)
   - **http_get_request**: Performs a HTTP GET  Request to the specified URL (Format: URL)
   - **switch_layout**: Lets you switch between all your layouts (Format: next, last, layout name)
+  - **discord**: Lets you interact with your Discord client directly without hotkeys.
 ## Add twitch chat
 If you choose to configure Twitch Chat you will get presented with the following dialog where you have to specify a channelname from Twitch:
 

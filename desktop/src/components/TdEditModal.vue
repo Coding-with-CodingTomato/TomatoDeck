@@ -59,12 +59,56 @@
             :label="t('action')"
           />
         </div>
-        <div class="row" v-if="editElementType === 'Button'">
+        <div
+          class="row"
+          v-if="
+            editElementType === 'Button' &&
+            editActionType !== 'switch_layout' &&
+            editActionType !== 'discord'
+          "
+        >
           <q-input
             filled
             class="fullWidth"
             v-model="editData"
             :label="t('data')"
+          />
+        </div>
+        <!-- Discord Action selector -->
+        <div
+          class="row"
+          v-if="editElementType === 'Button' && editActionType === 'discord'"
+        >
+          <q-select
+            filled
+            class="fullWidth"
+            v-model="editData"
+            :options="[
+              'mute_microphone',
+              'unmute_microphone',
+              'toggle_microphone',
+              'deaf_headphones',
+              'undeaf_headphones',
+              'toggle_headphones',
+              'leave_voice_channel',
+            ]"
+            :label="t('discord')"
+          />
+        </div>
+
+        <!-- Switch layout selector -->
+        <div
+          class="row"
+          v-if="
+            editElementType === 'Button' && editActionType === 'switch_layout'
+          "
+        >
+          <q-select
+            filled
+            class="fullWidth"
+            v-model="editData"
+            :options="['next', 'last', ...store.availableLayoutsNames]"
+            :label="t('layout')"
           />
         </div>
         <div class="row" v-if="editElementType === 'Twitch Chat'">
@@ -107,6 +151,7 @@ const actionOptions = ref([
   'counter',
   'http_get_request',
   'switch_layout',
+  'discord',
 ]);
 
 const editId = ref(0);

@@ -79,7 +79,9 @@
         <div
           class="row"
           v-if="
-            newElementType === 'Button' && newActionType !== 'switch_layout'
+            newElementType === 'Button' &&
+            newActionType !== 'switch_layout' &&
+            newActionType !== 'discord'
           "
         >
           <q-input
@@ -87,6 +89,28 @@
             class="fullWidth"
             v-model="newData"
             :label="t('data')"
+          />
+        </div>
+
+        <!-- Discord Action selector -->
+        <div
+          class="row"
+          v-if="newElementType === 'Button' && newActionType === 'discord'"
+        >
+          <q-select
+            filled
+            class="fullWidth"
+            v-model="newData"
+            :options="[
+              'mute_microphone',
+              'unmute_microphone',
+              'toggle_microphone',
+              'deaf_headphones',
+              'undeaf_headphones',
+              'toggle_headphones',
+              'leave_voice_channel',
+            ]"
+            :label="t('discord')"
           />
         </div>
 
@@ -146,6 +170,7 @@ const actionOptions = ref([
   'counter',
   'http_get_request',
   'switch_layout',
+  'discord',
 ]);
 const newText = ref('');
 const newColor = ref('#000000');

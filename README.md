@@ -27,6 +27,13 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [x] Execute HTTP-Requests
   - [x] GET
   - [ ] Other Requests with options
+- [ ] Discord integration
+  - [x] Mute, Unmute, Toggle microphone
+  - [x] Deaf, Undeaf, Toggle headphones
+  - [ ] Change input and output device
+  - [ ] Set volume of input and output device -> Slider element
+  - [ ] Switch voice channel
+  - [ ] Leave voice channel
 - [ ] Multiple actions with one button press
 - [ ] Voice hotkey
 - [ ] Twitch
@@ -46,11 +53,11 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Synthesizer mit https://tonejs.github.io/
 - [ ] Homeassistant support?
 - [ ] Siri support?
-- [ ] Discord integration?
 - [ ] Zoom integration?
 - [ ] Teams integration?
 - [ ] Obs integration? (obs-websocket-js)
 - [ ] Spotify integration?
+- [ ] Custom Button size
 
 ### 🖥️ Desktop specific
 - [ ] Option to automaticly start on system startup

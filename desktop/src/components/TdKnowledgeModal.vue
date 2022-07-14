@@ -95,7 +95,11 @@
                     </li>
                     <li>
                       <b>switch_layout:</b> Allows you to switch between your
-                      layouts
+                      layouts.
+                    </li>
+                    <li>
+                      <b>discord:</b> Lets you interact with your Discord client
+                      directly without hotkeys.
                     </li>
                   </ul>
                 </li>
