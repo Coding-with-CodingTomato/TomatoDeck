@@ -8,8 +8,20 @@
         <q-btn dense flat icon="close" @click="closeApp" />
       </q-bar> -->
       <q-toolbar class="toolbar q-electron-drag">
-        <q-toolbar-title>
-          <h1><span>🍅</span> TomatoDeck</h1>
+        <q-toolbar-title class="toolbartitle">
+          <span
+            class="q-electron-drag--exception"
+            v-if="burningTomatoVisible < 10"
+            @click="burningTomatoVisible++"
+            >🍅</span
+          >
+          <span
+            class="q-electron-drag--exception"
+            v-if="burningTomatoVisible >= 10"
+          >
+            <img class="burningTomato" :src="BurningTomato" />
+          </span>
+          <h1>TomatoDeck</h1>
         </q-toolbar-title>
 
         <!-- Multiple Profiles / Decks -->
@@ -79,12 +91,15 @@
 import { defineEmits, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
+import BurningTomato from '../assets/burning_tomato.gif';
 
 const emit = defineEmits(['clickQR', 'clickAccounts']);
 const { t } = useI18n();
 const store = useStore();
 const currentLayout = ref('');
 const deleteDialogOpen = ref(false);
+
+const burningTomatoVisible = ref(0);
 
 const { windowAPI } = window;
 
@@ -120,6 +135,19 @@ watch(currentLayout, (to) => {
 <style scoped>
 .toolbar {
   display: flex;
+}
+
+.burningTomato {
+  width: 2rem;
+  height: 3rem;
+  padding-top: 1rem;
+  margin-right: 0.5rem;
+}
+
+.toolbartitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 h1 {
