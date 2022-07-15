@@ -23,6 +23,7 @@ const RPC = require('discord-rpc');
 
 const { NODE_ENV } = process.env;
 const store = new Store();
+const { isNull } = require('util');
 const config = require('./config');
 
 electronRemote.initialize();
@@ -238,6 +239,17 @@ io.on('connection', (socket) => {
 
   // Emits the layout to the current socket
   const emitLayout = () => {
+    const discordButtonsPresent = layout.layouts.some((l) => l.rows[0].elements.some((e) => {
+      if (e.eventName === 'discord') {
+        return true;
+      }
+      return false;
+    }));
+
+    if (discordButtonsPresent && discordClient === null) {
+      initDiscordClient();
+    }
+
     socket.emit('deckLayout', JSON.stringify(layout));
   };
   const emitSucess = () => {

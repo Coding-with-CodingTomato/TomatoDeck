@@ -1,12 +1,6 @@
 <template>
   <div class="drawer">
     <q-header class="bg-primary text-white">
-      <!-- <q-bar class="bg-primary text-white q-electron-drag">
-        <q-space />
-        <q-btn dense flat icon="minimize" @click="minimize" />
-        <q-btn dense flat icon="crop_square" @click="toggleMaximize" />
-        <q-btn dense flat icon="close" @click="closeApp" />
-      </q-bar> -->
       <q-toolbar class="toolbar q-electron-drag">
         <q-toolbar-title class="toolbartitle">
           <span
