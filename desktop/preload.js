@@ -33,6 +33,8 @@ contextBridge.exposeInMainWorld('api', {
   setLanguage: (language) => ipcRenderer.send('setLanguage', language),
   getSettings: () => ipcRenderer.sendSync('getSettings'),
   setSetting: (setting, value) => ipcRenderer.send('setSetting', { setting, value }),
+  sendNewDiscordActivity: (newActivity) => ipcRenderer.send('sendNewDiscordActivity', newActivity),
+  clearDiscordActivity: () => ipcRenderer.send('clearDiscordActivity'),
 });
 
 window.addEventListener('DOMContentLoaded', () => {

@@ -8,6 +8,7 @@ import { accountStore } from './store/account';
 import { useStore } from './store';
 
 import TwitchLogo from './assets/twitch.svg';
+import DiscordLogo from './assets/discord.svg';
 // import TwitterLogo from './assets/twitter.svg';
 
 import TdHeader from './components/TdHeader.vue';
@@ -17,6 +18,7 @@ import TdAddModal from './components/TdAddModal.vue';
 import TdEditModal from './components/TdEditModal.vue';
 import TdSettingsModal from './components/TdSettingsModal.vue';
 import TdKnowledgeModal from './components/TdKnowledgeModal.vue';
+import TdDiscordRichPresenceModal from './components/TdDiscordRichPresenceModal.vue';
 
 const q = useQuasar();
 q.dark.set(true);
@@ -29,6 +31,7 @@ const addModal = ref(null);
 const editModal = ref(null);
 const settingsModal = ref(null);
 const knowledgeModal = ref(null);
+const discordModal = ref(null);
 const drag = ref(false);
 
 onMounted(() => {
@@ -159,6 +162,9 @@ watch(drag, (to) => {
 
       <!-- Knowledge Modal -->
       <TdKnowledgeModal ref="knowledgeModal" />
+
+      <!-- Discord RP Modal -->
+      <TdDiscordRichPresenceModal ref="discordModal" />
     </q-page-container>
 
     <q-footer elevated class="bg-grey-10 text-white">
@@ -184,6 +190,11 @@ watch(drag, (to) => {
           </div>
         </div>
         <div class="footerWrapper">
+          <q-btn flat round dense @click="discordModal.openModal()">
+            <q-avatar size="24px">
+              <img :src="DiscordLogo" />
+            </q-avatar>
+          </q-btn>
           <q-btn
             flat
             round

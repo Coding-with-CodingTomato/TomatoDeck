@@ -28,6 +28,12 @@ export const useStore = defineStore('main', {
     sendLayout() {
       api.saveLayout(JSON.stringify(this.layout));
     },
+    sendNewDiscordActivity(activity) {
+      api.sendNewDiscordActivity(JSON.stringify(activity));
+    },
+    clearDiscordActivity() {
+      api.clearDiscordActivity();
+    },
     setNewPassword(newPassword) {
       api.setPassword(newPassword);
     },

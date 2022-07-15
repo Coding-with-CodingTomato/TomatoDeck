@@ -23,7 +23,6 @@ const RPC = require('discord-rpc');
 
 const { NODE_ENV } = process.env;
 const store = new Store();
-const { isNull } = require('util');
 const config = require('./config');
 
 electronRemote.initialize();
@@ -34,61 +33,9 @@ let appLanguage = 'en';
 let connectedDevices = 0;
 let discordClient = null;
 let discordClientReady = false;
+let discordActivity = null;
 let mainWindow;
 let layout = {};
-
-const getLayoutFromStorage = () => {
-  const newLayout = store.get('layout');
-  if (newLayout === undefined) {
-    layout = {
-      deviceName: 'testDevice',
-      layouts: [
-        {
-          name: 'layout1',
-          rows: [
-            { elements: [] },
-          ],
-        },
-      ],
-    };
-  } else {
-    layout = JSON.parse(newLayout);
-  }
-};
-const changeDeviceCount = (change) => {
-  connectedDevices += change;
-  mainWindow.webContents.send('deviceCountChange', connectedDevices);
-};
-const getPortFromStorage = () => {
-  const newPort = store.get('socketPort');
-
-  if (!newPort) {
-    socketPort = 8100;
-    store.set('socketPort', 8100);
-  } else {
-    socketPort = newPort;
-  }
-};
-const getPasswordFromStorage = () => {
-  const storagePassword = store.get('password');
-
-  if (storagePassword) {
-    password = storagePassword;
-  }
-};
-const getAppLanguageFromStorage = () => {
-  const storageAppLanguage = store.get('appLanguage');
-
-  if (storageAppLanguage) {
-    appLanguage = storageAppLanguage;
-  }
-};
-
-getLayoutFromStorage();
-getPortFromStorage();
-getPasswordFromStorage();
-getAppLanguageFromStorage();
-autoUpdater.checkForUpdatesAndNotify();
 
 /**
  * Discord RPC
@@ -204,7 +151,78 @@ const discordActions = {
       discordClient.selectVoiceChannel(null);
     }
   },
+  setActivity: (newActivity) => {
+    discordActions.checkClient();
+    if (discordClientReady) {
+      discordClient.setActivity(newActivity);
+    }
+  },
 };
+
+/**
+ * Handle Storage
+ */
+
+const getLayoutFromStorage = () => {
+  const newLayout = store.get('layout');
+  if (newLayout === undefined) {
+    layout = {
+      deviceName: 'testDevice',
+      layouts: [
+        {
+          name: 'layout1',
+          rows: [
+            { elements: [] },
+          ],
+        },
+      ],
+    };
+  } else {
+    layout = JSON.parse(newLayout);
+  }
+};
+const changeDeviceCount = (change) => {
+  connectedDevices += change;
+  mainWindow.webContents.send('deviceCountChange', connectedDevices);
+};
+const getPortFromStorage = () => {
+  const newPort = store.get('socketPort');
+
+  if (!newPort) {
+    socketPort = 8100;
+    store.set('socketPort', 8100);
+  } else {
+    socketPort = newPort;
+  }
+};
+const getPasswordFromStorage = () => {
+  const storagePassword = store.get('password');
+
+  if (storagePassword) {
+    password = storagePassword;
+  }
+};
+const getAppLanguageFromStorage = () => {
+  const storageAppLanguage = store.get('appLanguage');
+
+  if (storageAppLanguage) {
+    appLanguage = storageAppLanguage;
+  }
+};
+const getDiscordActivityFromStorage = () => {
+  const newDiscordAcitivty = store.get('discordActivity');
+
+  if (newDiscordAcitivty) {
+    discordActions.setActivity(newDiscordAcitivty);
+    discordActivity = newDiscordAcitivty;
+  }
+};
+
+getLayoutFromStorage();
+getPortFromStorage();
+getPasswordFromStorage();
+getAppLanguageFromStorage();
+autoUpdater.checkForUpdatesAndNotify();
 
 /**
  * Socket Stuff
@@ -248,6 +266,7 @@ io.on('connection', (socket) => {
 
     if (discordButtonsPresent && discordClient === null) {
       initDiscordClient();
+      setTimeout(getDiscordActivityFromStorage, 2000);
     }
 
     socket.emit('deckLayout', JSON.stringify(layout));
@@ -498,6 +517,7 @@ ipcMain.on('getHostData', (event) => {
   const hostData = {
     ip: firstIPResult || '0.0.0.0',
     socketPort,
+    discordActivity,
   };
 
   event.returnValue = hostData;
@@ -537,6 +557,7 @@ ipcMain.on('getSettings', (event) => {
   const settings = {
     appLanguage,
     socketPort,
+    discordActivity,
   };
 
   event.returnValue = settings;
@@ -566,6 +587,20 @@ ipcMain.on('setSetting', (event, args) => {
   if (setting && value) {
     store.set(setting, value);
   }
+});
+
+// Set discord rp activity
+ipcMain.on('sendNewDiscordActivity', (event, args) => {
+  const newActivity = JSON.parse(args);
+  discordActions.setActivity(newActivity);
+
+  store.set('discordActivity', newActivity);
+});
+
+// Clear discord rp activity
+ipcMain.on('clearDiscordActivity', (event, args) => {
+  discordClient.clearActivity();
+  store.delete('discordActivity');
 });
 
 app.whenReady().then(() => {
