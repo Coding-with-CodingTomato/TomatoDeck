@@ -31,10 +31,10 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
   - [x] Mute, Unmute, Toggle microphone
   - [x] Deaf, Undeaf, Toggle headphones
   - [x] Set Rich presence activity
+  - [x] Leave voice channel
   - [ ] Change input and output device
   - [ ] Set volume of input and output device -> Slider element
   - [ ] Switch voice channel
-  - [ ] Leave voice channel
 - [ ] Multiple actions with one button press
 - [ ] Voice hotkey
 - [ ] Twitch

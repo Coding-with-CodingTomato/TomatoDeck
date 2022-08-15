@@ -8,6 +8,7 @@ export const useStore = defineStore('main', {
     currentlyVisibleLayout: { index: 0 },
     hostData: {},
     connectedDevices: 0,
+    discordClientConnected: false,
   }),
   actions: {
     getLayout() {
@@ -19,6 +20,12 @@ export const useStore = defineStore('main', {
     getConnectedDevicesCount() {
       api.onDeviceCountChange((_event, value) => {
         this.connectedDevices = value;
+      });
+    },
+    getDiscordConnectionState() {
+      this.discordClientConnected = api.getDiscordConnectionStatus();
+      api.onDiscordConnectionChange((_event, value) => {
+        this.discordClientConnected = value;
       });
     },
     updateLayout(newLayout) {
@@ -68,7 +75,7 @@ export const useStore = defineStore('main', {
     },
     availableLayoutsNames: (state) => {
       if (state.layout.layouts) {
-        return state.layout.layouts.map((l) => (l.name));
+        return state.layout.layouts.map((l) => l.name);
       }
 
       return [];

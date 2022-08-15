@@ -24,6 +24,7 @@ contextBridge.exposeInMainWorld('windowAPI', {
 contextBridge.exposeInMainWorld('api', {
   saveLayout: (layout) => ipcRenderer.send('saveLayout', layout),
   getLayout: () => ipcRenderer.sendSync('getLayout'),
+  getDiscordConnectionStatus: () => ipcRenderer.sendSync('getDiscordConnectionStatus'),
   getHostData: () => ipcRenderer.sendSync('getHostData'),
   saveTwitchOAuth: () => ipcRenderer.send('saveTwitchOAuth'),
   getTwitchOAuth: () => ipcRenderer.sendSync('getTwitchOAuth'),
@@ -35,6 +36,7 @@ contextBridge.exposeInMainWorld('api', {
   setSetting: (setting, value) => ipcRenderer.send('setSetting', { setting, value }),
   sendNewDiscordActivity: (newActivity) => ipcRenderer.send('sendNewDiscordActivity', newActivity),
   clearDiscordActivity: () => ipcRenderer.send('clearDiscordActivity'),
+  onDiscordConnectionChange: (callback) => ipcRenderer.on('discordConnectionChange', callback),
 });
 
 window.addEventListener('DOMContentLoaded', () => {

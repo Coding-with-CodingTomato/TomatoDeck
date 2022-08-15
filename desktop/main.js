@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
-const {
-  app, BrowserWindow, ipcMain, shell,
-} = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const Store = require('electron-store');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
@@ -11,12 +9,8 @@ const { Server } = require('socket.io');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
-const {
-  keyboard, Key, mouse, Point,
-} = require('@nut-tree/nut-js');
-const {
-  execSync, execFile,
-} = require('child_process');
+const { keyboard, Key, mouse, Point } = require('@nut-tree/nut-js');
+const { execSync, execFile } = require('child_process');
 const sound = require('sound-play');
 const axios = require('axios').default;
 const RPC = require('discord-rpc');
@@ -47,6 +41,11 @@ const redirectUri = 'http://localhost';
 const prompt = 'none';
 let accessToken;
 
+const changeDiscordConnection = (connected) => {
+  console.log('change discord connection', connected);
+  mainWindow.webContents.send('discordConnectionChange', connected);
+};
+
 const initDiscordClient = () => {
   if (discordClient !== null) {
     discordClient = null;
@@ -55,16 +54,19 @@ const initDiscordClient = () => {
   discordClient = new RPC.Client({ transport: 'ipc' });
 
   discordClient.on('ready', async () => {
-    const isAccessTokenSet = !accessToken || (discordClient.accessToken != undefined && accessToken != discordClient.accessToken);
+    const isAccessTokenSet =
+      !accessToken || (discordClient.accessToken != undefined && accessToken != discordClient.accessToken);
     if (isAccessTokenSet) {
       accessToken = discordClient.accessToken;
     }
     discordClientReady = true;
+    changeDiscordConnection(true);
   });
 
   discordClient.on('disconnected', () => {
     discordClient = null;
     discordClientReady = false;
+    changeDiscordConnection(false);
   });
 
   discordClient.on('error', (error) => {
@@ -74,23 +76,29 @@ const initDiscordClient = () => {
 
     log.error('Error while trying to login into discord rpc');
     log.error(JSON.stringify(error));
+
+    changeDiscordConnection(false);
   });
 
-  discordClient.login({
-    clientId,
-    clientSecret,
-    accessToken,
-    scopes,
-    redirectUri,
-    prompt,
-  }).catch((error) => {
-    discordClient = null;
-    accessToken = null;
-    discordClientReady = false;
+  discordClient
+    .login({
+      clientId,
+      clientSecret,
+      accessToken,
+      scopes,
+      redirectUri,
+      prompt,
+    })
+    .catch((error) => {
+      discordClient = null;
+      accessToken = null;
+      discordClientReady = false;
 
-    log.error('Error while trying to login into discord rpc');
-    log.error(JSON.stringify(error));
-  });
+      log.error('Error while trying to login into discord rpc');
+      log.error(JSON.stringify(error));
+
+      changeDiscordConnection(false);
+    });
 };
 
 const discordActions = {
@@ -171,9 +179,7 @@ const getLayoutFromStorage = () => {
       layouts: [
         {
           name: 'layout1',
-          rows: [
-            { elements: [] },
-          ],
+          rows: [{ elements: [] }],
         },
       ],
     };
@@ -257,12 +263,14 @@ io.on('connection', (socket) => {
 
   // Emits the layout to the current socket
   const emitLayout = () => {
-    const discordButtonsPresent = layout.layouts.some((l) => l.rows[0].elements.some((e) => {
-      if (e.eventName === 'discord') {
-        return true;
-      }
-      return false;
-    }));
+    const discordButtonsPresent = layout.layouts.some((l) =>
+      l.rows[0].elements.some((e) => {
+        if (e.eventName === 'discord') {
+          return true;
+        }
+        return false;
+      }),
+    );
 
     if (discordButtonsPresent && discordClient === null) {
       initDiscordClient();
@@ -456,7 +464,8 @@ io.on('connection', (socket) => {
         case 'leave_voice_channel':
           discordActions.leaveVoiceChannel();
           break;
-        default: break;
+        default:
+          break;
       }
       emitSucess();
     } catch (error) {
@@ -601,6 +610,11 @@ ipcMain.on('sendNewDiscordActivity', (event, args) => {
 ipcMain.on('clearDiscordActivity', (event, args) => {
   discordClient.clearActivity();
   store.delete('discordActivity');
+});
+
+// Get current discord status
+ipcMain.on('getDiscordConnectionStatus', (event) => {
+  event.returnValue = discordClientReady;
 });
 
 app.whenReady().then(() => {

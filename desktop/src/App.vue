@@ -13,6 +13,7 @@ import DiscordLogo from './assets/discord.svg';
 
 import TdHeader from './components/TdHeader.vue';
 import TdButton from './components/TdButton.vue';
+import TdSlider from './components/TdSlider.vue';
 import TdTwitchChat from './components/TdTwitchChat.vue';
 import TdAddModal from './components/TdAddModal.vue';
 import TdEditModal from './components/TdEditModal.vue';
@@ -34,10 +35,11 @@ const knowledgeModal = ref(null);
 const discordModal = ref(null);
 const drag = ref(false);
 
-onMounted(() => {
+onMounted(async () => {
   store.getLayout();
   store.getHostData();
   store.getConnectedDevicesCount();
+  store.getDiscordConnectionState();
 });
 
 watch(drag, (to) => {
@@ -85,6 +87,10 @@ watch(drag, (to) => {
             <TdTwitchChat
               v-else-if="element.type === 'Twitch Chat'"
               :channelName="element.text"
+              @click="editModal.openModal(element)"
+            />
+            <TdSlider
+              v-else-if="element.type === 'Slider'"
               @click="editModal.openModal(element)"
             />
           </template>
@@ -193,6 +199,11 @@ watch(drag, (to) => {
           <q-btn flat round dense @click="discordModal.openModal()">
             <q-avatar size="24px">
               <img :src="DiscordLogo" />
+              <q-badge
+                floating
+                rounded
+                :color="store.discordClientConnected ? 'teal' : 'red'"
+              ></q-badge>
             </q-avatar>
           </q-btn>
           <q-btn
