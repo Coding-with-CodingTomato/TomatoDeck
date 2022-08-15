@@ -54,19 +54,11 @@ watch(drag, (to) => {
     <TdHeader @click-accounts="isAccountsModalOpen = true" />
 
     <q-page-container>
-      <div
-        class="q-pa-md"
-        v-if="store.layout !== {} && store.layout.layouts !== undefined"
-      >
+      <div class="q-pa-md" v-if="store.layout !== {} && store.layout.layouts !== undefined">
         <draggable
-          v-for="(row, i) of store.layout.layouts[
-            store.currentlyVisibleLayout.index || 0
-          ].rows"
+          v-for="(row, i) of store.layout.layouts[store.currentlyVisibleLayout.index || 0].rows"
           :key="i"
-          v-model="
-            store.layout.layouts[store.currentlyVisibleLayout.index || 0]
-              .rows[0].elements
-          "
+          v-model="store.layout.layouts[store.currentlyVisibleLayout.index || 0].rows[0].elements"
           class="grid"
           group="people"
           @start="drag = true"
@@ -89,10 +81,7 @@ watch(drag, (to) => {
               :channelName="element.text"
               @click="editModal.openModal(element)"
             />
-            <TdSlider
-              v-else-if="element.type === 'Slider'"
-              @click="editModal.openModal(element)"
-            />
+            <TdSlider v-else-if="element.type === 'Slider'" @click="editModal.openModal(element)" />
           </template>
         </draggable>
       </div>
@@ -137,10 +126,7 @@ watch(drag, (to) => {
                       </template>
                     </q-input>
                   </div>
-                  <a
-                    href="https://twitchapps.com/tokengen/"
-                    style="color: aqua"
-                    target="_blank"
+                  <a href="https://twitchapps.com/tokengen/" style="color: aqua" target="_blank"
                     >Get token here</a
                   >
                   <span
@@ -178,9 +164,7 @@ watch(drag, (to) => {
         <div class="footerWrapper">
           <div class="item">
             <q-icon name="public" style="font-size: medium" />
-            <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }} ({{
-              t('probably_wrong')
-            }})
+            <b>IP:</b> {{ store.hostData.ip || '0.0.0.0' }}
           </div>
           <div class="item">
             <q-icon name="tag" style="font-size: medium" />
@@ -206,20 +190,8 @@ watch(drag, (to) => {
               ></q-badge>
             </q-avatar>
           </q-btn>
-          <q-btn
-            flat
-            round
-            dense
-            icon="menu_book"
-            @click="knowledgeModal.openModal()"
-          ></q-btn>
-          <q-btn
-            flat
-            round
-            dense
-            icon="settings"
-            @click="settingsModal.openModal()"
-          ></q-btn>
+          <q-btn flat round dense icon="menu_book" @click="knowledgeModal.openModal()"></q-btn>
+          <q-btn flat round dense icon="settings" @click="settingsModal.openModal()"></q-btn>
         </div>
       </q-toolbar>
     </q-footer>

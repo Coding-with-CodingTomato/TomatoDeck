@@ -55,7 +55,8 @@ const initDiscordClient = () => {
 
   discordClient.on('ready', async () => {
     const isAccessTokenSet =
-      !accessToken || (discordClient.accessToken != undefined && accessToken != discordClient.accessToken);
+      !accessToken ||
+      (discordClient.accessToken != undefined && accessToken != discordClient.accessToken);
     if (isAccessTokenSet) {
       accessToken = discordClient.accessToken;
     }
