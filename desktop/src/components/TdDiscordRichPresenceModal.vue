@@ -2,7 +2,7 @@
 <template>
   <!-- Add Modal -->
   <q-dialog v-model="isModalOpen">
-    <q-card style="width: 600px; max-width: 80vw">
+    <q-card style="width: 80vw; max-width: 80vw">
       <q-card-section>
         <div class="text-h6">{{ t('dc_rp.title') }}</div>
       </q-card-section>

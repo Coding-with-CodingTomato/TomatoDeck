@@ -101,6 +101,15 @@
                       <b>discord:</b> Lets you interact with your Discord client
                       directly without hotkeys.
                     </li>
+                    <li>
+                      <b>twitch_chat_message:</b> Lets you send a message to one
+                      or more twitch chats. You can set multiple channels by
+                      seperating them with commas.
+                      <i
+                        >You have to specify the account from which TomatoDeck
+                        should send those messages.
+                      </i>
+                    </li>
                   </ul>
                 </li>
               </ul>

@@ -1,8 +1,6 @@
 <template>
-  <q-dialog
-    v-model="isSettingsModalOpen"
-  >
-    <q-card style="width: 700px; max-width: 80vw;">
+  <q-dialog v-model="isSettingsModalOpen">
+    <q-card style="width: 80vw; max-width: 80vw">
       <q-card-section>
         <div class="text-h6">{{ t('settings.settings') }}</div>
       </q-card-section>
@@ -25,7 +23,7 @@
                 v-model="locale"
                 :options="['en', 'de']"
                 :label="t('settings.available_languages')"
-                style="width: 15vw;"
+                style="width: 20vw"
               />
             </q-item-section>
           </q-item>
@@ -47,7 +45,7 @@
                 filled
                 v-model="socketPort"
                 :label="t('settings.port')"
-                style="width: 15vw;"
+                style="width: 20vw"
                 mask="####"
                 fill-mask="#"
                 :hint="`${t('settings.mask')}: ####`"
@@ -69,7 +67,7 @@
                 v-model="password"
                 type="password"
                 :label="t('settings.password')"
-                style="width: 15vw;"
+                style="width: 20vw"
               />
             </q-item-section>
           </q-item>
@@ -89,7 +87,7 @@ const settings = api.getSettings();
 
 const isSettingsModalOpen = ref(false);
 
-const socketPort = ref(settings.socketPort);
+const socketPort = ref(settings.port);
 const password = ref('');
 
 const openModal = () => {

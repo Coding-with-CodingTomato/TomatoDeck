@@ -1,7 +1,7 @@
 <template>
   <!-- Add Modal -->
   <q-dialog v-model="isAddElementModalOpen">
-    <q-card style="width: 700px; max-width: 80vw">
+    <q-card style="width: 80vw; max-width: 80vw">
       <q-card-section>
         <div class="text-h6">{{ t('add_new_element') }}</div>
       </q-card-section>
@@ -20,12 +20,25 @@
 
         <!-- Layout Name -->
         <div class="row" v-if="newElementType === 'Layout'">
-          <q-input filled class="fullWidth" v-model="newText" label="Layout Name" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newText"
+            label="Layout Name"
+          />
         </div>
 
         <!-- Button Text -->
-        <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text'">
-          <q-input filled class="fullWidth" v-model="newText" :label="t('text_emoji')" />
+        <div
+          class="row"
+          v-if="newElementType === 'Button' || newElementType === 'Text'"
+        >
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newText"
+            :label="t('text_emoji')"
+          />
         </div>
 
         <!-- Button Image -->
@@ -40,7 +53,10 @@
         </div>
 
         <!-- Button Farbe -->
-        <div class="row" v-if="newElementType === 'Button' || newElementType === 'Text'">
+        <div
+          class="row"
+          v-if="newElementType === 'Button' || newElementType === 'Text'"
+        >
           <q-field filled class="fullWidth" :label="t('color')" stack-label>
             <template v-slot:control>
               <input v-model="newColor" type="color" />
@@ -65,14 +81,55 @@
           v-if="
             newElementType === 'Button' &&
             newActionType !== 'switch_layout' &&
-            newActionType !== 'discord'
+            newActionType !== 'discord' &&
+            newActionType !== 'twitch_chat_message'
           "
         >
-          <q-input filled class="fullWidth" v-model="newData" :label="t('data')" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newData"
+            :label="t('data')"
+          />
+        </div>
+
+        <!-- Twitch Chat message channel names -->
+        <div
+          class="row"
+          v-if="
+            newElementType === 'Button' &&
+            newActionType === 'twitch_chat_message'
+          "
+        >
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newTwitchChatChannels"
+            label="Twitch Kanalnamen (Kommasepariert)"
+          />
+        </div>
+
+        <!-- Twitch Chat message -->
+        <div
+          class="row"
+          v-if="
+            newElementType === 'Button' &&
+            newActionType === 'twitch_chat_message'
+          "
+        >
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newTwitchChatMessage"
+            label="Nachricht"
+          />
         </div>
 
         <!-- Discord Action selector -->
-        <div class="row" v-if="newElementType === 'Button' && newActionType === 'discord'">
+        <div
+          class="row"
+          v-if="newElementType === 'Button' && newActionType === 'discord'"
+        >
           <q-select
             filled
             class="fullWidth"
@@ -91,7 +148,12 @@
         </div>
 
         <!-- Switch layout selector -->
-        <div class="row" v-if="newElementType === 'Button' && newActionType === 'switch_layout'">
+        <div
+          class="row"
+          v-if="
+            newElementType === 'Button' && newActionType === 'switch_layout'
+          "
+        >
           <q-select
             filled
             class="fullWidth"
@@ -103,7 +165,12 @@
 
         <!-- Channelname für Twitch Chat -->
         <div class="row" v-if="newElementType === 'Twitch Chat'">
-          <q-input filled class="fullWidth" v-model="newText" :label="t('channelname')" />
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="newText"
+            :label="t('channelname')"
+          />
         </div>
       </q-card-section>
 
@@ -137,6 +204,7 @@ const actionOptions = ref([
   'http_get_request',
   'switch_layout',
   'discord',
+  'twitch_chat_message',
 ]);
 const newText = ref('');
 const newColor = ref('#000000');
@@ -144,6 +212,9 @@ const newElementType = ref();
 const newActionType = ref();
 const newData = ref('');
 const newElementImage = ref('');
+
+const newTwitchChatChannels = ref('');
+const newTwitchChatMessage = ref('');
 
 const openModal = () => {
   isAddElementModalOpen.value = true;
@@ -163,6 +234,13 @@ const addNewElement = () => {
   } else {
     const rowSize = tempLayout.layouts[0].rows.length;
 
+    if (newActionType.value === 'twitch_chat_message') {
+      newData.value = JSON.stringify({
+        channelNames: newTwitchChatChannels.value,
+        message: newTwitchChatMessage.value,
+      });
+    }
+
     const newElement = {
       id,
       row_index: rowSize - 1,
@@ -175,9 +253,9 @@ const addNewElement = () => {
       data: newData.value.trim(),
     };
 
-    tempLayout.layouts[store.currentlyVisibleLayout.index].rows[rowSize - 1].elements.push(
-      newElement,
-    );
+    tempLayout.layouts[store.currentlyVisibleLayout.index].rows[
+      rowSize - 1
+    ].elements.push(newElement);
   }
 
   store.layout = tempLayout;

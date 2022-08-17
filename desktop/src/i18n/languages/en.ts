@@ -16,12 +16,15 @@ export const en = {
     general: 'General',
     server: 'Server',
     password: 'Password',
-    password_desc: 'The password your mobile device has to send to get access to your TomatoDeck (Changes take effect on the next reconnect)',
+    password_desc:
+      'The password your mobile device has to send to get access to your TomatoDeck (Changes take effect on the next reconnect)',
     app_language: 'App language',
-    app_language_desc: 'Change the language displayed in the desktop application',
+    app_language_desc:
+      'Change the language displayed in the desktop application',
     available_languages: 'Available languages',
     port: 'Port',
-    port_desc: 'Set the port your mobile device has to connect to (Changes take effect after app restart)',
+    port_desc:
+      'Set the port your mobile device has to connect to (Changes take effect after app restart)',
     mask: 'Mask',
   },
   dc_rp: {
@@ -34,6 +37,15 @@ export const en = {
     smallImageText: 'Small Image Text',
     instance: 'Instance',
     starttime: 'Starttime',
+  },
+  twitch_settings: {
+    title: 'Twitch Settings',
+    chatCreds: 'Chat Action Settings',
+    channelName: 'Channelname',
+    channelNameDesc: 'Channelname from which messages will be sent',
+    oauthToken: 'OAuth-Token',
+    oauthTokenDesc: 'OAuth-Token for sending messages',
+    generateHere: 'Generate here',
   },
   edit_element: 'Edit element',
   element_type: 'Element Type',

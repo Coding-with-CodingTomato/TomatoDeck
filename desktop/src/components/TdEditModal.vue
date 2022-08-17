@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="isEditElementModalOpen">
-    <q-card style="width: 700px; max-width: 80vw">
+    <q-card style="width: 80vw; max-width: 80vw">
       <q-card-section>
         <div class="text-h6">{{ t('edit_element') }}</div>
       </q-card-section>
@@ -64,7 +64,8 @@
           v-if="
             editElementType === 'Button' &&
             editActionType !== 'switch_layout' &&
-            editActionType !== 'discord'
+            editActionType !== 'discord' &&
+            editActionType !== 'twitch_chat_message'
           "
         >
           <q-input
@@ -74,6 +75,39 @@
             :label="t('data')"
           />
         </div>
+
+        <!-- Twitch Chat message channel names -->
+        <div
+          class="row"
+          v-if="
+            editElementType === 'Button' &&
+            editActionType === 'twitch_chat_message'
+          "
+        >
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="editTwitchChatChannels"
+            label="Twitch Kanalnamen (Kommasepariert)"
+          />
+        </div>
+
+        <!-- Twitch Chat message -->
+        <div
+          class="row"
+          v-if="
+            editElementType === 'Button' &&
+            editActionType === 'twitch_chat_message'
+          "
+        >
+          <q-input
+            filled
+            class="fullWidth"
+            v-model="editTwitchChatMessage"
+            label="Nachricht"
+          />
+        </div>
+
         <!-- Discord Action selector -->
         <div
           class="row"
@@ -152,6 +186,7 @@ const actionOptions = ref([
   'http_get_request',
   'switch_layout',
   'discord',
+  'twitch_chat_message',
 ]);
 
 const editId = ref(0);
@@ -163,8 +198,19 @@ const editActionType = ref();
 const editData = ref('');
 const editImage = ref('');
 
+const editTwitchChatChannels = ref('arsch');
+const editTwitchChatMessage = ref('');
+
 const editElement = () => {
   const tempLayout = JSON.parse(JSON.stringify(store.layout));
+
+  let newEditData = editData.value.trim();
+  if (editActionType.value === 'twitch_chat_message') {
+    newEditData = JSON.stringify({
+      channelNames: editTwitchChatChannels.value,
+      message: editTwitchChatMessage.value,
+    });
+  }
 
   const newElement = {
     id: editId.value,
@@ -175,7 +221,7 @@ const editElement = () => {
     image: editImage.value?.path || '',
     icon: '',
     eventName: editActionType.value,
-    data: editData.value.trim(),
+    data: newEditData,
   };
 
   // eslint-disable-next-line max-len
@@ -212,6 +258,11 @@ const openModal = (element) => {
   editActionType.value = element.eventName;
   editData.value = element.data;
   editImage.value = element.image;
+
+  if (editActionType.value === 'twitch_chat_message') {
+    editTwitchChatChannels.value = JSON.parse(editData.value).channelNames;
+    editTwitchChatMessage.value = JSON.parse(editData.value).message;
+  }
 
   isEditElementModalOpen.value = true;
 };

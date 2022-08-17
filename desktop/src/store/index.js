@@ -44,6 +44,13 @@ export const useStore = defineStore('main', {
     setNewPassword(newPassword) {
       api.setPassword(newPassword);
     },
+    async getSetting(setting) {
+      const response = await api.getSetting(setting);
+      return response;
+    },
+    setSetting(setting, data) {
+      api.setSetting(setting, JSON.stringify(data));
+    },
     deleteCurrentLayout() {
       if (this.layout.layouts.length > 1) {
         const tempLayouts = this.layout.layouts.filter((l, i) => {

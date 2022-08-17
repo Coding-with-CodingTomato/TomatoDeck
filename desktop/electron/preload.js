@@ -33,6 +33,7 @@ contextBridge.exposeInMainWorld('api', {
   setPassword: (newPassword) => ipcRenderer.send('setPassword', newPassword),
   setLanguage: (language) => ipcRenderer.send('setLanguage', language),
   getSettings: () => ipcRenderer.sendSync('getSettings'),
+  getSetting: (setting) => ipcRenderer.sendSync('getSetting', setting),
   setSetting: (setting, value) => ipcRenderer.send('setSetting', { setting, value }),
   sendNewDiscordActivity: (newActivity) => ipcRenderer.send('sendNewDiscordActivity', newActivity),
   clearDiscordActivity: () => ipcRenderer.send('clearDiscordActivity'),

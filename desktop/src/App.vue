@@ -4,12 +4,9 @@ import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
 
-import { accountStore } from './store/account';
 import { useStore } from './store';
 
-import TwitchLogo from './assets/twitch.svg';
 import DiscordLogo from './assets/discord.svg';
-// import TwitterLogo from './assets/twitter.svg';
 
 import TdHeader from './components/TdHeader.vue';
 import TdButton from './components/TdButton.vue';
@@ -20,6 +17,9 @@ import TdEditModal from './components/TdEditModal.vue';
 import TdSettingsModal from './components/TdSettingsModal.vue';
 import TdKnowledgeModal from './components/TdKnowledgeModal.vue';
 import TdDiscordRichPresenceModal from './components/TdDiscordRichPresenceModal.vue';
+import TdTwitchModal from './components/TdTwitchModal.vue';
+
+import TwitchLogo from './components/icons/TwitchLogo.vue';
 
 const q = useQuasar();
 q.dark.set(true);
@@ -33,6 +33,7 @@ const editModal = ref(null);
 const settingsModal = ref(null);
 const knowledgeModal = ref(null);
 const discordModal = ref(null);
+const twitchModal = ref(null);
 const drag = ref(false);
 
 onMounted(async () => {
@@ -96,59 +97,6 @@ watch(drag, (to) => {
       <!-- Edit Modal -->
       <TdEditModal ref="editModal" />
 
-      <!-- Accounts Modal -->
-      <q-dialog v-model="isAccountsModalOpen">
-        <q-card style="width: 700px; max-width: 80vw">
-          <q-card-section>
-            <div class="text-h6">Verbundene Accounts</div>
-          </q-card-section>
-
-          <q-card-section class="q-pt-none">
-            <q-list>
-              <q-item @click="accountStore.loginTwitch">
-                <q-item-section avatar>
-                  <q-avatar>
-                    <img :src="TwitchLogo" />
-                  </q-avatar>
-                </q-item-section>
-
-                <q-item-section>
-                  <div v-if="accountStore.twitch === ''" class="twitchInput">
-                    <q-input
-                      filled
-                      bottom-slots
-                      v-model="text"
-                      label="OAuth Token"
-                      class="fullWidth"
-                    >
-                      <template v-slot:append>
-                        <q-btn round dense flat icon="save" />
-                      </template>
-                    </q-input>
-                  </div>
-                  <a href="https://twitchapps.com/tokengen/" style="color: aqua" target="_blank"
-                    >Get token here</a
-                  >
-                  <span
-                    >Scope: <b>chat:edit</b> and Client-ID:
-                    <b>m5syllcgh47ytm8jbhbhwcjmaqcya6</b></span
-                  >
-                </q-item-section>
-              </q-item>
-              <!-- <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-avatar>
-                    <img :src="TwitterLogo">
-                  </q-avatar>
-                </q-item-section>
-
-                <q-item-section>Twitter: Nicht verbunden</q-item-section>
-              </q-item> -->
-            </q-list>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
-
       <!-- Settings Modal -->
       <TdSettingsModal ref="settingsModal" />
 
@@ -157,6 +105,9 @@ watch(drag, (to) => {
 
       <!-- Discord RP Modal -->
       <TdDiscordRichPresenceModal ref="discordModal" />
+
+      <!-- Twitch OAuth Modal -->
+      <TdTwitchModal ref="twitchModal" />
     </q-page-container>
 
     <q-footer elevated class="bg-grey-10 text-white">
@@ -180,6 +131,9 @@ watch(drag, (to) => {
           </div>
         </div>
         <div class="footerWrapper">
+          <q-btn flat round dense @click="twitchModal.openModal()">
+            <TwitchLogo />
+          </q-btn>
           <q-btn flat round dense @click="discordModal.openModal()">
             <q-avatar size="24px">
               <img :src="DiscordLogo" />

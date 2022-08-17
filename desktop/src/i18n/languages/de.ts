@@ -16,12 +16,14 @@ export const de = {
     general: 'Allgemein',
     server: 'Server',
     password: 'Passwort',
-    password_desc: 'Das Passwort, welches dein mobiles Gerät mitsenden muss, um sich verbinden zu können. (Änderungen treten bei einer neuen Verbindung in Kraft)',
+    password_desc:
+      'Das Passwort, welches dein mobiles Gerät mitsenden muss, um sich verbinden zu können. (Änderungen treten bei einer neuen Verbindung in Kraft)',
     app_language: 'Appsprache',
     app_language_desc: 'Ändere die Sprache der Applikation',
     available_languages: 'Verfügbare Sprachen',
     port: 'Port',
-    port_desc: 'Setze den Port zu dem sich dein mobiles Gerät verbindet (Änderung nach Neustart aktiv)',
+    port_desc:
+      'Setze den Port zu dem sich dein mobiles Gerät verbindet (Änderung nach Neustart aktiv)',
     mask: 'Maske',
   },
   dc_rp: {
@@ -34,6 +36,15 @@ export const de = {
     smallImageText: 'Kleines Bild Text',
     instance: 'Instanz',
     starttime: 'Startzeit',
+  },
+  twitch_settings: {
+    title: 'Twitch Einstellungen',
+    chatCreds: 'Chat Zugangsdaten',
+    channelName: 'Kanalname',
+    channelNameDesc: 'Kanalname von dem die Nachrichten geschickt werden',
+    oauthToken: 'Zugangstoken',
+    oauthTokenDesc: 'Zugangstoken für den Chat',
+    generateHere: 'Hier generieren',
   },
   edit_element: 'Element bearbeiten',
   element_type: 'Element Typ',
