@@ -37,8 +37,15 @@ export const de = {
     instance: 'Instanz',
     starttime: 'Startzeit',
   },
+  obs_settings: {
+    title: 'OBS Websocket Einstellungen',
+    connection: 'OBS Verbindung',
+    connection_desc: 'Verbindung zum OBS Websocket Server aufbauen',
+  },
   twitch_settings: {
     title: 'Twitch Einstellungen',
+    connection: 'Twitch Verbindung',
+    connection_desc: 'Verbindung zur Twitch API aufbauen',
     chatCreds: 'Chat Zugangsdaten',
     channelName: 'Kanalname',
     channelNameDesc: 'Kanalname von dem die Nachrichten geschickt werden',

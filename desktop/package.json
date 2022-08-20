@@ -3,7 +3,7 @@
   "author": "CodingTomato",
   "description": "A free software version of the well known Elgato Streamdeck.",
   "private": true,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
@@ -50,6 +50,7 @@
     "electron-store": "^8.0.1",
     "electron-updater": "^5.0.5",
     "node-abi": "^3.22.0",
+    "obs-websocket-js": "^5.0.1",
     "pinia": "^2.0.14",
     "quasar": "^2.5.5",
     "socket.io": "^4.4.1",

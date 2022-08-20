@@ -1,4 +1,5 @@
 const fs = require('fs');
+const crypto = require('crypto');
 const { networkInterfaces } = require('os');
 const {
   initStorage,
@@ -37,7 +38,7 @@ const ipcActions = [
 
       const hostData = {
         ip: firstIPResult || '0.0.0.0',
-        socketPort: settings.port,
+        socketPort: settings.socketPort,
         discordActivity: settings.discordActivity,
       };
 

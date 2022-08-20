@@ -45,10 +45,8 @@
                 filled
                 v-model="socketPort"
                 :label="t('settings.port')"
+                @change="updateSetting('socketPort', Number($event))"
                 style="width: 20vw"
-                mask="####"
-                fill-mask="#"
-                :hint="`${t('settings.mask')}: ####`"
               />
             </q-item-section>
           </q-item>
@@ -67,8 +65,155 @@
                 v-model="password"
                 type="password"
                 :label="t('settings.password')"
+                @change="store.setNewPassword($event)"
                 style="width: 20vw"
               />
+            </q-item-section>
+          </q-item>
+
+          <q-separator spaced />
+
+          <q-item-label header>{{ t('obs_settings.title') }}</q-item-label>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{ t('obs_settings.connection') }}</q-item-label>
+              <q-item-label caption>
+                {{ t('obs_settings.connection_desc') }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-toggle v-model="ObsSocketEnabled" />
+            </q-item-section>
+          </q-item>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{ t('settings.port') }}</q-item-label>
+              <q-item-label caption>
+                {{ t('settings.port_desc') }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-input
+                filled
+                v-model="ObsSocketPort"
+                :disable="!ObsSocketEnabled"
+                :label="t('settings.port')"
+                @change="updateSetting('obs.socket.port', $event)"
+                style="width: 20vw"
+              />
+            </q-item-section>
+          </q-item>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{
+                `OBS Websocket ${t('settings.password')}`
+              }}</q-item-label>
+              <q-item-label caption>
+                {{ t('settings.password_desc') }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-input
+                filled
+                :type="ObsSocketPasswordVisible ? 'text' : 'password'"
+                :disable="!ObsSocketEnabled"
+                v-model="ObsSocketPassword"
+                :label="`OBS Websocket ${t('settings.password')}`"
+                @change="updateSetting('obs.socket.password', $event)"
+                style="width: 20vw"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="
+                      ObsSocketPasswordVisible ? 'visibility' : 'visibility_off'
+                    "
+                    class="cursor-pointer"
+                    @click="
+                      ObsSocketPasswordVisible = !ObsSocketPasswordVisible
+                    "
+                  />
+                </template>
+              </q-input>
+            </q-item-section>
+          </q-item>
+
+          <q-separator spaced />
+
+          <q-item-label header>{{ t('twitch_settings.title') }}</q-item-label>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{ t('twitch_settings.connection') }}</q-item-label>
+              <q-item-label caption>
+                {{ t('twitch_settings.connection_desc') }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-toggle v-model="TwitchEnabled" />
+            </q-item-section>
+          </q-item>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{
+                t('twitch_settings.channelName')
+              }}</q-item-label>
+              <q-item-label caption>
+                {{ t('twitch_settings.channelNameDesc') }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-input
+                filled
+                v-model="TwitchUserName"
+                :disable="!TwitchEnabled"
+                :label="t('twitch_settings.channelName')"
+                @change="updateSetting('twitch.username', $event)"
+                style="width: 20vw"
+              />
+            </q-item-section>
+          </q-item>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{ t('twitch_settings.oauthToken') }}</q-item-label>
+              <q-item-label caption>
+                {{ t('twitch_settings.oauthTokenDesc') }} (<a
+                  href="https://twitchapps.com/tmi/"
+                  target="_blank"
+                  >{{ t('twitch_settings.generateHere') }}</a
+                >)
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-input
+                filled
+                v-model="TwitchOauthToken"
+                :disable="!TwitchEnabled"
+                :type="TwitchOauthTokenVisible ? 'text' : 'password'"
+                :label="t('twitch_settings.oauthToken')"
+                @change="updateSetting('twitch.oauth', $event)"
+                style="width: 20vw"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="
+                      TwitchOauthTokenVisible ? 'visibility' : 'visibility_off'
+                    "
+                    class="cursor-pointer"
+                    @click="TwitchOauthTokenVisible = !TwitchOauthTokenVisible"
+                  />
+                </template>
+              </q-input>
             </q-item-section>
           </q-item>
         </q-list>
@@ -80,15 +225,29 @@
 <script setup>
 import { ref, defineExpose, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '../store';
 
-const { api } = window;
+const store = useStore();
 const { t, locale } = useI18n();
-const settings = api.getSettings();
 
+const settings = store.getSettings();
 const isSettingsModalOpen = ref(false);
 
-const socketPort = ref(settings.port);
-const password = ref('');
+// Websocket Server Settings
+const socketPort = ref(settings.socketPort);
+const password = ref(settings.password || '');
+
+// OBS Websocket Settings
+const ObsSocketEnabled = ref(settings.obs.socket.enabled === 'true');
+const ObsSocketPort = ref(settings.obs.socket.port || '');
+const ObsSocketPassword = ref(settings.obs.socket.password || '');
+const ObsSocketPasswordVisible = ref(false);
+
+// Twitch Settings
+const TwitchEnabled = ref(settings.twitch.enabled === 'true');
+const TwitchUserName = ref(settings.twitch.username || '');
+const TwitchOauthToken = ref(settings.twitch.oauth || '');
+const TwitchOauthTokenVisible = ref(false);
 
 const openModal = () => {
   isSettingsModalOpen.value = true;
@@ -98,15 +257,18 @@ defineExpose({
   openModal,
 });
 
+const updateSetting = (name, data) => {
+  store.setSetting(name, data);
+};
+
 watch(locale, (to) => {
-  api.setLanguage(to);
+  store.setSetting('appLanguage', to);
 });
 
-watch(socketPort, (to) => {
-  api.setSetting('socketPort', Number(to));
+watch(TwitchEnabled, (to) => {
+  store.setSetting('twitch.enabled', to);
 });
-
-watch(password, (to) => {
-  api.setPassword(to);
+watch(ObsSocketEnabled, (to) => {
+  store.setSetting('obs.socket.enabled', to);
 });
 </script>

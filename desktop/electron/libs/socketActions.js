@@ -7,6 +7,10 @@ const { shell } = require('electron');
 const { keyboard, Key, mouse, Point } = require('@nut-tree/nut-js');
 const { discordActions } = require('./discordIpcClient');
 const { sendTwitchMessage } = require('./twitchChatClient');
+const { emitObsCommand } = require('./obsWebsocketClient');
+const { initStorage } = require('./storage');
+
+const settings = initStorage();
 
 const emitSucess = (socket) => {
   socket.emit('sucessEvent');
@@ -29,14 +33,19 @@ const socketActions = [
     event: 'twitch_chat_message',
     execute: async (data, socket) => {
       const json = JSON.parse(data);
-      json.channelNames.split(',').forEach(async (c) => {
-        try {
-          await sendTwitchMessage(c, json.message);
-          emitSucess(socket);
-        } catch (error) {
-          emitError(socket);
-        }
-      });
+      if (settings.twitch.enabled) {
+        json.channelNames.split(',').forEach(async (c) => {
+          try {
+            await sendTwitchMessage(c, json.message);
+            emitSucess(socket);
+          } catch (error) {
+            console.error(error);
+            emitError(socket);
+          }
+        });
+      } else {
+        emitError(socket);
+      }
     },
   },
   {
@@ -200,6 +209,22 @@ const socketActions = [
             emitSucess(socket);
           }
         }
+      }
+    },
+  },
+  {
+    event: 'obs_command',
+    execute: async (data, socket) => {
+      const dataJSON = JSON.parse(data);
+      if (data && settings.obs.socket.enabled) {
+        try {
+          await emitObsCommand(dataJSON.command, dataJSON.data);
+          emitSucess(socket);
+        } catch (error) {
+          emitError(socket);
+        }
+      } else {
+        emitError(socket);
       }
     },
   },

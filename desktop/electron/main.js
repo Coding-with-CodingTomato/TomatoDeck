@@ -13,6 +13,7 @@ const {
   discordActions,
   onDiscordConnectionChange,
 } = require('./libs/discordIpcClient');
+const { initObsSocketConnection } = require('./libs/obsWebsocketClient');
 const { initStorage } = require('./libs/storage');
 const ipcActions = require('./libs/ipcActions');
 
@@ -32,7 +33,7 @@ const settings = initStorage();
 /**
  * Socket Server
  */
-initSocketServer(settings.password, settings.port, settings.layout);
+initSocketServer(settings.password, settings.socketPort, settings.layout);
 
 onSocketDeviceCountChange((change) => {
   connectedDevices += change;
@@ -61,17 +62,38 @@ onDiscordConnectionChange((connected) => {
 checkForDiscordButtonsAndLogin(settings.layout);
 
 /**
+ * OBS Client
+ */
+// const checkForOBSButtonsAndLogin = (layout) => {
+//   if (layout && layout.layouts) {
+//     const buttonsPresent = layout.layouts.some((l) =>
+//       l.rows[0].elements.some((e) => e.eventName === 'obs_command'),
+//     );
+
+//     if (buttonsPresent) {
+//       console.log('OBS BUTTONS PRESENT');
+//       initObsSocketConnection();
+//     }
+//   }
+// };
+if (settings.obs.socket.enabled)
+  initObsSocketConnection(
+    settings.obs.socket.port,
+    settings.obs.socket.password,
+  );
+
+/**
  * Twitch Client
  */
-initTwitchClient();
+if (settings.twitch.enabled) initTwitchClient();
 
 /**
  * Electron Stuff
  */
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1400,
-    height: 1200,
+    width: 1200,
+    height: 1000,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -85,7 +107,7 @@ function createWindow() {
   mainWindow.loadURL(
     NODE_ENV === 'development'
       ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, 'dist/index.html')}`,
+      : `file://${path.join(__dirname, '../dist/index.html')}`,
   );
 }
 

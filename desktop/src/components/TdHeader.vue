@@ -35,18 +35,9 @@
           @click="deleteDialogOpen = true"
           v-if="store.layout.layouts?.length > 1"
         />
-        <!-- <q-btn dense flat round icon="qr_code" @click="emit('clickQR')" />
-        <q-btn
-          dense
-          flat
-          round
-          icon="recent_actors"
-          @click="emit('clickAccounts')"
-        /> -->
 
         <q-separator style="margin-left: 1rem" vertical inset />
 
-        <!-- <q-space /> -->
         <q-btn
           dense
           flat
@@ -82,12 +73,11 @@
 </template>
 
 <script setup>
-import { defineEmits, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
 import BurningTomato from '../assets/burning_tomato.gif';
 
-const emit = defineEmits(['clickQR', 'clickAccounts']);
 const { t } = useI18n();
 const store = useStore();
 const currentLayout = ref('');

@@ -31,28 +31,13 @@ const deleteSetting = (key) => {
 };
 
 const initStorage = () => {
-  let storedLayout = store.get('layout');
-  let storedPort = store.get('socketPort');
-  let storedPassword = store.get('password');
-  let storedAppLanguage = store.get('appLanguage');
-  let storedDiscordAcitivty = store.get('discordActivity');
-  let storedTwitchOauth = store.get('twitchOauth');
+  const settings = store.get();
+  settings.layout = JSON.parse(settings.layout);
 
-  if (storedLayout === undefined) storedLayout = defaultLayout;
-  if (storedPort === undefined) storedPort = defaultPort;
-  if (storedPassword === undefined) storedPassword = '';
-  if (storedAppLanguage === undefined) storedAppLanguage = 'en';
-  if (storedDiscordAcitivty === undefined) storedDiscordAcitivty = '';
-  if (storedTwitchOauth === undefined) storedTwitchOauth = {};
+  if (settings.socketPort === undefined) settings.socketPort = defaultPort;
+  if (settings.layout === undefined) settings.layout = defaultLayout;
 
-  return {
-    layout: JSON.parse(storedLayout),
-    port: Number(storedPort),
-    password: storedPassword,
-    appLanguage: storedAppLanguage,
-    discordActivity: storedDiscordAcitivty,
-    twitchOauth: storedTwitchOauth,
-  };
+  return settings;
 };
 
 module.exports = { initStorage, saveSetting, getSetting, deleteSetting };

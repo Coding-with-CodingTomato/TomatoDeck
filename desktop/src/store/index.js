@@ -48,8 +48,15 @@ export const useStore = defineStore('main', {
       const response = await api.getSetting(setting);
       return response;
     },
+    getSettings() {
+      return api.getSettings();
+    },
     setSetting(setting, data) {
-      api.setSetting(setting, JSON.stringify(data));
+      if (typeof data === 'string' || typeof data === 'number') {
+        api.setSetting(setting, data);
+      } else {
+        api.setSetting(setting, JSON.stringify(data));
+      }
     },
     deleteCurrentLayout() {
       if (this.layout.layouts.length > 1) {
