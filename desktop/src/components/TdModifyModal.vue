@@ -136,13 +136,14 @@
                     action.type !== 'twitch_chat_message'
                   "
                 >
-                  <div class="row">
+                  <div class="row" style="margin: 0; padding: 0">
                     <q-input
                       filled
                       bottom-slots
                       dense
                       class="fullWidth"
                       v-model.trim="action.data"
+                      style="margin: 0; padding: 0"
                       :label="`${action.type} Data`"
                     >
                       <template v-slot:after>

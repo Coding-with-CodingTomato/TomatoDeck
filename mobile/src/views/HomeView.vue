@@ -41,21 +41,43 @@ import TdButton from '@/components/TdButton.vue';
 
 const store = useStore();
 
-const sendEvent = (element: any) => {
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const sendEvent = async (element: any) => {
   if (store.clickFeedback) {
     Haptics.impact({ style: ImpactStyle.Medium });
   }
 
-  try {
-    if (element.eventName === 'counter') {
-      store.currentSocket.emit(element.eventName, element);
-    } else if (element.eventName === 'switch_layout') {
-      store.switchLayout(element.data);
-    } else {
-      store.currentSocket.emit(element.eventName, element.data);
+  if (element.actions) {
+    // NEW Buttons
+    try {
+      for (let action of element.actions) {
+        if (action.type === 'counter') {
+          store.currentSocket.emit(action.type, element);
+        } else if (action.type === 'switch_layout') {
+          store.switchLayout(action.data);
+        } else {
+          store.currentSocket.emit(action.type, action.data);
+        }
+
+        await wait(200);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (e) {
-    console.log(e);
+  } else {
+    // OLD Buttons
+    try {
+      if (element.eventName === 'counter') {
+        store.currentSocket.emit(element.eventName, element);
+      } else if (element.eventName === 'switch_layout') {
+        store.switchLayout(element.data);
+      } else {
+        store.currentSocket.emit(element.eventName, element.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 </script>
