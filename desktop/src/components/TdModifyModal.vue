@@ -80,20 +80,6 @@
               :label="t('channelname')"
             />
           </div>
-
-          <!-- Switch layout selector -->
-          <div
-            class="row"
-            v-if="elementType === 'Button' && elementAction === 'switch_layout'"
-          >
-            <q-select
-              filled
-              class="fullWidth"
-              v-model="elementData"
-              :options="['next', 'last', ...store.availableLayoutsNames]"
-              :label="t('layout')"
-            />
-          </div>
         </q-card-section>
 
         <q-separator vertical v-if="elementType === 'Button'" />
@@ -122,112 +108,147 @@
             v-if="elementType === 'Button'"
             style="max-height: 30vh; overflow-y: auto"
           >
-            <q-timeline-entry
-              v-for="(action, i) in elementActions"
-              :key="action.id"
-              :subtitle="`${i + 1}. ${action.type}`"
+            <draggable
+              v-model="elementActions"
+              group="actions"
+              @start="drag = true"
+              @end="drag = false"
+              item-key="id"
             >
-              <template v-slot:title>
-                <!-- Data Only-->
-                <template
-                  v-if="
-                    action.type !== 'switch_layout' &&
-                    action.type !== 'discord' &&
-                    action.type !== 'twitch_chat_message'
-                  "
-                >
-                  <div class="row" style="margin: 0; padding: 0">
-                    <q-input
-                      filled
-                      bottom-slots
-                      dense
-                      class="fullWidth"
-                      v-model.trim="action.data"
-                      style="margin: 0; padding: 0"
-                      :label="`${action.type} Data`"
+              <template #item="{ element }">
+                <q-timeline-entry :subtitle="`${element.type}`">
+                  <template v-slot:title>
+                    <!-- Data Only-->
+                    <template
+                      v-if="
+                        element.type !== 'switch_layout' &&
+                        element.type !== 'discord' &&
+                        element.type !== 'twitch_chat_message'
+                      "
                     >
-                      <template v-slot:after>
-                        <q-btn
-                          round
+                      <div class="row" style="margin: 0; padding: 0">
+                        <q-input
+                          filled
+                          bottom-slots
                           dense
-                          flat
-                          icon="delete"
-                          @click="removeAction(i)"
-                        />
-                      </template>
-                    </q-input>
-                  </div>
-                </template>
+                          class="fullWidth"
+                          v-model.trim="element.data"
+                          style="margin: 0; padding: 0"
+                          :label="`${element.type} Data`"
+                        >
+                          <template v-slot:after>
+                            <q-btn
+                              round
+                              dense
+                              flat
+                              icon="delete"
+                              @click="removeAction(i)"
+                            />
+                          </template>
+                        </q-input>
+                      </div>
+                    </template>
 
-                <!-- Twitch Chat message channel names -->
-                <template v-if="action.type === 'twitch_chat_message'">
-                  <div class="row">
-                    <q-input
-                      filled
-                      dense
-                      class="fullWidth"
-                      v-model="action.data.channels"
-                      label="Twitch Kanalnamen (Kommasepariert)"
-                    />
-                  </div>
-
-                  <!-- Twitch Chat message -->
-                  <div class="row">
-                    <q-input
-                      filled
-                      bottom-slots
-                      dense
-                      class="fullWidth"
-                      v-model="action.data.message"
-                      label="Nachricht"
-                    >
-                      <template v-slot:after>
-                        <q-btn
-                          round
+                    <!-- Twitch Chat message channel names -->
+                    <template v-if="element.type === 'twitch_chat_message'">
+                      <div class="row">
+                        <q-input
+                          filled
                           dense
-                          flat
-                          icon="delete"
-                          @click="removeAction(i)"
+                          class="fullWidth"
+                          v-model="element.data.channels"
+                          label="Twitch Kanalnamen (Kommasepariert)"
                         />
-                      </template>
-                    </q-input>
-                  </div>
-                </template>
+                      </div>
 
-                <!-- Discord Action selector -->
-                <template v-if="action.type === 'discord'">
-                  <div class="row">
-                    <q-select
-                      filled
-                      bottom-slots
-                      dense
-                      class="fullWidth"
-                      v-model="action.data"
-                      :options="[
-                        'mute_microphone',
-                        'unmute_microphone',
-                        'toggle_microphone',
-                        'deaf_headphones',
-                        'undeaf_headphones',
-                        'toggle_headphones',
-                        'leave_voice_channel',
-                      ]"
-                      :label="t('discord')"
-                    >
-                      <template v-slot:after>
-                        <q-btn
-                          round
+                      <!-- Twitch Chat message -->
+                      <div class="row">
+                        <q-input
+                          filled
+                          bottom-slots
                           dense
-                          flat
-                          icon="delete"
-                          @click="removeAction(i)"
-                        />
-                      </template>
-                    </q-select>
-                  </div>
-                </template>
+                          class="fullWidth"
+                          v-model="element.data.message"
+                          label="Nachricht"
+                        >
+                          <template v-slot:after>
+                            <q-btn
+                              round
+                              dense
+                              flat
+                              icon="delete"
+                              @click="removeAction(i)"
+                            />
+                          </template>
+                        </q-input>
+                      </div>
+                    </template>
+
+                    <!-- Discord Action selector -->
+                    <template v-if="element.type === 'discord'">
+                      <div class="row">
+                        <q-select
+                          filled
+                          bottom-slots
+                          dense
+                          class="fullWidth"
+                          v-model="element.data"
+                          :options="[
+                            'mute_microphone',
+                            'unmute_microphone',
+                            'toggle_microphone',
+                            'deaf_headphones',
+                            'undeaf_headphones',
+                            'toggle_headphones',
+                            'leave_voice_channel',
+                          ]"
+                          :label="t('discord')"
+                        >
+                          <template v-slot:after>
+                            <q-btn
+                              round
+                              dense
+                              flat
+                              icon="delete"
+                              @click="removeAction(i)"
+                            />
+                          </template>
+                        </q-select>
+                      </div>
+                    </template>
+
+                    <!-- Switch Action selector -->
+                    <template v-if="element.type === 'switch_layout'">
+                      <div class="row">
+                        <q-select
+                          filled
+                          bottom-slots
+                          dense
+                          class="fullWidth"
+                          v-model="element.data"
+                          :options="[
+                            'next',
+                            'last',
+                            ...store.availableLayoutsNames,
+                          ]"
+                          :label="t('layout')"
+                        >
+                          <template v-slot:after>
+                            <q-btn
+                              round
+                              dense
+                              flat
+                              icon="delete"
+                              @click="removeAction(i)"
+                            />
+                          </template>
+                        </q-select>
+                      </div>
+                    </template>
+                  </template>
+                </q-timeline-entry>
               </template>
-            </q-timeline-entry>
+            </draggable>
           </q-timeline>
         </q-card-section>
       </q-card-section>
@@ -262,6 +283,7 @@
 </template>
 
 <script setup>
+import draggable from 'vuedraggable';
 import { ref, defineExpose } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
@@ -271,6 +293,7 @@ const store = useStore();
 
 const isModalOpen = ref(false);
 const editMode = ref(false);
+const drag = ref(false);
 
 const elementOptions = ref(['Button', 'Twitch Chat', 'Text', 'Layout']);
 const actionOptions = ref([
@@ -287,6 +310,7 @@ const actionOptions = ref([
   'discord',
   'twitch_chat_message',
   'obs_command',
+  'wait',
 ]);
 
 const elementId = ref(0);
@@ -297,9 +321,6 @@ const elementType = ref('Button');
 const elementAction = ref();
 const elementData = ref('');
 const elementImage = ref('');
-
-const elementTwitchChatChannels = ref('');
-const elementTwitchChatMessage = ref('');
 
 const elementActions = ref([]);
 

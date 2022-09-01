@@ -56,11 +56,13 @@ const sendEvent = async (element: any) => {
           store.currentSocket.emit(action.type, element);
         } else if (action.type === 'switch_layout') {
           store.switchLayout(action.data);
+        } else if (action.type === 'wait') {
+          await wait(Number(action.data));
         } else {
           store.currentSocket.emit(action.type, action.data);
         }
 
-        await wait(200);
+        await wait(100);
       }
     } catch (error) {
       console.error(error);

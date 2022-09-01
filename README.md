@@ -67,6 +67,8 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [ ] Spotify integration?
 - [ ] Custom Button size
 - [ ] Custom Background
+- [ ] Audiosettings
+  - [ ] Switch Audio devices
 
 ### 🖥️ Desktop specific
 
