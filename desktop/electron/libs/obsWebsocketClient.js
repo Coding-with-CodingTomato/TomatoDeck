@@ -7,7 +7,11 @@ const initObsSocketConnection = async (
   port = 4455,
   password = '8DNxWhmrMCk7RxXy',
 ) => {
-  await obs.connect(`ws://localhost:${port}`, password);
+  try {
+    await obs.connect(`ws://localhost:${port}`, password);
+  } catch (error) {
+    console.error(error);
+  }
 
   obs.on('ConnectionClosed', () => {
     obsConnected = false;

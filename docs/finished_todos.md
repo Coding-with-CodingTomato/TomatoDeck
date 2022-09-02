@@ -1,6 +1,7 @@
 # 🥳 Finished Todos
 
 ## 📄 General
+
 - [x] Just text cards
 - [x] Open website with standard browser
 - [x] Run exe file -> via hotkey trick possible
@@ -17,8 +18,11 @@
   - [x] Show Layouts on mobile
   - [x] Create Button actions for switching layouts
 - [x] Counter Button
+- [x] WLED control
+- [x] Multiple actions with one button press
 
 ## 🖥️ Desktop specific
+
 - [x] display pc ip
 - [x] set socket port (config)
 - [x] store and send grid setup
@@ -28,6 +32,7 @@
 - [x] Change text color to be visible on any background color
 
 ## 📱 Mobile specific
+
 - [x] Set PC IP + PORT
 - [x] Get Grid Setup
 - [x] Implement Text Type

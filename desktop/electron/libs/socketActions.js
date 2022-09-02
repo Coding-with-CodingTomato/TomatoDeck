@@ -1,6 +1,6 @@
 const fs = require('fs');
 const log = require('electron-log');
-const sound = require('sound-play');
+const player = require('play-sound')({});
 const axios = require('axios').default;
 const { execSync, execFile } = require('child_process');
 const { shell } = require('electron');
@@ -179,7 +179,9 @@ const socketActions = [
       let errorEvent = false;
 
       try {
-        await sound.play(data);
+        player.play(data, (err) => {
+          if (err) throw err;
+        });
       } catch (error) {
         log.error(`Error while trying to play audio with data: ${data}`);
         log.error(JSON.stringify(error));
@@ -225,6 +227,26 @@ const socketActions = [
         }
       } else {
         emitError(socket);
+      }
+    },
+  },
+  {
+    event: 'wled',
+    execute: async (data, socket) => {
+      if (data) {
+        let errorEvent = false;
+        const wledUrl = `http://${data.ip}/win&R=${data.red}&B=${data.blue}&G=${data.green}&W=${data.white}&FX=${data.effectId}&SX=${data.effectSpeed}&IX=${data.effectIntensity}`;
+
+        try {
+          await axios.get(wledUrl);
+        } catch (error) {
+          errorEvent = true;
+          emitError(socket);
+        } finally {
+          if (!errorEvent) {
+            emitSucess(socket);
+          }
+        }
       }
     },
   },

@@ -42,6 +42,16 @@ export const de = {
     connection: 'OBS Verbindung',
     connection_desc: 'Verbindung zum OBS Websocket Server aufbauen',
   },
+  wled: {
+    ip: 'IP Adresse',
+    red: 'Rot',
+    blue: 'Blau',
+    green: 'Grün',
+    white: 'Weiß',
+    effectId: 'Effekt ID',
+    effectSpeed: 'Effekt Geschwindigkeit',
+    effectIntensity: 'Effekt Intesität',
+  },
   twitch_settings: {
     title: 'Twitch Einstellungen',
     connection: 'Twitch Verbindung',

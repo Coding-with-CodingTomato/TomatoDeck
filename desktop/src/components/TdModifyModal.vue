@@ -123,7 +123,8 @@
                       v-if="
                         element.type !== 'switch_layout' &&
                         element.type !== 'discord' &&
-                        element.type !== 'twitch_chat_message'
+                        element.type !== 'twitch_chat_message' &&
+                        element.type !== 'wled'
                       "
                     >
                       <div class="row" style="margin: 0; padding: 0">
@@ -245,6 +246,79 @@
                         </q-select>
                       </div>
                     </template>
+
+                    <!-- WLED Action selector -->
+                    <template v-if="element.type === 'wled'">
+                      <!-- WLED DATA -->
+                      <div class="row">
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.ip"
+                          :label="t('wled.ip')"
+                        >
+                          <template v-slot:after>
+                            <q-btn
+                              round
+                              dense
+                              flat
+                              icon="delete"
+                              @click="removeAction(i)"
+                            />
+                          </template>
+                        </q-input>
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.red"
+                          :label="`${t('wled.red')} (0-255)`"
+                        />
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.green"
+                          :label="`${t('wled.green')} (0-255)`"
+                        />
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.blue"
+                          :label="`${t('wled.blue')} (0-255)`"
+                        />
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.white"
+                          :label="`${t('wled.white')} (0-255)`"
+                        />
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.effectId"
+                          :label="`${t('wled.effectId')} (Solid: 0)`"
+                        />
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.effectSpeed"
+                          :label="`${t('wled.effectSpeed')} (0-255)`"
+                        />
+                        <q-input
+                          filled
+                          dense
+                          class="fullWidth"
+                          v-model="element.data.effectIntensity"
+                          :label="`${t('wled.effectIntensity')} (0-255)`"
+                        />
+                      </div>
+                    </template>
                   </template>
                 </q-timeline-entry>
               </template>
@@ -311,6 +385,7 @@ const actionOptions = ref([
   'twitch_chat_message',
   'obs_command',
   'wait',
+  'wled',
 ]);
 
 const elementId = ref(0);
@@ -333,6 +408,17 @@ const addAction = () => {
     dataElement = {
       channels: '',
       message: '',
+    };
+  } else if (elementAction.value === 'wled') {
+    dataElement = {
+      ip: '',
+      red: 0,
+      green: 0,
+      blue: 0,
+      white: 0,
+      effectId: 0,
+      effectSpeed: 0,
+      effectIntensity: 0,
     };
   }
 

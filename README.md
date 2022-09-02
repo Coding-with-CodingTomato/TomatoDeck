@@ -29,8 +29,6 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 
 ### 📄 General
 
-- [ ] Dice Buttons
-- [ ] 8Ball Button
 - [x] Execute HTTP-Requests
   - [x] GET
   - [ ] Other Requests with options
@@ -46,7 +44,12 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
   - [x] Write in chat
   - [ ] Set chat settings (e.g. slow mode)
   - [ ] See viewer count
-- [ ] Multiple actions with one button press
+- [ ] Obs integration? (obs-websocket-js)
+  - [x] Add OBS Websocket Connection
+  - [x] Make OBS Commands available to Send
+  - [ ] Make ui for commands
+- [ ] Dice Buttons
+- [ ] 8Ball Button
 - [ ] Voice hotkey
 - [ ] Info Cards
   - [ ] CPU
@@ -56,24 +59,19 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
   - [ ] Stock / Crypto with chart
   - [ ] PiHole
 - [ ] Route Soundboard through own microphone
-- [ ] WLED control
 - [ ] Send Tweet
-- [ ] Synthesizer mit https://tonejs.github.io/
 - [ ] Homeassistant support?
-- [ ] Siri support?
 - [ ] Zoom integration?
 - [ ] Teams integration?
-- [ ] Obs integration? (obs-websocket-js)
 - [ ] Spotify integration?
 - [ ] Custom Button size
 - [ ] Custom Background
-- [ ] Audiosettings
-  - [ ] Switch Audio devices
 
 ### 🖥️ Desktop specific
 
 - [ ] Option to automaticly start on system startup
 - [ ] Audiosettings
+  - [ ] Switch Audio devices
 - [ ] Backup / Restore Config.json
 - [ ] Log into accounts like Twitch and Twitter
 - [ ] Connect via QR-Code
@@ -82,10 +80,9 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
   - [x] Available windows / mac / linux hotkeys
   - [ ] Multiple languages
   - [ ] General How-Tos
-- [ ] Auto Updater
-- [ ] Duplicate button
+- [ ] Auto Update
+- [ ] Right click button -> Delete, Duplicate
 - [ ] Mulitple button selection -> Delete, Duplicate
-- [ ] Right click button -> Delete
 
 ### 📱 Mobile specific
 
