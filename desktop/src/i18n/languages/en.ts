@@ -8,6 +8,7 @@ export const en = {
   clear: 'Clear',
   save: 'Save',
   button: 'Button',
+  message: 'Message',
   new_password: 'New Password',
   add_new_element: 'Add new element',
   really_delete_layout: 'Really delete layout?',
@@ -53,6 +54,65 @@ export const en = {
     oauthToken: 'OAuth-Token',
     oauthTokenDesc: 'OAuth-Token for sending messages',
     generateHere: 'Generate here',
+    channelNamesComma: 'Channelnames (Commaseperated)',
+  },
+  action_options: {
+    wait: {
+      label: 'Wait',
+      desc: 'Waits the defined amount of milliseconds',
+    },
+    keys: {
+      label: 'Keys',
+      desc: 'Presses the defined key after one other',
+    },
+    hotkey: {
+      label: 'Hotkey',
+      desc: 'Presses the defined hotkey',
+    },
+    open_website: {
+      label: 'Open website',
+      desc: 'Opens the defined URL in your default browser',
+    },
+    run_exe: {
+      label: 'Run exe',
+      desc: 'Runs an exe file',
+    },
+    open_folder: {
+      label: 'Open folder',
+      desc: 'Opens the folder from the defined path',
+    },
+    click_mouse: {
+      label: 'Mouse click',
+      desc: 'Clicks the mouse in the defined position',
+    },
+    play_sound: {
+      label: 'Play sound',
+      desc: 'Plays the audio file from the defined path',
+    },
+    switch_layout: {
+      label: 'Switch layout',
+      desc: 'Switched your layout',
+    },
+    http_get_request: {
+      label: 'HTTP Get Request',
+      desc: 'Performs a HTTP Get Request against the defined URL',
+    },
+    twitch_chat_message: {
+      label: 'Twitch chat message',
+      desc: 'Sends a Twitch chat message in the desired channel',
+    },
+    discord: {
+      label: 'Discord action',
+      desc: 'Executes a defined discord action',
+    },
+    obs_command: {
+      label: 'OBS action',
+      desc: 'Executes a defined OBS action',
+    },
+    wled: {
+      label: 'WLED action',
+      desc: 'Controls a defined WLED device',
+    },
   },
   wled: {
     ip: 'IP address',
@@ -70,7 +130,7 @@ export const en = {
   image_animation: 'Image/Animation',
   color: 'Color',
   action: 'Action',
-  data: 'Data (Keys / URL / Path / Coordinates x,y)',
+  data: 'Data',
   channelname: 'Channelname',
 };
 

@@ -235,7 +235,11 @@ const socketActions = [
     execute: async (data, socket) => {
       if (data) {
         let errorEvent = false;
-        const wledUrl = `http://${data.ip}/win&R=${data.red}&B=${data.blue}&G=${data.green}&W=${data.white}&FX=${data.effectId}&SX=${data.effectSpeed}&IX=${data.effectIntensity}`;
+        const wledUrl = `http://${data.ip}/win&A=${data.brightness}&T=${
+          data.power ? '1' : '0'
+        }&R=${data.red}&B=${data.blue}&G=${data.green}&W=${data.white}&FX=${
+          data.effectId
+        }&SX=${data.effectSpeed}&IX=${data.effectIntensity}`;
 
         try {
           await axios.get(wledUrl);

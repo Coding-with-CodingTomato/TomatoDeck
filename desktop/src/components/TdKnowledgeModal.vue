@@ -62,53 +62,64 @@
                   executed when the button is clicked
                   <ul>
                     <li>
-                      <b>keys:</b> Types the keys specified in the Data setting
+                      <b>Wait:</b> Waits the defined amount of milliseconds
                     </li>
                     <li>
-                      <b>hotkey:</b> Holds the all keys but the last one and
+                      <b>Keys:</b> Types the keys specified in the Data setting
+                    </li>
+                    <li>
+                      <b>Hotkey:</b> Holds the all keys but the last one and
                       clicks the last one to execute a hotkey
                     </li>
                     <li>
-                      <b>open_website:</b> Opens url specified in the Data
+                      <b>Open website:</b> Opens url specified in the Data
                       setting in your default browser
                     </li>
                     <li>
-                      <b>run_exe:</b> Runs the EXE file specified in the Data
+                      <b>Run exe:</b> Runs the EXE file specified in the Data
                       setting (Format: Path)
                     </li>
                     <li>
-                      <b>open_folder:</b> Opens a folder specified in the Data
+                      <b>Open folder:</b> Opens a folder specified in the Data
                       setting (Format: Path)
                     </li>
                     <li>
-                      <b>click_mouse:</b> Clicks the mouse on a specific point
+                      <b>Mouse click:</b> Clicks the mouse on a specific point
                       on your screen (Format for Data setting: x,y)
                     </li>
                     <li>
-                      <b>play_sound:</b> Plays an audio file specified in the
+                      <b>Play sound:</b> Plays an audio file specified in the
                       Data setting (Format: Path)
                     </li>
                     <li><b>counter:</b> Converts a button to a counter</li>
                     <li>
-                      <b>http_get_request:</b> Performs a HTTP GET Request to
+                      <b>HTTP Get Request:</b> Performs a HTTP GET Request to
                       the specified URL (Format: URL)
                     </li>
                     <li>
-                      <b>switch_layout:</b> Allows you to switch between your
+                      <b>Switch layout:</b> Allows you to switch between your
                       layouts.
                     </li>
                     <li>
-                      <b>discord:</b> Lets you interact with your Discord client
-                      directly without hotkeys.
+                      <b>Discord action:</b> Lets you interact with your Discord
+                      client directly without hotkeys.
                     </li>
                     <li>
-                      <b>twitch_chat_message:</b> Lets you send a message to one
+                      <b>Twitch chat message:</b> Lets you send a message to one
                       or more twitch chats. You can set multiple channels by
                       seperating them with commas.
                       <i
                         >You have to specify the account from which TomatoDeck
                         should send those messages.
                       </i>
+                    </li>
+                    <li>
+                      <b>OBS action:</b> Executes a defined OBS action directly
+                      without hotkeys.
+                    </li>
+                    <li>
+                      <b>WLED action:</b> Controls a defined WLED device
+                      directly without hotkeys.
                     </li>
                   </ul>
                 </li>

@@ -92,7 +92,16 @@
               v-model="elementAction"
               :options="actionOptions"
               :label="t('action')"
-            />
+            >
+              <template v-slot:option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section>
+                    <q-item-label>{{ scope.opt.label }}</q-item-label>
+                    <q-item-label caption>{{ scope.opt.desc }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
             <q-btn
               square
               color="primary"
@@ -116,7 +125,7 @@
               item-key="id"
             >
               <template #item="{ element }">
-                <q-timeline-entry :subtitle="`${element.type}`">
+                <q-timeline-entry :subtitle="`${element.label}`">
                   <template v-slot:title>
                     <!-- Data Only-->
                     <template
@@ -135,7 +144,7 @@
                           class="fullWidth"
                           v-model.trim="element.data"
                           style="margin: 0; padding: 0"
-                          :label="`${element.type} Data`"
+                          :label="t('data')"
                         >
                           <template v-slot:after>
                             <q-btn
@@ -158,7 +167,7 @@
                           dense
                           class="fullWidth"
                           v-model="element.data.channels"
-                          label="Twitch Kanalnamen (Kommasepariert)"
+                          :label="t('twitch_settings.channelNamesComma')"
                         />
                       </div>
 
@@ -170,7 +179,7 @@
                           dense
                           class="fullWidth"
                           v-model="element.data.message"
-                          label="Nachricht"
+                          :label="t('message')"
                         >
                           <template v-slot:after>
                             <q-btn
@@ -251,72 +260,93 @@
                     <template v-if="element.type === 'wled'">
                       <!-- WLED DATA -->
                       <div class="row">
-                        <q-input
-                          filled
+                        <q-toggle
+                          v-model="element.data.power"
+                          :label="t('wled.power_state')"
+                        />
+                        <q-btn
+                          round
                           dense
+                          flat
+                          icon="delete"
+                          @click="removeAction(i)"
+                        />
+                      </div>
+                      <div class="row">
+                        <q-expansion-item
+                          expand-separator
                           class="fullWidth"
-                          v-model="element.data.ip"
-                          :label="t('wled.ip')"
+                          icon="settings"
+                          :label="t('settings')"
                         >
-                          <template v-slot:after>
-                            <q-btn
-                              round
-                              dense
-                              flat
-                              icon="delete"
-                              @click="removeAction(i)"
-                            />
-                          </template>
-                        </q-input>
-                        <q-input
-                          filled
-                          dense
-                          class="fullWidth"
-                          v-model="element.data.red"
-                          :label="`${t('wled.red')} (0-255)`"
-                        />
-                        <q-input
-                          filled
-                          dense
-                          class="fullWidth"
-                          v-model="element.data.green"
-                          :label="`${t('wled.green')} (0-255)`"
-                        />
-                        <q-input
-                          filled
-                          dense
-                          class="fullWidth"
-                          v-model="element.data.blue"
-                          :label="`${t('wled.blue')} (0-255)`"
-                        />
-                        <q-input
-                          filled
-                          dense
-                          class="fullWidth"
-                          v-model="element.data.white"
-                          :label="`${t('wled.white')} (0-255)`"
-                        />
-                        <q-input
-                          filled
-                          dense
-                          class="fullWidth"
-                          v-model="element.data.effectId"
-                          :label="`${t('wled.effectId')} (Solid: 0)`"
-                        />
-                        <q-input
-                          filled
-                          dense
-                          class="fullWidth"
-                          v-model="element.data.effectSpeed"
-                          :label="`${t('wled.effectSpeed')} (0-255)`"
-                        />
-                        <q-input
-                          filled
-                          dense
-                          class="fullWidth"
-                          v-model="element.data.effectIntensity"
-                          :label="`${t('wled.effectIntensity')} (0-255)`"
-                        />
+                          <q-card>
+                            <q-card-section>
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.ip"
+                                :label="t('wled.ip')"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.brightness"
+                                :label="`${t('wled.brightness')} (0-255)`"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.red"
+                                :label="`${t('wled.red')} (0-255)`"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.green"
+                                :label="`${t('wled.green')} (0-255)`"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.blue"
+                                :label="`${t('wled.blue')} (0-255)`"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.white"
+                                :label="`${t('wled.white')} (0-255)`"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.effectId"
+                                :label="`${t('wled.effectId')} (Solid: 0)`"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.effectSpeed"
+                                :label="`${t('wled.effectSpeed')} (0-255)`"
+                              />
+                              <q-input
+                                filled
+                                dense
+                                class="fullWidth"
+                                v-model="element.data.effectIntensity"
+                                :label="`${t('wled.effectIntensity')} (0-255)`"
+                              />
+                            </q-card-section>
+                          </q-card>
+                        </q-expansion-item>
                       </div>
                     </template>
                   </template>
@@ -369,24 +399,36 @@ const isModalOpen = ref(false);
 const editMode = ref(false);
 const drag = ref(false);
 
-const elementOptions = ref(['Button', 'Twitch Chat', 'Text', 'Layout']);
-const actionOptions = ref([
-  'keys',
-  'hotkey',
-  'open_website',
-  'run_exe',
-  'open_folder',
-  'click_mouse',
-  'play_sound',
-  'counter',
-  'http_get_request',
-  'switch_layout',
-  'discord',
-  'twitch_chat_message',
-  'obs_command',
-  'wait',
-  'wled',
+const elementOptions = ref([
+  'Button',
+  'Twitch Chat',
+  'Text',
+  'Layout',
+  'Counter',
 ]);
+const actionOptions = ref(
+  [
+    'wait',
+    'keys',
+    'hotkey',
+    'open_website',
+    'run_exe',
+    'open_folder',
+    'click_mouse',
+    'play_sound',
+    'counter',
+    'switch_layout',
+    'http_get_request',
+    'twitch_chat_message',
+    'discord',
+    'obs_command',
+    'wled',
+  ].map((value) => ({
+    value,
+    label: t(`action_options.${value}.label`),
+    desc: t(`action_options.${value}.desc`),
+  })),
+);
 
 const elementId = ref(0);
 const elementRowIndex = ref(0);
@@ -411,11 +453,13 @@ const addAction = () => {
     };
   } else if (elementAction.value === 'wled') {
     dataElement = {
+      power: true,
       ip: '',
       red: 0,
       green: 0,
       blue: 0,
       white: 0,
+      brightness: 255,
       effectId: 0,
       effectSpeed: 0,
       effectIntensity: 0,
@@ -424,7 +468,8 @@ const addAction = () => {
 
   elementActions.value.push({
     id: Math.random(),
-    type: elementAction.value,
+    type: elementAction.value.value,
+    label: elementAction.value.label,
     data: dataElement,
   });
 };

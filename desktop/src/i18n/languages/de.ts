@@ -8,6 +8,7 @@ export const de = {
   save: 'Speichern',
   clear: 'Zurücksetzen',
   button: 'Knopf',
+  message: 'Nachricht',
   new_password: 'Neues Passwort',
   add_new_element: 'Neues Element hinzufügen',
   really_delete_layout: 'Layout wirklich löschen?',
@@ -62,6 +63,65 @@ export const de = {
     oauthToken: 'Zugangstoken',
     oauthTokenDesc: 'Zugangstoken für den Chat',
     generateHere: 'Hier generieren',
+    channelNamesComma: 'Kanalnamen (Kommaseperiert)',
+  },
+  action_options: {
+    wait: {
+      label: 'Warte',
+      desc: 'Wartet eine bestimmte Zeit bis zur nächsten Aktion',
+    },
+    keys: {
+      label: 'Tasten',
+      desc: 'Tippt Tasten nacheinander',
+    },
+    hotkey: {
+      label: 'Tastenkombination',
+      desc: 'Führt Tastenkombination aus',
+    },
+    open_website: {
+      label: 'Website öffnen',
+      desc: 'Öffnet eine Website',
+    },
+    run_exe: {
+      label: 'EXE ausführen',
+      desc: 'Führt eine EXE Datei aus',
+    },
+    open_folder: {
+      label: 'Ordner öffnen',
+      desc: 'Öffnet einen definierten Ordner',
+    },
+    click_mouse: {
+      label: 'Mausklick',
+      desc: 'Führt einen Mausklick an der definierten Stelle aus',
+    },
+    play_sound: {
+      label: 'Audio abspielen',
+      desc: 'Spielt eine Audiodatei aus',
+    },
+    switch_layout: {
+      label: 'Layout wechseln',
+      desc: 'Wechselt das Layout',
+    },
+    http_get_request: {
+      label: 'HTTP Get Anfrage',
+      desc: 'Führt einen HTTP Get Anfrage zur definierten URL',
+    },
+    twitch_chat_message: {
+      label: 'Twitch Chat Nachricht',
+      desc: 'Schreibt eine Nachricht in einen definierten Twitch Chat',
+    },
+    discord: {
+      label: 'Discord Aktion',
+      desc: 'Führt eine Discord Aktion aus.',
+    },
+    obs_command: {
+      label: 'OBS Aktion',
+      desc: 'Führt eine OBS Aktion aus',
+    },
+    wled: {
+      label: 'WLED Aktion',
+      desc: 'Steuert ein definiertes WLED Gerät',
+    },
   },
   edit_element: 'Element bearbeiten',
   element_type: 'Element Typ',
@@ -69,7 +129,7 @@ export const de = {
   image_animation: 'Bild/Animation',
   color: 'Farbe',
   action: 'Aktion',
-  data: 'Daten (Tasten / URL / Pfad / Koordinaten x,y)',
+  data: 'Daten',
   channelname: 'Kanalname',
 };
 
