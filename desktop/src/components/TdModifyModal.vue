@@ -399,13 +399,7 @@ const isModalOpen = ref(false);
 const editMode = ref(false);
 const drag = ref(false);
 
-const elementOptions = ref([
-  'Button',
-  'Twitch Chat',
-  'Text',
-  'Layout',
-  'Counter',
-]);
+const elementOptions = ref(['Button', 'Twitch Chat', 'Text', 'Layout']);
 const actionOptions = ref(
   [
     'wait',
@@ -416,7 +410,6 @@ const actionOptions = ref(
     'open_folder',
     'click_mouse',
     'play_sound',
-    'counter',
     'switch_layout',
     'http_get_request',
     'twitch_chat_message',

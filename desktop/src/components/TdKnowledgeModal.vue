@@ -91,7 +91,6 @@
                       <b>Play sound:</b> Plays an audio file specified in the
                       Data setting (Format: Path)
                     </li>
-                    <li><b>counter:</b> Converts a button to a counter</li>
                     <li>
                       <b>HTTP Get Request:</b> Performs a HTTP GET Request to
                       the specified URL (Format: URL)

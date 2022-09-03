@@ -121,7 +121,7 @@ watch(drag, (to) => {
           </div>
           <div class="item">
             <q-icon name="change_circle" style="font-size: medium" />
-            <b>Version:</b> 0.1.9
+            <b>Version:</b> 0.2.0
           </div>
           <div class="item">
             <q-icon name="tablet_mac" style="font-size: medium" />

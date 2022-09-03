@@ -3,7 +3,7 @@
     <ion-menu side="start" content-id="main-content">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>TomatoDeck (v0.1.8)</ion-list-header>
+          <ion-list-header>TomatoDeck (v0.2.0)</ion-list-header>
           <ion-note>
             <a
               target="_blank"

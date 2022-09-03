@@ -50,6 +50,7 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
   - [ ] Make ui for commands
 - [ ] Dice Buttons
 - [ ] 8Ball Button
+- [ ] Reintegrate Counter Button as different Element type
 - [ ] Voice hotkey
 - [ ] Info Cards
   - [ ] CPU
