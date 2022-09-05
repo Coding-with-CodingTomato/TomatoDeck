@@ -12,6 +12,8 @@ export const de = {
   new_password: 'Neues Passwort',
   add_new_element: 'Neues Element hinzufügen',
   really_delete_layout: 'Layout wirklich löschen?',
+  empty_layout:
+    'Du hast noch keine Elemente zu deinem Layout hinzugefügt. Tu dies über den + Knopf.',
   settings: {
     settings: 'Einstellungen',
     general: 'Allgemein',
@@ -27,16 +29,23 @@ export const de = {
       'Setze den Port zu dem sich dein mobiles Gerät verbindet (Änderung nach Neustart aktiv)',
     mask: 'Maske',
   },
-  dc_rp: {
-    title: 'Discord Aktivität',
-    details: 'Details',
-    state: 'Status',
-    largeImageKey: 'Großes Bild Key',
-    largeImageText: 'Großes Bild Text',
-    smallImageKey: 'Kleines Bild Key',
-    smallImageText: 'Kleines Bild Text',
-    instance: 'Instanz',
-    starttime: 'Startzeit',
+  discord: {
+    settings: {
+      title: 'Discord Einstellungen',
+      connection: 'Discord Verbindung',
+      connection_desc: 'Aktiviere den Verbindungaufbau zum Discord Client',
+    },
+    activity: {
+      title: 'Discord Aktivität',
+      details: 'Details',
+      state: 'Status',
+      largeImageKey: 'Großes Bild Key',
+      largeImageText: 'Großes Bild Text',
+      smallImageKey: 'Kleines Bild Key',
+      smallImageText: 'Kleines Bild Text',
+      instance: 'Instanz',
+      starttime: 'Startzeit',
+    },
   },
   obs_settings: {
     title: 'OBS Websocket Einstellungen',

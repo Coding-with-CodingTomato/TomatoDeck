@@ -10,7 +10,6 @@ const {
 const { initTwitchClient } = require('./libs/twitchChatClient');
 const {
   initDiscordIPC,
-  discordActions,
   onDiscordConnectionChange,
 } = require('./libs/discordIpcClient');
 const { initObsSocketConnection } = require('./libs/obsWebsocketClient');
@@ -33,7 +32,7 @@ const settings = initStorage();
 /**
  * Socket Server
  */
-initSocketServer(settings.password, settings.socketPort, settings.layout);
+initSocketServer(settings.password || '', settings.socketPort, settings.layout);
 
 onSocketDeviceCountChange((change) => {
   connectedDevices += change;
@@ -42,41 +41,18 @@ onSocketDeviceCountChange((change) => {
 /**
  * Discord RPC
  */
-const checkForDiscordButtonsAndLogin = (layout) => {
-  if (layout && layout.layouts) {
-    const discordButtonsPresent = layout.layouts.some((l) =>
-      l.rows[0].elements.some((e) => e.eventName === 'discord'),
-    );
-
-    if (discordButtonsPresent) {
-      initDiscordIPC();
-      setTimeout(discordActions.setActivityFromStorage, 2000);
-    }
-  }
-};
+if (settings.discord.enabled === 'true') {
+  initDiscordIPC();
+}
 
 onDiscordConnectionChange((connected) => {
   mainWindow.webContents.send('discordConnectionChange', connected);
 });
 
-checkForDiscordButtonsAndLogin(settings.layout);
-
 /**
  * OBS Client
  */
-// const checkForOBSButtonsAndLogin = (layout) => {
-//   if (layout && layout.layouts) {
-//     const buttonsPresent = layout.layouts.some((l) =>
-//       l.rows[0].elements.some((e) => e.eventName === 'obs_command'),
-//     );
-
-//     if (buttonsPresent) {
-//       console.log('OBS BUTTONS PRESENT');
-//       initObsSocketConnection();
-//     }
-//   }
-// };
-if (settings.obs.socket.enabled)
+if (settings.obs.socket.enabled === 'true')
   initObsSocketConnection(
     settings.obs.socket.port,
     settings.obs.socket.password,
@@ -85,7 +61,7 @@ if (settings.obs.socket.enabled)
 /**
  * Twitch Client
  */
-if (settings.twitch.enabled) initTwitchClient();
+if (settings.twitch.enabled === 'true') initTwitchClient();
 
 /**
  * Electron Stuff

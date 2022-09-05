@@ -39,7 +39,9 @@ const ipcActions = [
       const hostData = {
         ip: firstIPResult || '0.0.0.0',
         socketPort: settings.socketPort,
-        discordActivity: settings.discordActivity,
+        discord: {
+          activity: settings.discord.activity,
+        },
       };
 
       event.returnValue = hostData;
@@ -129,15 +131,15 @@ const ipcActions = [
     event: 'sendNewDiscordActivity',
     execute: (event, args) => {
       const newActivity = JSON.parse(args);
+      saveSetting('discord.activity', newActivity);
       discordActions.setActivity(newActivity);
-      saveSetting('discordActivity', newActivity);
     },
   },
   {
     event: 'clearDiscordActivity',
     execute: () => {
       discordActions.clearActivity();
-      deleteSetting('discordActivity');
+      deleteSetting('discord.activity');
     },
   },
   {

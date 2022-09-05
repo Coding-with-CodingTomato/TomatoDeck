@@ -514,6 +514,7 @@ const deleteElement = () => {
 const addNewElement = () => {
   if (elementType.value === 'Button' && elementActions.value.length === 0)
     return;
+  if (elementText.value === '') return;
 
   const id = Math.floor(Math.random() * 99999);
   const tempLayout = JSON.parse(JSON.stringify(store.layout));
@@ -531,7 +532,7 @@ const addNewElement = () => {
       row_index: rowSize - 1,
       type: elementType.value,
       text: elementText.value,
-      color: elementColor.value,
+      color: elementColor.value || '#000',
       image: elementImage.value.path || '',
       icon: '',
       actions: elementActions.value,

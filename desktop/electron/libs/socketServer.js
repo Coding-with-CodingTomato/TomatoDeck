@@ -33,7 +33,7 @@ const initSocketServer = (password, port, newLayout) => {
     const err = new Error('Wrong Password');
     const { password: sentPassword } = socket.handshake.auth;
 
-    if (password === '') return next(err);
+    if (password === '') return next();
     if (password !== sentPassword) return next(err);
 
     return next();

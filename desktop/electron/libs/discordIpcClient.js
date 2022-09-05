@@ -28,54 +28,36 @@ const onDiscordConnectionChange = (cb) => {
 };
 
 /**
- * Init Discord Client
+ * Discord Client Functions
  */
-const initDiscordIPC = () => {
-  if (discordClient !== null) {
-    discordClient = null;
-  }
-
-  discordClient = new RPC.Client({ transport: 'ipc' });
-
-  discordClient.on('ready', async () => {
-    const isAccessTokenSet =
-      !accessToken ||
-      (discordClient.accessToken !== undefined &&
-        accessToken !== discordClient.accessToken);
-    if (isAccessTokenSet) {
-      accessToken = discordClient.accessToken;
+const connectToDiscordIPC = () =>
+  new Promise((resolve, reject) => {
+    if (discordClient !== null) {
+      discordClient = null;
     }
-    discordClientReady = true;
-    onDiscordConnectionChange(true);
-  });
 
-  discordClient.on('disconnected', () => {
-    discordClient = null;
-    discordClientReady = false;
-    onDiscordConnectionChange(false);
-  });
+    discordClient = new RPC.Client({ transport: 'ipc' });
 
-  discordClient.on('error', (error) => {
-    discordClient = null;
-    accessToken = null;
-    discordClientReady = false;
+    discordClient.on('ready', async () => {
+      const isAccessTokenSet =
+        !accessToken ||
+        (discordClient.accessToken !== undefined &&
+          accessToken !== discordClient.accessToken);
+      if (isAccessTokenSet) {
+        accessToken = discordClient.accessToken;
+      }
+      discordClientReady = true;
+      onDiscordConnectionChange(true);
+      resolve('connected');
+    });
 
-    log.error('Error while trying to login into discord rpc');
-    log.error(JSON.stringify(error));
+    discordClient.on('disconnected', () => {
+      discordClient = null;
+      discordClientReady = false;
+      onDiscordConnectionChange(false);
+    });
 
-    onDiscordConnectionChange(false);
-  });
-
-  discordClient
-    .login({
-      clientId,
-      clientSecret,
-      accessToken,
-      scopes,
-      redirectUri,
-      prompt,
-    })
-    .catch((error) => {
+    discordClient.on('error', (error) => {
       discordClient = null;
       accessToken = null;
       discordClientReady = false;
@@ -84,15 +66,50 @@ const initDiscordIPC = () => {
       log.error(JSON.stringify(error));
 
       onDiscordConnectionChange(false);
+      reject(error);
     });
+
+    discordClient
+      .login({
+        clientId,
+        clientSecret,
+        accessToken,
+        scopes,
+        redirectUri,
+        prompt,
+      })
+      .catch((error) => {
+        discordClient = null;
+        accessToken = null;
+        discordClientReady = false;
+
+        log.error('Error while trying to login into discord rpc');
+        log.error(JSON.stringify(error));
+
+        onDiscordConnectionChange(false);
+        reject(error);
+      });
+  });
+const setDiscordActivity = () => {
+  if (settings.discord.activity) {
+    discordClient.setActivity(settings.discord.activity);
+  }
+};
+
+/**
+ * Init Discord Client
+ */
+const initDiscordIPC = async () => {
+  await connectToDiscordIPC();
+  setDiscordActivity();
 };
 
 const isDiscordClientReady = () => discordClientReady;
 
 const discordActions = {
-  checkClient: () => {
+  checkClient: async () => {
     if (discordClient === null || discordClientReady === false) {
-      initDiscordIPC();
+      await connectToDiscordIPC();
     }
   },
   muteMicrophone: () => {
@@ -151,12 +168,6 @@ const discordActions = {
     discordActions.checkClient();
     if (discordClientReady) {
       discordClient.setActivity(newActivity);
-    }
-  },
-  setActivityFromStorage: () => {
-    discordActions.checkClient();
-    if (discordClientReady && settings.discordActivity) {
-      discordClient.setActivity(settings.discordActivity);
     }
   },
   clearActivity: () => {

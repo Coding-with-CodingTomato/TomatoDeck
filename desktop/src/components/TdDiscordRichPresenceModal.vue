@@ -4,33 +4,45 @@
   <q-dialog v-model="isModalOpen">
     <q-card style="width: 80vw; max-width: 80vw">
       <q-card-section>
-        <div class="text-h6">{{ t('dc_rp.title') }}</div>
+        <div class="text-h6">{{ t('discord.activity.title') }}</div>
       </q-card-section>
       <q-card-section class="q-gutter-sm">
-        <q-input filled v-model="details" :label="t('dc_rp.details')" />
-        <q-input filled v-model="state" :label="t('dc_rp.state')" />
+        <q-input
+          filled
+          v-model="details"
+          :label="t('discord.activity.details')"
+        />
+        <q-input filled v-model="state" :label="t('discord.activity.state')" />
         <q-input
           filled
           v-model="largeImageKey"
-          :label="t('dc_rp.largeImageKey')"
+          :label="t('discord.activity.largeImageKey')"
         />
         <q-input
           filled
           v-model="largeImageText"
-          :label="t('dc_rp.largeImageText')"
+          :label="t('discord.activity.largeImageText')"
         />
         <q-input
           filled
           v-model="smallImageKey"
-          :label="t('dc_rp.smallImageKey')"
+          :label="t('discord.activity.smallImageKey')"
         />
         <q-input
           filled
           v-model="smallImageText"
-          :label="t('dc_rp.smallImageText')"
+          :label="t('discord.activity.smallImageText')"
         />
-        <q-input filled v-model="instance" :label="t('dc_rp.instance')" />
-        <q-input filled v-model="startTimestamp" :label="t('dc_rp.starttime')">
+        <q-input
+          filled
+          v-model="instance"
+          :label="t('discord.activity.instance')"
+        />
+        <q-input
+          filled
+          v-model="startTimestamp"
+          :label="t('discord.activity.starttime')"
+        >
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy
@@ -128,16 +140,15 @@ defineExpose({
 watch(
   () => store.hostData,
   (to) => {
-    if (to.discordActivity !== null) {
-      console.log(to);
-      details.value = to.discordActivity.details || '';
-      state.value = to.discordActivity.state || '';
-      largeImageKey.value = to.discordActivity.largeImageKey || '';
-      largeImageText.value = to.discordActivity.largeImageText || '';
-      smallImageKey.value = to.discordActivity.smallImageKey || '';
-      smallImageText.value = to.discordActivity.smallImageText || '';
-      startTimestamp.value = to.discordActivity.startTimestamp || '';
-      instance.value = to.discordActivity.instance || '';
+    if (to.discord.activity) {
+      details.value = to.discord.activity.details || '';
+      state.value = to.discord.activity.state || '';
+      largeImageKey.value = to.discord.activity.largeImageKey || '';
+      largeImageText.value = to.discord.activity.largeImageText || '';
+      smallImageKey.value = to.discord.activity.smallImageKey || '';
+      smallImageText.value = to.discord.activity.smallImageText || '';
+      startTimestamp.value = to.discord.activity.startTimestamp || '';
+      instance.value = to.discord.activity.instance || '';
     }
   },
 );

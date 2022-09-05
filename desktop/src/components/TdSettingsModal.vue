@@ -72,6 +72,24 @@
           </q-item>
 
           <q-separator spaced />
+          <q-item-label header>{{ t('discord.settings.title') }}</q-item-label>
+
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>{{
+                t('discord.settings.connection')
+              }}</q-item-label>
+              <q-item-label caption>
+                {{ t('discord.settings.connection_desc') }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <q-toggle v-model="DiscordEnabled" />
+            </q-item-section>
+          </q-item>
+
+          <q-separator spaced />
 
           <q-item-label header>{{ t('obs_settings.title') }}</q-item-label>
 
@@ -237,6 +255,9 @@ const isSettingsModalOpen = ref(false);
 const socketPort = ref(settings.socketPort);
 const password = ref(settings.password || '');
 
+// Discord Enabled
+const DiscordEnabled = ref(settings.discord.enabled === 'true');
+
 // OBS Websocket Settings
 const ObsSocketEnabled = ref(settings.obs.socket.enabled === 'true');
 const ObsSocketPort = ref(settings.obs.socket.port || '');
@@ -265,6 +286,9 @@ watch(locale, (to) => {
   store.setSetting('appLanguage', to);
 });
 
+watch(DiscordEnabled, (to) => {
+  store.setSetting('discord.enabled', to);
+});
 watch(TwitchEnabled, (to) => {
   store.setSetting('twitch.enabled', to);
 });

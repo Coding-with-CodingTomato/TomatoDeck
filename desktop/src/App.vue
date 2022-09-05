@@ -49,6 +49,20 @@ watch(drag, (to) => {
 
     <q-page-container>
       <div
+        class="q-pa-md fit row wrap justify-center items-center content-start"
+        v-if="
+          store.layout !== {} &&
+          store.layout.layouts !== undefined &&
+          store.layout.layouts[store.currentlyVisibleLayout.index || 0].rows[0]
+            .elements.length === 0
+        "
+      >
+        <h5>
+          {{ t('empty_layout') }}
+        </h5>
+      </div>
+
+      <div
         class="q-pa-md"
         v-if="store.layout !== {} && store.layout.layouts !== undefined"
       >
@@ -121,7 +135,7 @@ watch(drag, (to) => {
           </div>
           <div class="item">
             <q-icon name="change_circle" style="font-size: medium" />
-            <b>Version:</b> 0.2.0
+            <b>Version:</b> 0.2.1
           </div>
           <div class="item">
             <q-icon name="tablet_mac" style="font-size: medium" />

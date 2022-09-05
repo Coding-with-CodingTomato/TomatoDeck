@@ -12,6 +12,8 @@ export const en = {
   new_password: 'New Password',
   add_new_element: 'Add new element',
   really_delete_layout: 'Really delete layout?',
+  empty_layout:
+    'You didnt add any elements yet. You can do this by clicking on the + button.',
   settings: {
     settings: 'Settings',
     general: 'General',
@@ -28,16 +30,23 @@ export const en = {
       'Set the port your mobile device has to connect to (Changes take effect after app restart)',
     mask: 'Mask',
   },
-  dc_rp: {
-    title: 'Discord Activity',
-    details: 'Details',
-    state: 'State',
-    largeImageKey: 'Big Image Key',
-    largeImageText: 'Big Image Text',
-    smallImageKey: 'Small Image Key',
-    smallImageText: 'Small Image Text',
-    instance: 'Instance',
-    starttime: 'Starttime',
+  discord: {
+    settings: {
+      title: 'Discord Settings',
+      connection: 'Discord Connection',
+      connection_desc: 'Enable the Discord IPC Connection',
+    },
+    activity: {
+      title: 'Discord Activity',
+      details: 'Details',
+      state: 'State',
+      largeImageKey: 'Big Image Key',
+      largeImageText: 'Big Image Text',
+      smallImageKey: 'Small Image Key',
+      smallImageText: 'Small Image Text',
+      instance: 'Instance',
+      starttime: 'Starttime',
+    },
   },
   obs_settings: {
     title: 'OBS Websocket Settings',
