@@ -21,6 +21,11 @@ Due to the mobile app being a closed beta please contact me via email [me@coding
 - [x] DESKTOP: Pictures dont get loaded on mac (sometimes windows too)
 - [x] MOBILE: Twitch Chat has no overflow scroll
 - [ ] DESKTOP: correct IP is not always shown
+- [ ] DESKTOP: OBS not connecting properly
+  - > WebSocket client `[::ffff:127.0.0.1]:52873` has disconnected with code `4009` and reason: Authentication failed.
+- [ ] DESKTOP: TWITCH Data not being set
+- [ ] DESKTOP: WLED Aktion Toggle not working
+- [ ] DESKTOP: WLED Aktion Texte fehlen
 - [ ] MOBILE: Vibration doesnt trigger on button press
 
 ## 💪 Todos
