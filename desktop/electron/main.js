@@ -38,16 +38,6 @@ onSocketDeviceCountChange((change) => {
   connectedDevices += change;
   mainWindow.webContents.send('deviceCountChange', connectedDevices);
 });
-/**
- * Discord RPC
- */
-if (settings.discord.enabled === 'true') {
-  initDiscordIPC();
-}
-
-onDiscordConnectionChange((connected) => {
-  mainWindow.webContents.send('discordConnectionChange', connected);
-});
 
 /**
  * OBS Client
@@ -62,6 +52,17 @@ if (settings.obs.socket.enabled === 'true')
  * Twitch Client
  */
 if (settings.twitch.enabled === 'true') initTwitchClient();
+
+/**
+ * Discord RPC
+ */
+if (settings.discord.enabled === 'true') {
+  initDiscordIPC();
+}
+
+onDiscordConnectionChange((connected) => {
+  mainWindow.webContents.send('discordConnectionChange', connected);
+});
 
 /**
  * Electron Stuff
